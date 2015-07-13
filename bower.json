@@ -1,0 +1,24 @@
+{
+  "name": "JS.Responsive",
+  "description": "Tool for responsive styling and javascript coding.",
+  "version": "1.0",
+  "main": "JS.Responsive.js",
+  "license": "GPL-2.0",
+  "homepage": "http://responsive.lab.wezeo.com/",
+  "keywords": [
+    "front-end",
+    "framework",
+    "responsive",
+    "javascript",
+    "css",
+    "js",
+    "less",
+    "sass",
+    "web"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/seyd/JS.Responsive.git"
+  },
+  "_source": "git://github.com/seyd/JS.Responsive.git",
+}
