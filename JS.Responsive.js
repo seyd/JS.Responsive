@@ -701,10 +701,15 @@
 		return tags;
 	};
 	
-	$C.detectAgentPlatform = function() {
+	$C.detectAgentPlatform = function( _justReturnValue ) {
 		
 		var	data = this._getAgentData(),
-			foundBrowser = false;
+			foundBrowser = false,
+			returnValue = {
+				platform: [],
+				browser: [],
+				version: null
+			};
 		
 		for (var i=0; i<data.length; i++) {
 		
@@ -714,20 +719,40 @@
 			if ((dataString || dataProp) && (!foundBrowser || !data[i].versionSearch)) {
 				if (dataProp || dataString.indexOf(data[i].subString) != -1) {
 					var clsName = data[i].identity.toLowerCase();
-					this.addClass( clsName );
+					if (_justReturnValue)
+						returnValue.platform.push(clsName);
+					else
+						this.addClass( clsName );
 					if (data[i].versionSearch) {
 						var version = parseFloat(navigator.userAgent.split(data[i].versionSearch || data[i].identity)[1], 10);
 						
 						if (clsName != 'webkit') foundBrowser = true; // this is exception for webkit
 						if (!isNaN(version)) { 
-							this.addClass( clsName+'-v'+parseInt(version) )
-							if (version!=parseInt(version))
+							if (_justReturnValue)
+								returnValue.version = version;
+							else
+								this.addClass( clsName+'-v'+parseInt(version) )
+							if (version!=parseInt(version) && !_justReturnValue)
 								this.addClass( clsName+'-v'+version.toString().replace('.','-') );
 						}
 					}
 				}
 			}
 		}
+		if (_justReturnValue) {
+			returnValue.browser = returnValue.platform[returnValue.platform.length-1];
+			return returnValue;
+		}
+	};
+	
+	// vrati info o platforme ako:
+	// {
+	// 		platform: Array["webkit", "windows", "chrome"],
+	//		browser: "chrome",
+	//		version: 43.5
+	// }
+	$C.getPlatformInfo = function() {
+		return this.detectAgentPlatform(true);
 	};
 	
 	$C._getConjuctionFromStr = function(str) {
