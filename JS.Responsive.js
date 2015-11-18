@@ -450,7 +450,7 @@
 	// e.g. addHorizontalSizePoint('medium', 960)
 	$C.addHorizontalSizePoint = function( name, width ) {
 		if (this._hasDuplicateName(this._horizontalSizes, name))
-			return;
+			return this;
 		this._horizontalSizes.push( { name: name, width: parseInt(width,10) } );
 		this._horizontalSizes.sort( this._sortSizes );
 		this._solveChanges( true );
@@ -460,7 +460,7 @@
 	// e.g. addVerticalSizePoint('vertical-medium', 960)
 	$C.addVerticalSizePoint = function( name, height ) {
 		if (this._hasDuplicateName(this._verticalSizes, name))
-			return;
+			return this;
 		this._verticalSizes.push( { name: name, height: parseInt(height,10) } );
 		this._verticalSizes.sort( this._sortSizes );
 		this._solveChanges( true );

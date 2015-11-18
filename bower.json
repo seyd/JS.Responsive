@@ -1,7 +1,7 @@
 {
   "name": "JS.Responsive",
   "description": "Tool for responsive styling and javascript coding.",
-  "version": "1.21",
+  "version": "1.23",
   "main": "JS.Responsive.js",
   "license": "GPL-2.0",
   "homepage": "http://responsive.lab.wezeo.com/",
