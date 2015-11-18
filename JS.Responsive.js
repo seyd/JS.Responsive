@@ -440,8 +440,17 @@
 		return a.width-b.width;
 	};
 	
+	$C._hasDuplicateName = function( array, name ) {
+		for (var i=0; i<array.length; i++)
+			if (array[i].name==name)
+				return true;
+		return false;
+	};
+	
 	// e.g. addHorizontalSizePoint('medium', 960)
 	$C.addHorizontalSizePoint = function( name, width ) {
+		if (this._hasDuplicateName(this._horizontalSizes, name))
+			return;
 		this._horizontalSizes.push( { name: name, width: parseInt(width,10) } );
 		this._horizontalSizes.sort( this._sortSizes );
 		this._solveChanges( true );
@@ -450,6 +459,8 @@
 	
 	// e.g. addVerticalSizePoint('vertical-medium', 960)
 	$C.addVerticalSizePoint = function( name, height ) {
+		if (this._hasDuplicateName(this._verticalSizes, name))
+			return;
 		this._verticalSizes.push( { name: name, height: parseInt(height,10) } );
 		this._verticalSizes.sort( this._sortSizes );
 		this._solveChanges( true );
