@@ -11,6 +11,9 @@
 	if (!window.JS)
 		window.JS = {};
 	
+	if (JS.Responsive)
+		return;
+	
 	// constructor is PRIVATE, client must use only class methods!!!!!
 	var $C = JS.Responsive = function( element ) 
 	{
