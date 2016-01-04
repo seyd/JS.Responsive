@@ -1,2 +1,2 @@
 # JS.Responsive
-Tool for responsive styling and javascript coding
+Tool for responsive styling and responsive javascript coding.
