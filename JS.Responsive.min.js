@@ -1,5 +1,5 @@
 /**
- * @license JS.Responsive v2.00
+ * @license JS.Responsive v2.0
  * (c) 2015 WEZEO http://wezeo.com
  * License: MIT
  *
