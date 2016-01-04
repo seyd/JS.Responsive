@@ -1,5 +1,5 @@
 /**
- * @license JS.Responsive v2.0
+ * @license JS.Responsive v2.1
  * (c) 2015 WEZEO http://wezeo.com
  * License: MIT
  *
@@ -65,6 +65,7 @@
 	 *
 	 *    is( someState[, orSomeState[, orSomeState, ...])
 	 *    watchBrowserVersion( browser, version )
+	 *    getPlatformInfo()
 	 *
 	 */
 
@@ -360,6 +361,20 @@
 	};
 	
 
+	/**
+	 * Returns information about platform, browser and its version
+	 * @returns {Object} containing "platform" as array, "browser" as string and "version" as number.
+	 * @example JS.Responsive.getPlatformInfo() returns 
+	 *   {
+	 *		platform: Array["webkit", "windows", "chrome"],
+	 *		browser: "chrome",
+	 *		version: 43.5
+	 *   }
+	 */
+	$C.getPlatformInfo = function() {
+
+		return this._detectAgentPlatform(true);
+	};
 
 
 	// --- PRIVATE -------------------------------------------------------------------------------------
@@ -1159,17 +1174,7 @@
 			return returnValue;
 		}
 	};
-
-	// vrati info o platforme ako:
-	// {
-	// 		platform: Array["webkit", "windows", "chrome"],
-	//		browser: "chrome",
-	//		version: 43.5
-	// }
-	$C._getPlatformInfo = function () {
-
-		return this._detectAgentPlatform(true);
-	};
+	
 
 	/**
 	 * Returns true if HTML element contains all given class names (space separated)
