@@ -1,5 +1,5 @@
 /**
- * @license JS.Responsive v2.1
+ * @license JS.Responsive v2.2
  * (c) 2015 WEZEO http://wezeo.com
  * License: MIT
  *
@@ -66,6 +66,9 @@
 	 *    is( someState[, orSomeState[, orSomeState, ...])
 	 *    watchBrowserVersion( browser, version )
 	 *    getPlatformInfo()
+	 *
+	 *    addOnChangeHadler( fn )
+	 *    removeOnChangeHadler( fn )
 	 *
 	 */
 
@@ -376,7 +379,24 @@
 		return this._detectAgentPlatform(true);
 	};
 
+	
+	$C.addOnChangeHadler = function( fn ) {
+		
+		this._onChangeHandlers.push(fn);
+		// @todo toto neviem preco tu je a ci tam ma byt... preco sa to hned aj zavola? docasne to zakomentim kym nezistim ze na co to tam je
+		// calls once
+		// fn.call(this, {});
+	};
 
+	
+	$C.removeOnChangeHadler = function( fn ) {
+		
+		for (var i=this._onChangeHandlers.length-1; i>=0; i--)
+			if (this._onChangeHandlers[i]===fn)
+				this._onChangeHandlers.splice(i,1);
+	};
+
+	
 	// --- PRIVATE -------------------------------------------------------------------------------------
 
 	$C._getHTML = function () {
@@ -782,12 +802,6 @@
 	};
 
 	$C._onChangeHandlers = [];
-
-	$C._addOnChangeHadler = function (fn) {
-		this._onChangeHandlers.push(fn);
-		// calls once
-		fn.call(this, {});
-	};
 
 	$C._horizontalSizes = [];
 	$C._verticalSizes = [];
