@@ -1,5 +1,5 @@
 /**
- * @license JS.Responsive v2.2
+ * @license JS.Responsive v2.3
  * (c) 2015 WEZEO http://wezeo.com
  * License: MIT
  *
@@ -10,7 +10,7 @@
  * @see http://responsive.lab.wezeo.com/
  *
  */
-(function () {
+(function() {
 	'use strict';
 
 	// base namespace
@@ -21,20 +21,23 @@
 	if (JS.Responsive)
 		return;
 
-
+	
+	// -------------------------------------------------------------------------------------------------
 	// --- CLASS ---------------------------------------------------------------------------------------
-
+	// -------------------------------------------------------------------------------------------------
+	
 	/**
 	 * Constructor is PRIVATE, client must use only class methods!!!!!
 	 * @class JS.Responsive
 	 */
-	var $C = JS.Responsive = function () {
+	var $C = JS.Responsive = function() {
 		throw new Error("JS.Responsive cannot have instances.");
 	};
 
 
-
+	// -------------------------------------------------------------------------------------------------
 	// --- OVERVIEW ------------------------------------------------------------------------------------
+	// -------------------------------------------------------------------------------------------------
 
 	/**
 	 * Static part:
@@ -49,19 +52,19 @@
 	 *    isScrolling()
 	 *    isFocused()
 	 *
-	 *    addHorizontalSizePoint( name, width )
-	 *    removeHorizontalSizePoint( name )
-	 *    getActualHorizontalSizePoint()
-	 *    disableHorizontalSizePoints( _leaveActualClasses )
-	 *    enableHorizontalSizePoints()
-	 *    isDisabledHorizontalSizePoints()
+	 *    addHorizontalBreakPoint( name, width )
+	 *    removeHorizontalBreakPoint( name )
+	 *    getActualHorizontalBreakPoint()
+	 *    disableHorizontalBreakPoints( _leaveActualClasses )
+	 *    enableHorizontalBreakPoints()
+	 *    isDisabledHorizontalBreakPoints()
 	 *
-	 *    addVerticalSizePoint( name, height )
-	 *    removeVerticalSizePoint( name )
-	 *    getActualVerticalSizePoint()
-	 *    disableVerticalSizePoints( _leaveActualClasses )
-	 *    enableVerticalSizePoints()
-	 *    isDisabledVerticalSizePoints()
+	 *    addVerticalBreakPoint( name, height )
+	 *    removeVerticalBreakPoint( name )
+	 *    getActualVerticalBreakPoint()
+	 *    disableVerticalBreakPoints( _leaveActualClasses )
+	 *    enableVerticalBreakPoints()
+	 *    isDisabledVerticalBreakPoints()
 	 *
 	 *    is( someState[, orSomeState[, orSomeState, ...])
 	 *    watchBrowserVersion( browser, version )
@@ -70,11 +73,24 @@
 	 *    addOnChangeHadler( fn )
 	 *    removeOnChangeHadler( fn )
 	 *
+	 *    getWindowWidth()
+	 *    getWindowHeight()
+	 *    getDocumentWidth()
+	 *    getDocumentHeight()
+	 *
+	 *
+	 * Backward compatibility:
+	 *
+	 *    isRetina()  - use new .isHiResDisplay()
+	 *
 	 */
 
 
-
+	 
+	// -------------------------------------------------------------------------------------------------
 	// --- CONFIG --------------------------------------------------------------------------------------
+	// -------------------------------------------------------------------------------------------------
+	
 
 	// how many miliseconds stays class name 'scroll' after scrolling (and than switch to 'no-scroll' class name)
 	$C.AFTER_SCROLL_TIMEOUT = 250;
@@ -84,8 +100,10 @@
 	
 	
 	
+	// -------------------------------------------------------------------------------------------------	
 	// --- PUBLIC --------------------------------------------------------------------------------------
-
+	// -------------------------------------------------------------------------------------------------
+	
 	/**
 	 * Detects mobile browser - if device is a mobile device.
 	 * @todo Find out if mobile is just a phone or tablet also...
@@ -123,7 +141,7 @@
 	 */
 	$C.isLandscape = function() {
 
-		return this._getWindowWidth() > this._getWindowHeight();
+		return this.getWindowWidth() > this.getWindowHeight();
 	};
 
 
@@ -178,144 +196,144 @@
 
 	
 	/**
-	 * Sets a new horizontal size point for responsive styling.
-	 * @param {String} name - Unique name of given size point. Only lower case letters and comma is allowed /[a-z\-]+/
+	 * Sets a new horizontal break point for responsive styling.
+	 * @param {String} name - Unique name of given break point. Only lower case letters and comma is allowed /[a-z\-]+/
 	 * @param {Number} width - Width size in pixels.
 	 * @returns {Object} this - for chaining.
-	 * @example JS.Responsive.addHorizontalSizePoint('medium', 960);
+	 * @example JS.Responsive.addHorizontalBreakPoint('medium', 960);
 	 */
-	$C.addHorizontalSizePoint = function( name, width ) {
+	$C.addHorizontalBreakPoint = function( name, width ) {
 
-		return this._addSizePoint(name, width, '_horizontalSizes', 'width');
+		return this._addBreakPoint(name, width, '_horizontalSizes', 'width');
 	};
 
 	
 	/**
-	 * Removes a horizontal size point for responsive styling.
-	 * @param {String} name - Existing name of size point.
+	 * Removes a horizontal break point for responsive styling.
+	 * @param {String} name - Existing name of break point.
 	 * @returns {Object} this - for chaining.
-	 * @example JS.Responsive.removeHorizontalSizePoint('medium');
+	 * @example JS.Responsive.removeHorizontalBreakPoint('medium');
 	 */
-	$C.removeHorizontalSizePoint = function( name ) {
+	$C.removeHorizontalBreakPoint = function( name ) {
 		
-		return this._removeSizePoint(name, '_horizontalSizes');
+		return this._removeBreakPoint(name, '_horizontalSizes');
 	};
 	
 	
 	/**
-	 * Returns name of actual horizontal size point.
-	 * @returns {String|null} Name of actual horizontal size point or null if no horizontal size point is set.
+	 * Returns name of actual horizontal break point.
+	 * @returns {String|null} Name of actual horizontal break point or null if no horizontal break point is set.
 	 */
-	$C.getActualHorizontalSizePoint = function() {
+	$C.getActualHorizontalBreakPoint = function() {
 
-		return this._actualSizePoint.horizontal || null;
+		return this._actualBreakPoint.horizontal || null;
 	};
 	
 	
 	/**
-	 * Disable horizontal size points checking and remove all class names from HTML element.
+	 * Disable horizontal break points checking and remove all class names from HTML element.
 	 * @param {Boolean} [_leaveActualClasses] - If true, leaves (freezes) actual class names in HTML element.
 	 * @returns {Object} this - for chaining.
 	 */
-	$C.disableHorizontalSizePoints = function( _leaveActualClasses ) {
+	$C.disableHorizontalBreakPoints = function( _leaveActualClasses ) {
 		
 		if (!_leaveActualClasses)
 			this._removeAllClassesInDimension( this._horizontalSizes );
-		this._isDisabledHorizontalSizePoints = true;
+		this._isDisabledHorizontalBreakPoints = true;
 		return this;
 	};
 	
 	
 	/**
-	 * Enable horizontal size points checking (if was disabled before).
+	 * Enable horizontal break points checking (if was disabled before).
 	 * @returns {Object} this - for chaining.
 	 */
-	$C.enableHorizontalSizePoints = function() {
+	$C.enableHorizontalBreakPoints = function() {
 			
-		this._isDisabledHorizontalSizePoints = false;
+		this._isDisabledHorizontalBreakPoints = false;
 		this._solveChanges(true);
 		return this;
 	};
 	
 	
 	/**
-	 * Returns if is horizontal size points checking disabled.
+	 * Returns if is horizontal break points checking disabled.
 	 * @returns {Boolean}
 	 */
-	$C.isDisabledHorizontalSizePoints = function() {
+	$C.isDisabledHorizontalBreakPoints = function() {
 		
-		return this._isDisabledHorizontalSizePoints;
+		return this._isDisabledHorizontalBreakPoints;
 	};
 	
 	
 	/**
-	 * Sets a new vertical size point for responsive styling.
-	 * @param {String} name - Unique name of given size point. Only lower case letters and comma is allowed /[a-z\-]+/
+	 * Sets a new vertical break point for responsive styling.
+	 * @param {String} name - Unique name of given break point. Only lower case letters and comma is allowed /[a-z\-]+/
 	 * @param {Number} height - Height size in pixels.
 	 * @returns {Object} this - for chaining.
-	 * @example JS.Responsive.addVerticalSizePoint('vertical-medium', 960);
+	 * @example JS.Responsive.addVerticalBreakPoint('vertical-medium', 960);
 	 */
-	$C.addVerticalSizePoint = function( name, height ) {
+	$C.addVerticalBreakPoint = function( name, height ) {
 
-		return this._addSizePoint(name, height, '_verticalSizes', 'height');
+		return this._addBreakPoint(name, height, '_verticalSizes', 'height');
 	};
 
 	
 	/**
-	 * Removes a vertical size point for responsive styling.
-	 * @param {String} name - Existing name of size point.
+	 * Removes a vertical break point for responsive styling.
+	 * @param {String} name - Existing name of break point.
 	 * @returns {Object} this - for chaining.
-	 * @example JS.Responsive.removeVerticalSizePoint('vertical-medium');
+	 * @example JS.Responsive.removeVerticalBreakPoint('vertical-medium');
 	 */
-	$C.removeVerticalSizePoint = function( name ) {
+	$C.removeVerticalBreakPoint = function( name ) {
 		
-		return this._removeSizePoint(name, '_verticalSizes');
+		return this._removeBreakPoint(name, '_verticalSizes');
 	};
 
 
 	/**
-	 * Returns name of actual vertical size point.
-	 * @returns {String|null} Name of actual vertical size point or null if no vertical size point is set.
+	 * Returns name of actual vertical break point.
+	 * @returns {String|null} Name of actual vertical break point or null if no vertical break point is set.
 	 */
-	$C.getActualVerticalSizePoint = function() {
+	$C.getActualVerticalBreakPoint = function() {
 
-		return this._actualSizePoint.vertical || null;
+		return this._actualBreakPoint.vertical || null;
 	};
 
 	
 	/**
-	 * Disable vertical size points checking and remove all class names from HTML element.
+	 * Disable vertical break points checking and remove all class names from HTML element.
 	 * @param {Boolean} [_leaveActualClasses] - If true, leaves (freezes) actual class names in HTML element.
 	 * @returns {Object} this - for chaining.
 	 */
-	$C.disableVerticalSizePoints = function( _leaveActualClasses ) {
+	$C.disableVerticalBreakPoints = function( _leaveActualClasses ) {
 		
 		if (!_leaveActualClasses)
 			this._removeAllClassesInDimension( this._verticalSizes );
-		this._isDisabledVerticalSizePoints = true;
+		this._isDisabledVerticalBreakPoints = true;
 		return this;
 	};
 	
 	
 	/**
-	 * Enable vertical size points checking (if was disabled before).
+	 * Enable vertical break points checking (if was disabled before).
 	 * @returns {Object} this - for chaining.
 	 */
-	$C.enableVerticalSizePoints = function() {
+	$C.enableVerticalBreakPoints = function() {
 			
-		this._isDisabledVerticalSizePoints = false;
+		this._isDisabledVerticalBreakPoints = false;
 		this._solveChanges(true);
 		return this;
 	};
 	
 	
 	/**
-	 * Returns if is vertical size points checking disabled.
+	 * Returns if is vertical break points checking disabled.
 	 * @returns {Boolean}
 	 */
-	$C.isDisabledVerticalSizePoints = function() {
+	$C.isDisabledVerticalBreakPoints = function() {
 		
-		return this._isDisabledVerticalSizePoints;
+		return this._isDisabledVerticalBreakPoints;
 	};
 
 	
@@ -380,39 +398,133 @@
 	};
 
 	
+	/**
+	 * Register event listener for all responsive changes.
+	 * @returns {Object} this - for chaining.
+	 * @example JS.Responsive.addOnChangeHadler(function(e) {
+	 *          	if (e.changedBreakPointHorizontal) {
+	 *          		...
+	 *          	}
+	 *          }
+	 * Event objects contains members:
+	 *       changedWindowSize: {Boolean}
+	 *       changedDocumentSize: {Boolean}
+	 *       changedOrientation: {Boolean}
+	 *       changedBreakPointHorizontal: {Boolean}
+	 *       actualBreakPointHorizontal: {String}
+	 *       lastBreakPointHorizontal: {String}
+	 *       changedBreakPointVertical: {Boolean}
+	 *       actualBreakPointVertical: {String}
+	 *       lastBreakPointvertical: {String}
+	 *       changedDocumentState: {Boolean}
+	 *       isDocumentUnloading: {Boolean}
+	 *       changedWindowFocus: {Boolean}
+	 *       changedScrolling: {Boolean}
+	 */
 	$C.addOnChangeHadler = function( fn ) {
 		
 		this._onChangeHandlers.push(fn);
-		// @todo toto neviem preco tu je a ci tam ma byt... preco sa to hned aj zavola? docasne to zakomentim kym nezistim ze na co to tam je
-		// calls once
-		// fn.call(this, {});
+		return this;
 	};
 
 	
+	/**
+	 * Unregister event listener for all responsive changes.
+	 * @returns {Object} this - for chaining.
+	 */
 	$C.removeOnChangeHadler = function( fn ) {
 		
 		for (var i=this._onChangeHandlers.length-1; i>=0; i--)
 			if (this._onChangeHandlers[i]===fn)
 				this._onChangeHandlers.splice(i,1);
+		return this;
+	};
+	
+	
+	/**
+	 * Returns current window width in pixels.
+	 * @returns {Number}.
+	 * @example if (JS.Responsive.getWindowWidth()>JS.Responsive.getWindowHeight()) ...
+	 */
+	$C.getWindowWidth = function() {
+
+		return this._getWindowSize('Width');
 	};
 
 	
-	// --- PRIVATE -------------------------------------------------------------------------------------
+	/**
+	 * Returns current window height in pixels.
+	 * @returns {Number}.
+	 * @example if (JS.Responsive.getWindowWidth()>JS.Responsive.getWindowHeight()) ...
+	 */
+	$C.getWindowHeight = function() {
 
-	$C._getHTML = function () {
+		return this._getWindowSize('Height');
+	};
+
+	
+	/**
+	 * Returns current document width in pixels (can be smaller than window size because scrollbar reduces it).
+	 * returns {Number}.
+	 * @example if (JS.Responsive.getDocumentWidth()>JS.Responsive.getDocumentHeight()) ...
+	 */
+	$C.getDocumentWidth = function() {
+		
+		return this._getDocumentSize('Width');
+	};
+
+
+	/**
+	 * Returns current document height in pixels (can be smaller than window size because scrollbar reduces it).
+	 * @returns {Number}.
+	 * @example if (JS.Responsive.getDocumentWidth()>JS.Responsive.getWindowHeight()) ...
+	 */	
+	$C.getDocumentHeight = function() {
+		
+		return this._getDocumentSize('Height');
+	};
+	
+	
+	// -------------------------------------------------------------------------------------------------	
+	// --- BACKWARD COMPATIBILITY ----------------------------------------------------------------------
+	// -------------------------------------------------------------------------------------------------	
+		
+	
+	/**
+	 * Obsolete methods - name was changed. This method exists due to backward compatibility with version 1.0
+	 * $C.oldOneMethod = $C.newOneMethod;
+	 */
+	$C.isRetina = $C.isHiResDisplay;
+	$C.watchVersion = $C.watchBrowserVersion;
+	
+	// adds duplicate methods for all methods containing "BreakPoint" in name - to "SizePoint" due to backward compatibility with version 1.0
+	// creates: addHorizontalSizePoint, removeHorizontalSizePoint, getActualHorizontalSizePoint, disableHorizontalSizePoints, enableHorizontalSizePoints, isDisabledHorizontalSizePoints,
+	//          addVerticalSizePoint, removeVerticalSizePoint, getActualVerticalSizePoint, disableVerticalSizePoints, enableVerticalSizePoints, isDisabledVerticalSizePoints
+	for (var prop in $C)
+		if (prop.indexOf('BreakPoint')>0)
+			$C[prop.replace('Break','Size')] = $C[prop];
+	
+	
+	
+	// -------------------------------------------------------------------------------------------------
+	// --- PRIVATE -------------------------------------------------------------------------------------
+	// -------------------------------------------------------------------------------------------------
+
+	
+	$C._getHTML = function() {
 		if (!this._htmlElement)
 			this._htmlElement = document.getElementsByTagName('html')[0];
 		return this._htmlElement;
 	};
 
-	$C._getBODY = function () {
+	$C._getBODY = function() {
 		if (!this._bodyElement)
 			this._bodyElement = document.getElementsByTagName('body')[0];
 		return this._bodyElement;
 	};
 
 
-	$C._arrayIndex = function (array, value, _exactMatch) {
+	$C._arrayIndex = function(array, value, _exactMatch) {
 		for (var i = 0; i < array.length; i++)
 			if ((_exactMatch && array[i] === value) || (!_exactMatch && array[i] == value))
 				return i;
@@ -420,15 +532,15 @@
 	};
 
 
-	$C._arrayContains = function (array, item, _exactMatch) {
+	$C._arrayContains = function(array, item, _exactMatch) {
 		return this._arrayIndex(array, item, _exactMatch) >= 0;
 	};
 
 
-	$C._on = function (el, eventType, handlerFn) {
+	$C._on = function(el, eventType, handlerFn) {
 
 		var $this = this,
-			fn = function (e) {
+			fn = function(e) {
 				handlerFn.call($this, e || event);
 			};
 		if (el.addEventListener)
@@ -440,7 +552,7 @@
 	};
 
 
-	$C._addClass = function (name) {
+	$C._addClass = function(name) {
 		var html = this._getHTML();
 		if (html) {
 			if (!this._isInTransactionClass()) {
@@ -458,7 +570,7 @@
 		return this;
 	};
 
-	$C._removeClass = function (name) {
+	$C._removeClass = function(name) {
 		var html = this._getHTML();
 		if (html) {
 			if (!this._isInTransactionClass()) {
@@ -475,7 +587,7 @@
 		return this;
 	};
 
-	$C._hasClass = function (name) {
+	$C._hasClass = function(name) {
 		var html = this._getHTML();
 		if (html) {
 			var classes = html.className.split(' ');
@@ -489,18 +601,18 @@
 	$C._addedClasses = [];
 	$C._removedClasses = [];
 
-	$C._isInTransactionClass = function () {
+	$C._isInTransactionClass = function() {
 		return this._isInTransactionClassMode;
 	};
 
-	$C._startTransactionClass = function () {
+	$C._startTransactionClass = function() {
 		this._isInTransactionClassMode = true;
 		this._addedClasses = [];
 		this._removedClasses = [];
 		return this;
 	};
 
-	$C._addTransactionClass = function (name) {
+	$C._addTransactionClass = function(name) {
 		// if was removed, undo this state
 		if (this._arrayContains(this._removedClasses, name))
 			this._removedClasses.splice(this._arrayIndex(this._removedClasses, name), 1);
@@ -510,7 +622,7 @@
 		return this;
 	};
 
-	$C._removeTransactionClass = function (name) {
+	$C._removeTransactionClass = function(name) {
 		// if was added, undo this state
 		if (this._arrayContains(this._addedClasses, name))
 			this._addedClasses.splice(this._arrayIndex(this._addedClasses, name), 1);
@@ -520,7 +632,7 @@
 		return this;
 	};
 
-	$C._commitTransactionClass = function () {
+	$C._commitTransactionClass = function() {
 		this._isInTransactionClassMode = false;
 		for (var i = 0; i < this._removedClasses.length; i++)
 			this._removeClass(this._removedClasses[i]);
@@ -532,7 +644,7 @@
 		return this;
 	};
 
-	$C._rollbackTransactionClass = function () {
+	$C._rollbackTransactionClass = function() {
 		this._isInTransactionClassMode = false;
 		this._addedClasses = [];
 		this._removedClasses = [];
@@ -541,7 +653,7 @@
 
 
 	// @param (String) sizeType - 'Width' or 'Height'
-	$C._getWindowSize = function (sizeType) {
+	$C._getWindowSize = function(sizeType) {
 
 		return window['inner' + sizeType] ?
 			window['inner' + sizeType] :
@@ -550,51 +662,32 @@
 				screen[sizeType.toLowerCase()]);
 	};
 
-
-	$C._getWindowWidth = function () {
-
-		return this._getWindowSize('Width');
-	};
-
-	$C._getWindowHeight = function () {
-
-		return this._getWindowSize('Height');
-	};
-
-	$C._isIE = function () {
+	$C._isIE = function() {
 		return navigator.appName == 'Microsoft Internet Explorer';
 	};
 
 	// @param (String) sizeType - 'Width' or 'Height'
-	$C._getDocumentSize = function (sizeType) {
+	$C._getDocumentSize = function(sizeType) {
 		var el = !this._isIE() ? this._getHTML() : this._getBODY();
 		return el ? el['offset' + sizeType] : 0;
 	};
 
-	$C._getDocumentWidth = function () {
-		return this._getDocumentSize('Width');
-	};
-
-	$C._getDocumentHeight = function () {
-		return this._getDocumentSize('Height');
-	};
-
 
 	// adds "mobile" or "desktop" class (once)
-	$C._detectMobile = function () {
+	$C._detectMobile = function() {
 
 		this._addClass(this.isMobile() ? 'mobile' : 'desktop');
 	};
 
 	// adds "touch" or "no-touch" class (once)
-	$C._detectTouch = function () {
+	$C._detectTouch = function() {
 
 		this._addClass(this.isTouch() ? 'touch' : 'no-touch');
 	};
 
 
 	// adds "hires-display" or "normal-display" class (once)
-	$C._detectHiResDisplay = function () {
+	$C._detectHiResDisplay = function() {
 		var ratio = window.devicePixelRatio;
 		this._addClass(ratio>1 ? 'hires-display' : 'normal-display');
 		this._addClass('display-pixel-ratio-'+ratio);
@@ -602,7 +695,7 @@
 
 
 	// adds "portrait" or "landscape" class
-	$C._detectOrientation = function () {
+	$C._detectOrientation = function() {
 		var landscape = this.isLandscape();
 		if (landscape && (this._hasClass('portrait') || !this._hasClass('landscape'))) {
 			this._removeClass('portrait');
@@ -623,34 +716,35 @@
 	$C._lastDocWidth = 0;
 	$C._lastDocHeight = 0;
 
-	$C._lastSizePoint = {horizontal: '', vertical: ''};
-	$C._actualSizePoint = {horizontal: '', vertical: ''};
+	$C._lastBreakPoint = {horizontal: '', vertical: ''};
+	$C._actualBreakPoint = {horizontal: '', vertical: ''};
 
 	$C._lastFocusedState = null;
 
-	$C._solveChanges = function (_forceRecalculate) {
+	$C._solveChanges = function( _forceRecalculate ) {
 		var change = false,
 			changedOrientation = this._detectOrientation();
 		change = change || changedOrientation;
 
-		var ww = this._getWindowWidth(),
-			wh = this._getWindowHeight(),
+		var ww = this.getWindowWidth(),
+			wh = this.getWindowHeight(),
 			changedWinSize = (ww != this._lastWinWidth || wh != this._lastWinHeight);
 		change = change || changedWinSize;
 
-		var dw = this._getDocumentWidth(),
-			dh = this._getDocumentHeight(),
+		var dw = this.getDocumentWidth(),
+			dh = this.getDocumentHeight(),
 			changedDocSize = (dw != this._lastDocWidth || dh != this._lastDocHeight);
 		change = change || changedDocSize;
 
-		var changedSizePoint = false;
+		var changedBreakPoint = false;
 		if (changedWinSize || _forceRecalculate)
-			changedSizePoint = this._solveSizes();
-		change = change || changedSizePoint;
+			changedBreakPoint = this._solveSizes();
+		change = change || changedBreakPoint;
 
 		var actualState = this.getDocumentState(),
 			changedDocumentState = (actualState != this._lastDocumentState);
 		change = change || changedDocumentState;
+
 		// also unload
 		var isUnloading = this.isDocumentUnloading();
 		change = change || isUnloading;
@@ -665,27 +759,9 @@
 		this._lastWasScrolling = isScrolling;
 		change = change || changedIsScrolling;
 
+		var changedBreakPointHorizontal = changedBreakPoint && this._lastBreakPoint.horizontal != this._actualBreakPoint.horizontal,
+			changedBreakPointVertical   = changedBreakPoint && this._lastBreakPoint.vertical != this._actualBreakPoint.vertical;
 
-		if (change) {
-			var e = {
-				changedWindowSize: changedWinSize,
-				changedDocumentSize: changedDocSize,
-				changedOrientation: changedOrientation,
-				changedSizePointHorizontal: changedSizePoint && this._lastSizePoint.horizontal != this._actualSizePoint.horizontal,
-				actualSizePointHorizontal: this._actualSizePoint.horizontal,
-				changedSizePointVertical: changedSizePoint && this._lastSizePoint.vertical != this._actualSizePoint.vertical,
-				actualSizePointVertical: this._actualSizePoint.vertical,
-				changedDocumentState: changedDocumentState,
-				isDocumentUnloading: isUnloading,
-				changedWindowFocus: changedFocusedState,
-				changedScrolling: changedIsScrolling
-			};
-			if (changedSizePoint && this._lastSizePoint.horizontal != this._actualSizePoint.horizontal)
-				e.lastSizePointHorizontal = this._lastSizePoint.horizontal;
-			if (changedSizePoint && this._lastSizePoint.vertical != this._actualSizePoint.vertical)
-				e.lastSizePointVertical = this._lastSizePoint.vertical;
-			this._onchangeHandler(e);
-		}
 		this._lastWinWidth = ww;
 		this._lastWinHeight = wh;
 
@@ -693,12 +769,42 @@
 		this._lastDocHeight = dh;
 
 		this._lastDocumentState = actualState;
+		
+		if (change) {
+			var e = {
+				changedWindowSize: changedWinSize,
+				changedDocumentSize: changedDocSize,
+				changedOrientation: changedOrientation,
+				
+				changedBreakPointHorizontal: changedBreakPointHorizontal,
+				changedSizePointHorizontal: changedBreakPointHorizontal,  // due to backward compatibility with v1.0
+				
+				actualBreakPointHorizontal: this._actualBreakPoint.horizontal,
+				actualSizePointHorizontal: this._actualBreakPoint.horizontal,  // due to backward compatibility with v1.0
+				
+				changedBreakPointVertical: changedBreakPointVertical,
+				changedSizePointVertical: changedBreakPointVertical,   // due to backward compatibility with v1.0
+				
+				actualBreakPointVertical: this._actualBreakPoint.vertical,
+				actualSizePointVertical: this._actualBreakPoint.vertical,   // due to backward compatibility with v1.0
+				
+				changedDocumentState: changedDocumentState,
+				isDocumentUnloading: isUnloading,
+				changedWindowFocus: changedFocusedState,
+				changedScrolling: changedIsScrolling
+			};
+			if (changedBreakPoint && this._lastBreakPoint.horizontal != this._actualBreakPoint.horizontal)
+				e.lastBreakPointHorizontal = this._lastBreakPoint.horizontal;
+			if (changedBreakPoint && this._lastBreakPoint.vertical != this._actualBreakPoint.vertical)
+				e.lastBreakPointVertical = this._lastBreakPoint.vertical;
+			this._onchangeHandler(e);
+		}		
 	};
 
 	// on mobile devices is window size changing while scrolling content - because some panels are hiding
-	$C._checkWindowOrDocumentResize = function () {
-		if (this._getWindowWidth() != this._lastWinWidth || this._getWindowHeight() != this._lastWinHeight ||
-			this._getDocumentWidth() != this._lastDocWidth || this._getDocumentHeight() != this._lastDocHeight)
+	$C._checkWindowOrDocumentResize = function() {
+		if (this.getWindowWidth() != this._lastWinWidth || this.getWindowHeight() != this._lastWinHeight ||
+			this.getDocumentWidth() != this._lastDocWidth || this.getDocumentHeight() != this._lastDocHeight)
 			this._solveChanges();
 	};
 
@@ -707,7 +813,7 @@
 	$C._lastWasScrolling = $C._isScrolling;
 
 
-	$C._onscrollHandler = function () {
+	$C._onscrollHandler = function() {
 // -----------------------------------------------------TODO: if IE8 and less - return;  --- no support of "scroll | no-scroll" ----------------------------------
 		//if (this._isIE() --- need version detection --------------
 		this._checkWindowOrDocumentResize();
@@ -718,28 +824,28 @@
 		this._solveChanges();
 	};
 
-	$C._timeoutedNoScroll = function () {
+	$C._timeoutedNoScroll = function() {
 		this._setNoScrollingClass();
 		this._isScrolling = false;
 		this._solveChanges();
 	};
-	$C._setNoScrollingClass = function () {
+	$C._setNoScrollingClass = function() {
 		this._removeClass('scrolling')._addClass('no-scrolling');
 	};
 
-	$C._timeoutedNoScrollBindedFn = function () {
+	$C._timeoutedNoScrollBindedFn = function() {
 		$C._timeoutedNoScroll()
 	};
 
 	$C._lastDocumentState = 'uninitialized';
 
-	$C.getDocumentState = function () {
+	$C.getDocumentState = function() {
 		return this.isDocumentLoaded() ? 'loaded' : document.readyState;
 	};
 
 	$C._onceLoaded = false;
 
-	$C._onreadyStateChangeHandler = function () {
+	$C._onreadyStateChangeHandler = function() {
 		if (this._onceLoaded)
 			return;
 		/*
@@ -766,14 +872,14 @@
 	$C._isDocumentLoaded = false;
 
 
-	$C._onloadHandler = function () {
+	$C._onloadHandler = function() {
 		this._isDocumentLoaded = true;
 		this._onreadyStateChangeHandler();
 	};
 
 	$C._isDocumentUnloading = false;
 
-	$C._onunloadHandler = function () {
+	$C._onunloadHandler = function() {
 		this._addClass('state-unloading');
 		this._isDocumentUnloading = false;
 		this._solveChanges();
@@ -783,24 +889,51 @@
 	// Opera does not support document.hasFocus()
 	$C._isWindowFocused = document.hasFocus ? document.hasFocus() : true;
 
-	$C._onblurHandler = function (e) {
+	$C._onblurHandler = function( e ) {
 		this._isWindowFocused = false;
 		this._removeClass('window-focused')._addClass('window-blured');
 		this._solveChanges();
 	};
 
-	$C._onfocusHandler = function (e) {
+	$C._onfocusHandler = function( e ) {
 		this._isWindowFocused = true;
 		this._removeClass('window-blured')._addClass('window-focused');
 		this._solveChanges();
 	};
 
-
-	$C._onchangeHandler = function (e) {
+	/*
+	// Normal form of this function without Error handling...
+	$C._onchangeHandler = function( e ) {
 		for (var i = 0; i < this._onChangeHandlers.length; i++)
 			this._onChangeHandlers[i].call(this, e);
 	};
+	*/
+	
+	// upper function with error handling (because if some error ocures in any handler, it ended cycle and did not run all event listeners)
+	$C._onchangeHandler = function(e, _startIndex, _errors) {
+		var errors = _errors || [];
+		for (var i = _startIndex || 0; i < this._onChangeHandlers.length; i++) {
 
+			try {
+				this._onChangeHandlers[i].call(this, e);
+			}
+
+			catch(error) {
+				errors.push(error);
+				if (i+1<this._onChangeHandlers.length) {
+					this._onchangeHandler( e, i+1, errors );
+				}
+			}
+		}
+		if (errors.length) {
+			// if more errors, we want to print all to console
+			if (errors.length>1)
+				console.log('All errors in JS.Responsive._onchangeHandler:', errors);
+			throw errors[0];
+		}
+	};
+
+	
 	$C._onChangeHandlers = [];
 
 	$C._horizontalSizes = [];
@@ -818,7 +951,7 @@
 	};
 
 	
-	$C._addSizePoint = function (name, size, propertyName, sizeAttr) {
+	$C._addBreakPoint = function(name, size, propertyName, sizeAttr) {
 		
 		var sizes = this[propertyName],
 			index = this._arrayGetIndexOfName(sizes, name);
@@ -833,7 +966,7 @@
 		return this;
 	};
 	
-	$C._removeSizePoint = function (name, propertyName) {
+	$C._removeBreakPoint = function(name, propertyName) {
 		
 		var sizes = this[propertyName],
 			index = this._arrayGetIndexOfName(sizes, name);
@@ -860,15 +993,15 @@
 	};
 	
 	
-	$C._isDisabledHorizontalSizePoints = false;
-	$C._isDisabledVerticalSizePoints = false;
+	$C._isDisabledHorizontalBreakPoints = false;
+	$C._isDisabledVerticalBreakPoints = false;
 	
 	$C._removeAllClassesInDimension = function( sizesArray ) {
 		for (var i = 0; i < sizesArray.length; i++)
 			this._removeAllClasses( sizesArray[i].name );		
 	};
 	
-	$C._solveSizes = function () {
+	$C._solveSizes = function() {
 		var beforeClass = this._getHTML().className;
 		
 		this._startTransactionClass();
@@ -878,34 +1011,34 @@
 			sizeAttributes = [],
 			dimensions = [];
 			
-		if (!this._isDisabledHorizontalSizePoints) {
+		if (!this._isDisabledHorizontalBreakPoints) {
 			arrays.push( this._horizontalSizes );
-			sizes.push( this._getWindowWidth() );
+			sizes.push( this.getWindowWidth() );
 			sizeAttributes.push( 'width' );
 			dimensions.push( 'horizontal' );
 		}
 		
-		if (!this._isDisabledVerticalSizePoints) {
+		if (!this._isDisabledVerticalBreakPoints) {
 			arrays.push( this._verticalSizes );
-			sizes.push( this._getWindowHeight() );
+			sizes.push( this.getWindowHeight() );
 			sizeAttributes.push( 'height' );
 			dimensions.push( 'vertical' );
 		}
 
-		this._lastSizePoint.horizontal = this._actualSizePoint.horizontal;
-		this._actualSizePoint.horizontal = '';
-		this._lastSizePoint.vertical = this._actualSizePoint.vertical;
-		this._actualSizePoint.vertical = '';
+		this._lastBreakPoint.horizontal = this._actualBreakPoint.horizontal;
+		this._actualBreakPoint.horizontal = '';
+		this._lastBreakPoint.vertical = this._actualBreakPoint.vertical;
+		this._actualBreakPoint.vertical = '';
 
 		
 
 		var size,
 			nextSize,
-			sizeIsEqualToCurrentSizePoint,
-			sizeIsGreaterThanCurrentSizePoint,
-			sizeIsGreaterOrEqualToCurrentSizePoint,
-			thisSizePointIsLastOne,
-			isSmallerThanNextSizePoint;
+			sizeIsEqualToCurrentBreakPoint,
+			sizeIsGreaterThanCurrentBreakPoint,
+			sizeIsGreaterOrEqualToCurrentBreakPoint,
+			thisBreakPointIsLastOne,
+			isSmallerThanNextBreakPoint;
 		
 		// for all dimensions, both 'horizontal' and 'vertical
 		for (var k = 0; k < arrays.length; k++) {
@@ -915,30 +1048,30 @@
 				a = arrays[k],
 				sizeAttributeName = sizeAttributes[k];
 
-			// for all size points in current dimension
+			// for all break points in current dimension
 			for (var i = 0; i < a.length; i++) {
 				size = a[i];
 				nextSize = a[i + 1];
 				this._removeAllClasses(size.name);
 
-				sizeIsEqualToCurrentSizePoint = (size[sizeAttributeName] == actualSize);
-				sizeIsGreaterThanCurrentSizePoint = (size[sizeAttributeName] < actualSize);
-				sizeIsGreaterOrEqualToCurrentSizePoint = (size[sizeAttributeName] <= actualSize);
-				thisSizePointIsLastOne = (i == a.length - 1);
-				isSmallerThanNextSizePoint = nextSize && nextSize[sizeAttributeName] > actualSize;
+				sizeIsEqualToCurrentBreakPoint = (size[sizeAttributeName] == actualSize);
+				sizeIsGreaterThanCurrentBreakPoint = (size[sizeAttributeName] < actualSize);
+				sizeIsGreaterOrEqualToCurrentBreakPoint = (size[sizeAttributeName] <= actualSize);
+				thisBreakPointIsLastOne = (i == a.length - 1);
+				isSmallerThanNextBreakPoint = nextSize && nextSize[sizeAttributeName] > actualSize;
 				
-				if (sizeIsGreaterOrEqualToCurrentSizePoint)
+				if (sizeIsGreaterOrEqualToCurrentBreakPoint)
 					this._addClass(size.name + this._moreAppendix);
 				
 				if (!firstIn) {
-					if (sizeIsEqualToCurrentSizePoint || (sizeIsGreaterThanCurrentSizePoint && (thisSizePointIsLastOne || isSmallerThanNextSizePoint))) {
+					if (sizeIsEqualToCurrentBreakPoint || (sizeIsGreaterThanCurrentBreakPoint && (thisBreakPointIsLastOne || isSmallerThanNextBreakPoint))) {
 						this._addClass(size.name);
-						this._actualSizePoint[dimensions[k]] = size.name;
+						this._actualBreakPoint[dimensions[k]] = size.name;
 						firstIn = true;
 					}
 				}
 
-				if (!sizeIsGreaterOrEqualToCurrentSizePoint)
+				if (!sizeIsGreaterOrEqualToCurrentBreakPoint)
 					this._addClass(size.name + this._lessAppendix);
 			}
 		}
@@ -946,15 +1079,15 @@
 		this._commitTransactionClass();
 
 		// returns true if something has changed or false if nothing has changed
-		return this._lastSizePoint.horizontal != this._actualSizePoint.horizontal || 
-		       this._lastSizePoint.vertical   != this._actualSizePoint.vertical;
+		return this._lastBreakPoint.horizontal != this._actualBreakPoint.horizontal || 
+		       this._lastBreakPoint.vertical   != this._actualBreakPoint.vertical;
 	};
 	
 
 	// SOURCE: http://www.quirksmode.org/js/detect.html
 	// no longer supported / updated
 	// @todo update/test on new browsers
-	$C._getAgentData = function () {
+	$C._getAgentData = function() {
 		var nua = navigator.userAgent,
 			np = navigator.platform,
 			nv = navigator.vendor,
@@ -1139,13 +1272,13 @@
 		];
 	};
 
-	$C._getAgentTags = function () {
+	$C._getAgentTags = function() {
 		for (var i = 0, data = this._getAgentData(), tags = []; i < data.length; i++)
 			tags.push(data[i].identity.toLowerCase());
 		return tags;
 	};
 
-	$C._detectAgentPlatform = function (_justReturnValue) {
+	$C._detectAgentPlatform = function(_justReturnValue) {
 
 		var data = this._getAgentData(),
 			foundBrowser = false,
@@ -1254,7 +1387,7 @@
 	};
 
 
-	$C._init = function () {
+	$C._init = function() {
 
 		// runs only once
 		if (this._init.wasExecuted)
@@ -1307,9 +1440,11 @@
 
 	};
 
-
+	
+	// -------------------------------------------------------------------------------------------------
 	// --- INITIALIZATION ------------------------------------------------------------------------------
-
+	// -------------------------------------------------------------------------------------------------
+	
 	$C._init();
 
 })();
