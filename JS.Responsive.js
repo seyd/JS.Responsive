@@ -376,7 +376,7 @@
 			throw new Error("Browser '" + browser + "' was not found.");
 
 		if (!foundVersion)
-			throw new Error("Parameter '" + browser + "' doesn't support version search.")
+			throw new Error("Parameter '" + browser + "' doesn't support version search.");
 
 		return this;
 	};
@@ -793,10 +793,13 @@
 				changedWindowFocus: changedFocusedState,
 				changedScrolling: changedIsScrolling
 			};
+			
 			if (changedBreakPoint && this._lastBreakPoint.horizontal != this._actualBreakPoint.horizontal)
 				e.lastBreakPointHorizontal = this._lastBreakPoint.horizontal;
+			
 			if (changedBreakPoint && this._lastBreakPoint.vertical != this._actualBreakPoint.vertical)
 				e.lastBreakPointVertical = this._lastBreakPoint.vertical;
+			
 			this._onchangeHandler(e);
 		}		
 	};
@@ -860,9 +863,9 @@
 		 state-unloading - when document is unloading
 		 */
 		this._removeClass('state-uninitialized')._removeClass('state-loading')._removeClass('state-interactive');
-		// 'state-complete' sa nebude odstanovat
+		// 'state-complete' sa nebude odstranovat
 		var newState = this.getDocumentState();
-		this._addClass('state-' + newState)
+		this._addClass('state-' + newState);
 		if (newState == 'loaded')
 			this._onceLoaded = true;
 		//alert(this.getDocumentState());
@@ -1308,7 +1311,7 @@
 							if (_justReturnValue)
 								returnValue.version = version;
 							else
-								this._addClass(clsName + '-v' + parseInt(version))
+								this._addClass(clsName + '-v' + parseInt(version));
 							if (version != parseInt(version) && !_justReturnValue)
 								this._addClass(clsName + '-v' + version.toString().replace('.', '-'));
 						}
