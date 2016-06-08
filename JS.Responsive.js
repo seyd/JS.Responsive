@@ -34,6 +34,10 @@
 		throw new Error("JS.Responsive cannot have instances.");
 	};
 
+	/**
+	 * @version
+	 */
+	$C.version = '2.3.1';
 
 	// -------------------------------------------------------------------------------------------------
 	// --- OVERVIEW ------------------------------------------------------------------------------------
@@ -194,6 +198,24 @@
 		return this._isWindowFocused;
 	};
 
+	/**
+	 * Returns device orientation "portrait" or "landscape".
+	 * @returns {String} "portrait" or "landscape"
+	 */
+	$C.getDeviceOrientation = function() {
+
+		var angle = this._getDeviceOrientationAngle();
+		return angle==0 || angle==180 ? 'portrait' : 'landscape';
+	};
+
+	/**
+	 * Returns angle of device orientation 0, 90, 180, 270 in degrees cross clock wise.
+	 * @returns {Number} 0, 90, 180, 270
+	 */
+	$C.getDeviceOrientationAngle = function() {
+
+		return this._getDeviceOrientationAngle();
+	};
 	
 	/**
 	 * Sets a new horizontal break point for responsive styling.
@@ -726,6 +748,9 @@
 			changedOrientation = this._detectOrientation();
 		change = change || changedOrientation;
 
+		var changedDeviceOrientation = this._detectDeviceOrientation();
+		change = change || changedDeviceOrientation;
+		
 		var ww = this.getWindowWidth(),
 			wh = this.getWindowHeight(),
 			changedWinSize = (ww != this._lastWinWidth || wh != this._lastWinHeight);
@@ -775,6 +800,7 @@
 				changedWindowSize: changedWinSize,
 				changedDocumentSize: changedDocSize,
 				changedOrientation: changedOrientation,
+				changedDeviceOrientation: changedDeviceOrientation,
 				
 				changedBreakPointHorizontal: changedBreakPointHorizontal,
 				changedSizePointHorizontal: changedBreakPointHorizontal,  // due to backward compatibility with v1.0
@@ -1388,8 +1414,83 @@
 		}
 		return false;
 	};
+	
+	
+	// returns device orientation 0, 90, 180, 270 (degrees cross clock wise)
+	$C._getDeviceOrientationAngle = function() {
+		var orientation = 0;
+		// window.orientation is deprecated (https://developer.mozilla.org/en-US/docs/Web/API/Window/orientation)
+		if (typeof window.orientation == 'number') {
+			orientation = window.orientation;			
+		}
+		else {
+			var screenOrientation = screen.orientation || screen.mozOrientation || screen.msOrientation;
+			if (typeof screenOrientation == 'string') {
+				// is commented because zero is default
+				//if (screenOrientation == 'portrait-primary')
+					//orientation = 0;
+				if (screenOrientation == 'landscape-primary')
+					orientation = 90;
+				if (screenOrientation == 'portrait-secondary')
+					orientation = 180;
+				if (screenOrientation == 'landscape-secondary')
+					orientation = 270;
+			}
+			else if (screenOrientation.angle) {
+				orientation = screenOrientation.angle;
+			}		
+		}
+		if (orientation==-90)
+			orientation = 270;
+		return orientation;
+	};
+	
+	// adds "device-orientation-portrait" or "device-orientation-landscape" class  and  "device-orientation-0", "device-orientation-90", "device-orientation-180" or "device-orientation-270" class
+	$C._detectDeviceOrientation = function() {
+		var angle = this._getDeviceOrientationAngle(),
+			retVal = false,
+			dO = 'device-orientation';
+		if (angle==0 || angle==180) {			
+			if (this._hasClass(dO+'-landscape')) {
+				this._removeClass(dO+'-landscape')._removeClass(dO+'-90')._removeClass(dO+'-270');
+				retVal = true;
+			}
+			if (!this._hasClass(dO+'-portrait'))
+				this._addClass(dO+'-portrait');
+			
+			if (angle==0 && this._hasClass(dO+'-180')) {
+				this._removeClass(dO+'-180');
+				retVal = true;
+			}
+			if (angle==180 && this._hasClass(dO+'-0')) {
+				this._removeClass(dO+'-0');
+				retVal = true;
+			}
+		}
+		if (angle==90 || angle==270) {			
+			if (this._hasClass(dO+'-portrait')) {
+				this._removeClass(dO+'-portrait')._removeClass(dO+'-0')._removeClass(dO+'-180');
+				retVal = true;
+			}
+			
+			if (!this._hasClass(dO+'-landscape'))
+				this._addClass(dO+'-landscape');
+			
+			if (angle==90 && this._hasClass(dO+'-270')) {
+				this._removeClass(dO+'-270');
+				retVal = true;
+			}
+			if (angle==270 && this._hasClass(dO+'-90')) {
+				this._removeClass(dO+'-90');
+				retVal = true;
+			}
+		}
+		
+		this._addClass(dO+'-'+angle);
+		return retVal;
+	};
 
-
+	
 	$C._init = function() {
 
 		// runs only once
@@ -1412,9 +1513,13 @@
 
 		// adds "portrait" or "landscape"
 		this._detectOrientation();
+		
+		// adds "device-orientation-portrait" or "device-orientation-landscape" class  and  "device-orientation-0", "device-orientation-90", "device-orientation-180" or "device-orientation-270" class
+		this._detectDeviceOrientation();
 
 		// register onresizeHandler
 		this._on(window, 'resize', this._solveChanges)
+			._on(window, 'orientationchange', this._solveChanges)
 			._on(window, 'scroll', this._onscrollHandler)
 
 			// for mobiles - on mobile devices is window size changing while scrolling content - because some panels are hiding
