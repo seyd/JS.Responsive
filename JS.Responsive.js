@@ -1,5 +1,5 @@
 /**
- * @license JS.Responsive v2.3
+ * @license JS.Responsive v2.3.3
  * (c) 2015 WEZEO http://wezeo.com
  * License: MIT
  *
@@ -1425,20 +1425,22 @@
 		}
 		else {
 			var screenOrientation = screen.orientation || screen.mozOrientation || screen.msOrientation;
-			if (typeof screenOrientation == 'string') {
-				// is commented because zero is default
-				//if (screenOrientation == 'portrait-primary')
-					//orientation = 0;
-				if (screenOrientation == 'landscape-primary')
-					orientation = 90;
-				if (screenOrientation == 'portrait-secondary')
-					orientation = 180;
-				if (screenOrientation == 'landscape-secondary')
-					orientation = 270;
+			if (screenOrientation) {
+				if (typeof screenOrientation == 'string') {
+					// is commented because zero is default
+					//if (screenOrientation == 'portrait-primary')
+						//orientation = 0;
+					if (screenOrientation == 'landscape-primary')
+						orientation = 90;
+					if (screenOrientation == 'portrait-secondary')
+						orientation = 180;
+					if (screenOrientation == 'landscape-secondary')
+						orientation = 270;
+				}
+				else if (screenOrientation.angle) {
+					orientation = screenOrientation.angle;
+				}		
 			}
-			else if (screenOrientation.angle) {
-				orientation = screenOrientation.angle;
-			}		
 		}
 		if (orientation==-90)
 			orientation = 270;
