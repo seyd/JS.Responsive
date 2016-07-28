@@ -1031,7 +1031,6 @@
 	};
 	
 	$C._solveSizes = function() {
-		var beforeClass = this._getHTML().className;
 		
 		this._startTransactionClass();
 		
@@ -1558,3 +1557,6 @@
 	$C._init();
 
 })();
+
+if(module)
+	module.exports = window.JS.Responsive;
