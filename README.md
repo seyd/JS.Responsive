@@ -29,11 +29,8 @@ npm install js-responsive
 
 ## Documentation
 
-<dl>
+### desktop or mobile
 
-<dt>desktop or mobile</dt>
-
-<dd>
 
 This test uses algorithm of [detectmobilebrowsers.com](http://detectmobilebrowsers.com/) - Open source mobile phone detection.
 
@@ -61,11 +58,10 @@ Javascript methods:
 
 *   `JS.Responsive.isMobile()` - <var>(Boolean)</var> if mobile returns _true_ else _false_.
 
-</dd>
 
-<dt>touch or no-touch</dt>
 
-<dd>
+### touch or no-touch
+
 
 TODO DOCUMENTATION
 
@@ -78,11 +74,10 @@ Javascript methods:
 
 *   `JS.Responsive.isTouch()` - <var>(Boolean)</var> if touch device returns _true_ else _false_.
 
-</dd>
 
-<dt>normal-display or retina-display</dt>
 
-<dd>
+### normal-display or retina-display
+
 
 TODO DOCUMENTATION
 
@@ -95,11 +90,10 @@ Javascript methods:
 
 *   `JS.Responsive.isRetina()` - <var>(Boolean)</var> if retina display returns _true_ else _false_.
 
-</dd>
 
-<dt>landscape or portrait</dt>
 
-<dd>
+### landscape or portrait
+
 
 TODO DOCUMENTATION (based only on viewport width and height). See also _device-orientation-portrait_ and _device-orientation-landscape_.
 
@@ -108,11 +102,10 @@ Javascript methods:
 *   `JS.Responsive.isLandscape()` - <var>(Boolean)</var> if landscape orientation returns _true_ else _false_.
 *   `JS.Responsive.isPortrait()` - <var>(Boolean)</var> if portrait orientation returns _true_ else _false_.
 
-</dd>
 
-<dt>device-orientation-portrait or device-orientation-landscape and device-orientation-0 or device-orientation-90 or device-orientation-180 or device-orientation-270</dt>
 
-<dd>
+### device-orientation-portrait or device-orientation-landscape and device-orientation-0 or device-orientation-90 or device-orientation-180 or device-orientation-270
+
 
 By the device orientation adds "_device-orientation-portrait_" or "_device-orientation-landscape_" class
 and "_device-orientation-0_", "_device-orientation-90_", "_device-orientation-180_" or "_device-orientation-270_" class.
@@ -122,11 +115,10 @@ Javascript methods:
 *   `JS.Responsive.getDeviceOrientation()` - <var>(String)</var> Returns device orientation "_portrait_" or "_landscape_".
 *   `JS.Responsive.getDeviceOrientationAngle()` - <var>(Number)</var> Returns angle of device orientation _0_, _90_, _180_, _270_ in degrees cross clock wise.
 
-</dd>
 
-<dt>window-focused or window-blured</dt>
 
-<dd>
+### window-focused or window-blured
+
 
 TODO DOCUMENTATION
 
@@ -134,11 +126,10 @@ Javascript methods:
 
 *   `JS.Responsive.isFocused()` - <var>(Boolean)</var> if browser window is focused returns _true_ else _false_.
 
-</dd>
 
-<dt>scrolling or no-scrolling</dt>
 
-<dd>
+### scrolling or no-scrolling
+
 
 TODO DOCUMENTATION
 
@@ -147,11 +138,10 @@ Javascript methods:
 *   `JS.Responsive.isScrolling()` - <var>(Boolean)</var> if document is scrolled returns _true_ else _false_.
 *   `JS.Responsive.AFTER_SCROLL_TIMEOUT` - <var>(Number)</var> timeout for end of scroll (in ms). Default value is _250_.
 
-</dd>
 
-<dt id="horizontal-sizes">Custom window horizontal sizes (width)</dt>
 
-<dd>
+<dt id="horizontal-sizes">Custom window horizontal sizes (width)
+
 
 This is the way how we can get around CSS Media queries. We can use javascript to setup custom window size breakpoints.
 
@@ -203,9 +193,8 @@ JS.Responsive.addHorizontalSizePoint( 'size-mobile', 0 ).addHorizontalSizePoint(
 481..960   size-tablet
 960+       size-desktop (default)
 ```
-<dt id="vertical-sizes">Custom window vertical sizes (height)</dt>
+<dt id="vertical-sizes">Custom window vertical sizes (height)
 
-<dd>
 
 This is the same like horizontal, but vertical ;)
 
@@ -221,9 +210,8 @@ Example:
 JS.Responsive.addHorizontalSizePoint( 'vertical-medium', 600 );
 ```
 
-<dt>Window size</dt>
+### Window size
 
-<dd>
 
 How to read window size - in real time - that ean on mobile browsers also when some pannel went away (hides) when scrolling content.
 
@@ -234,11 +222,10 @@ Javascript methods:
 
 Change of window size can be handled via method [addOnChangeHadler](#addOnChangeHadler).
 
-</dd>
 
-<dt>Document size</dt>
 
-<dd>
+### Document size
+
 
 How to read document size. When scrolling, document size is greater than window size, but scrollbar reduce size in document a little.
 
@@ -249,11 +236,10 @@ Javascript methods:
 
 Change of window size can be handled via method [addOnChangeHadler](#addOnChangeHadler).
 
-</dd>
 
-<dt id="addOnChangeHadler">Handling realtime changes - _addOnChangeHadler_</dt>
 
-<dd>
+<dt id="addOnChangeHadler">Handling realtime changes - _addOnChangeHadler_
+
 
 TODO DOCUMENTATION
 
@@ -269,9 +255,8 @@ JS.Responsive.addOnChangeHadler( function(e){
 } );
 ```
 
-<dt id="isMethod">Testing class names - is</dt>
+<dt id="isMethod">Testing class names - is
 
-<dd>
 
 Insert class names to function parameter as one argument(separed by space) or add as separate parameters. Values in parameter are processed as conjuction, and paramaters as disjunction. Conjuction has priority
 
@@ -285,9 +270,8 @@ Example:
 JS.Responsive.is( "small landscape", "medium portrait" );// procesed as (small AND landscape) OR (medium AND portrait)
 ````
 
-<dt id="watchVersion">Version watching - watchVersion</dt>
+<dt id="watchVersion">Version watching - watchVersion
 
-<dd>
 
 Provides classes for filtering actual browser version compared to specified version, e.g. class is specifying if the curtent browser version is less (-l), less-equal (-le), greater (-g) or greater-equal (-ge) than the specified version
 
@@ -307,6 +291,6 @@ JS.Responsive.watchVersion( "webkit", 500 );
 *   browser - <var>(String)</var> e.g. "chrome"
 *   version - <var>(Number)</var> e.g. 43.5
 
-</dd>
+
 
 </dl>
