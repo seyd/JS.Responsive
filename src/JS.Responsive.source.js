@@ -527,7 +527,7 @@
 		// fn declarations
         function init() {
             var now = +(new Date());
-            sinceReady = now - this._docReadyTime;
+            sinceReady = now - $C._docReadyTime;
 
             // sort by time
             breakpoints.sort(function (a, b) {
@@ -539,8 +539,8 @@
                 breakpoints[0].shift();
 
             // clear running timeout if any
-            if(this._timeBreakPointTimeout)
-                clearTimeout(this._timeBreakPointTimeout);
+            if($C._timeBreakPointTimeout)
+                clearTimeout($C._timeBreakPointTimeout);
 
             // set new timeout for first breakpoint
             activateNext();
