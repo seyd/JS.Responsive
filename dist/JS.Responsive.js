@@ -91,7 +91,7 @@ return /******/ (function(modules) { // webpackBootstrap
 		/**
 	  * @version
 	  */
-		$C.version = '2.3.1';
+		$C.version = '2.3.5';
 	
 		// -------------------------------------------------------------------------------------------------
 		// --- OVERVIEW ------------------------------------------------------------------------------------
@@ -526,9 +526,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	  * @param {Number|Boolean} [breakpoints[].remains] - The time in [ms], breakpoint name will be removed (optional). Or TRUE value to prevent replacing with next breakpoint.
 	  * @example JS.Responsive.setTimeBreakPoints( config )
 	  */
-		$C.setTimeBreakpoints = function (breakpoints) {
+		$C.setTimeBreakPoints = function (breakpoints) {
 			var sinceReady;
-			if (this._docReadyTime) init();else this._timeBreakpointsInit = init.bind(this);
+			if (this._docReadyTime) init();else this._timeBreakPointsInit = init.bind(this);
 	
 			return this;
 	
@@ -546,7 +546,7 @@ return /******/ (function(modules) { // webpackBootstrap
 				while (breakpoints[0].time < sinceReady) breakpoints[0].shift();
 	
 				// clear running timeout if any
-				if (this._timeBreakpointTimeout) clearTimeout(this._timeBreakpointTimeout);
+				if (this._timeBreakPointTimeout) clearTimeout(this._timeBreakPointTimeout);
 	
 				// set new timeout for first breakpoint
 				activateNext();
@@ -556,11 +556,11 @@ return /******/ (function(modules) { // webpackBootstrap
 				if (!breakpoints[0]) // no more breakpoints
 					return;
 	
-				$C._timeBreakpointTimeout = setTimeout(function () {
+				$C._timeBreakPointTimeout = setTimeout(function () {
 	
 					// remove current breakpoint name
-					if ($C._timeBreakpointCurrentName) $C._removeClass($C._timeBreakpointCurrentName);
-					$C._timeBreakpointCurrentName = 0;
+					if ($C._timeBreakPointCurrentName) $C._removeClass($C._timeBreakPointCurrentName);
+					$C._timeBreakPointCurrentName = 0;
 	
 					// apply new breakpoint
 					var bp = breakpoints.shift();
@@ -568,7 +568,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 					if (!bp.remains) {
 						// next breakpoint will clear the current one
-						$C._timeBreakpointCurrentName = bp.name;
+						$C._timeBreakPointCurrentName = bp.name;
 					}
 	
 					if (bp.remains && bp.remains !== true) setTimeout(function () {
@@ -933,7 +933,7 @@ return /******/ (function(modules) { // webpackBootstrap
 		$C._onloadHandler = function () {
 			this._isDocumentLoaded = true;
 			this._docReadyTime = +new Date();
-			if (this._timeBreakpointsInit) this._timeBreakpointsInit();
+			if (this._timeBreakPointsInit) this._timeBreakPointsInit();
 			this._onreadyStateChangeHandler();
 		};
 	
@@ -1437,9 +1437,9 @@ return /******/ (function(modules) { // webpackBootstrap
 			return retVal;
 		};
 	
-		$C._timeBreakpointTimeout = 0;
-		$C._timeBreakpointCurrentName = 0;
-		$C._timeBreakpointsInit = 0;
+		$C._timeBreakPointTimeout = 0;
+		$C._timeBreakPointCurrentName = 0;
+		$C._timeBreakPointsInit = 0;
 	
 		$C._init = function () {
 	
