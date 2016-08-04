@@ -74,7 +74,7 @@
 	 *    watchBrowserVersion( browser, version )
 	 *    getPlatformInfo()
 	 *
-	 *    addOnChangeHadler( fn )
+	 *    addOnChangeHandler( fn )
 	 *    removeOnChangeHadler( fn )
 	 *
 	 *    getWindowWidth()
@@ -423,7 +423,7 @@
 	/**
 	 * Register event listener for all responsive changes.
 	 * @returns {Object} this - for chaining.
-	 * @example JS.Responsive.addOnChangeHadler(function(e) {
+	 * @example JS.Responsive.addOnChangeHandler(function(e) {
 	 *          	if (e.changedBreakPointHorizontal) {
 	 *          		...
 	 *          	}
@@ -443,7 +443,7 @@
 	 *       changedWindowFocus: {Boolean}
 	 *       changedScrolling: {Boolean}
 	 */
-	$C.addOnChangeHadler = function( fn ) {
+	$C.addOnChangeHandler = function( fn ) {
 		
 		this._onChangeHandlers.push(fn);
 		return this;
