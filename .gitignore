@@ -40,3 +40,7 @@ jspm_packages
 
 # Webstorm project files
 .idea
+
+# not ready for publicity
+demo
+server

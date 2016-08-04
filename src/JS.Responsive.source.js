@@ -99,7 +99,7 @@
 	// how many miliseconds stays class name 'scroll' after scrolling (and than switch to 'no-scroll' class name)
 	$C.AFTER_SCROLL_TIMEOUT = 250;
 
-	// (ms) how offen is checking the document size (not window just window, but content size)
+	// (ms) how offen is checking the document size (not just window, but content size)
 	$C.CHECK_DOCUMENT_SIZE_INTERVAL = 500;
 	
 	
@@ -505,6 +505,77 @@
 		
 		return this._getDocumentSize('Height');
 	};
+
+
+	/**
+	 * Sets time brakepoints with classnames and start time value.
+	 * @param {Object[]} breakpoints - The employees who are responsible for the project.
+	 * @param {string} breakpoints[].name - The name of a breakpoint, this name will be used as className!
+	 * @param {Number} breakpoints[].time - The time after document load in [ms], breakpoint name will be applied.
+	 * @param {Number|String} [breakpoints[].remains] - The time in [ms], breakpoint name will be removed (optional). Or "resist" value to prevent replacing with next breakpoint.
+	 * @example JS.Responsive.setTimeBreakPoints( config )
+	 */
+	$C.setTimeBreakpoints = function(breakpoints) {
+	    var sinceReady;
+		if(this._docReadyTime)
+            init();
+        else
+            this._timeBreakpointsInit = init.bind(this);
+
+		return this;
+
+		// fn declarations
+        function init() {
+            var now = +(new Date());
+            sinceReady = now - this._docReadyTime;
+
+            // sort by time
+            breakpoints.sort(function (a, b) {
+                return +(a.time > b.time) || +(a.time === b.time) - 1;
+            });
+
+            // clear passed times
+            while(breakpoints[0].time < sinceReady)
+                breakpoints[0].shift();
+
+            // clear running timeout if any
+            if(this._timeBreakpointTimeout)
+                clearTimeout(this._timeBreakpointTimeout);
+
+            // set new timeout for first breakpoint
+            activateNext();
+        }
+
+		function activateNext() {
+		    if(!breakpoints[0]) // no more breakpoints
+		        return;
+
+			$C._timeBreakpointTimeout = setTimeout(function () {
+
+				// remove current breakpoint name
+				if($C._timeBreakpointCurrentName)
+					$C._removeClass($C._timeBreakpointCurrentName);
+				$C._timeBreakpointCurrentName = 0;
+
+				// apply new breakpoint
+				var bp = breakpoints.shift();
+				$C._addClass(bp.name);
+
+				if(!bp.remains){
+					// next breakpoint will clear the current one
+					$C._timeBreakpointCurrentName = bp.name;
+				}
+
+				if(bp.remains && bp.remains !== true)
+					setTimeout(function () {
+						$C._removeClass(bp.name);
+					}, bp.remains);
+
+				activateNext();
+
+			}, breakpoints[0].time - sinceReady);
+		}
+	};
 	
 	
 	// -------------------------------------------------------------------------------------------------	
@@ -903,6 +974,9 @@
 
 	$C._onloadHandler = function() {
 		this._isDocumentLoaded = true;
+		this._docReadyTime = +(new Date());
+        if(this._timeBreakpointsInit)
+            this._timeBreakpointsInit();
 		this._onreadyStateChangeHandler();
 	};
 
@@ -1490,6 +1564,10 @@
 		this._addClass(dO+'-'+angle);
 		return retVal;
 	};
+
+	$C._timeBreakpointTimeout = 0;
+	$C._timeBreakpointCurrentName = 0;
+	$C._timeBreakpointsInit = 0;
 
 	
 	$C._init = function() {
