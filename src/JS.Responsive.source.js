@@ -553,8 +553,7 @@
 			$C._timeBreakPointTimeout = setTimeout(function () {
 
 				// remove current breakpoint name
-				if($C._timeBreakPointCurrentName)
-					$C._removeClass($C._timeBreakPointCurrentName);
+				$C._removeClass($C._timeBreakPointCurrentName);
 				$C._timeBreakPointCurrentName = 0;
 
 				// apply new breakpoint
@@ -664,6 +663,8 @@
 	};
 
 	$C._removeClass = function(name) {
+		if(!name)
+			return this;
 		var html = this._getHTML();
 		if (html) {
 			if (!this._isInTransactionClass()) {
@@ -1568,7 +1569,88 @@
 	$C._timeBreakPointTimeout = 0;
 	$C._timeBreakPointCurrentName = 0;
 	$C._timeBreakPointsInit = 0;
+	$C._dayTimeCurrent = 0;
+	$C._dayTimePeriod = 0;
+	$C._dayYearPeriod = 0;
 
+	$C._handleTimeBasedClasses = function () {
+		setClasses();
+
+		// fn definitions
+		function setClasses(){
+			$C._removeClass($C._dayTimeCurrent);
+			$C._removeClass($C._dayTimePeriod);
+			$C._removeClass($C._dayYearPeriod);
+
+			var now = new Date(),
+				DAYPERIODS = {
+					0: 'night',
+					1: 'night',
+					2: 'night',
+					3: 'night',
+					4: 'night',
+					5: 'night',
+					6: 'morning',
+					7: 'morning',
+					8: 'morning',
+					9: 'morning',
+					10: 'morning',
+					11: 'morning',
+					12: 'afternoon',
+					13: 'afternoon',
+					14: 'afternoon',
+					15: 'afternoon',
+					16: 'afternoon',
+					17: 'evening',
+					18: 'evening',
+					19: 'evening',
+					20: 'night',
+					21: 'night',
+					22: 'night',
+					23: 'night',
+				},
+				classNameDayTime = 'day-time-' + now.getHours() + 'h',
+				classNameDayPeriod = DAYPERIODS[now.getHours()],
+				classNameYearPeriod = getYearPeriod(now);
+
+			// console.log('classNames', classNameDayTime, classNameDayPeriod, classNameYearPeriod);
+
+			$C._addClass(classNameDayTime);
+			$C._addClass(classNameDayPeriod);
+			$C._addClass(classNameYearPeriod);
+
+			$C._dayTimeCurrent = classNameDayTime;
+
+			setTimeout(function () {
+				setClasses();
+			}, 60*60*1000 - now.getMilliseconds());
+		}
+
+		function getYearPeriod(date) {
+			var year = date.getFullYear(),
+				firstDates = [
+					{date: new Date(year, 2, 20), name: 'Spring'},
+					{date: new Date(year, 5, 21), name: 'Summer'},
+					{date: new Date(year, 8, 23), name: 'Autumn'},
+					{date: new Date(year, 11, 21), name: 'Winter'}
+				];
+
+			return testPeriod(0);
+
+			function testPeriod(index) {
+				if(date < firstDates[index].date)
+					if(!index) // index === 0
+						return firstDates[3].name;
+					else
+						return firstDates[index-1].name;
+				else
+					if(firstDates[++index])
+						return testPeriod(index);
+					else
+						return firstDates[0].name;;
+			}
+		}
+	};
 	
 	$C._init = function() {
 
@@ -1617,6 +1699,9 @@
 			this._onfocusHandler();
 		else
 			this._onblurHandler();
+
+		// start handling time based classes
+		$C._handleTimeBasedClasses();
 
 		setInterval(this._checkWindowOrDocumentResize.bind(this), this.CHECK_DOCUMENT_SIZE_INTERVAL);
 

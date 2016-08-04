@@ -292,9 +292,11 @@ JS.Responsive.watchVersion( "webkit", 500 );
 *   version - <var>(Number)</var> e.g. 43.5
 
 
-### Time breakpoints
+### Time based classes
 
-Time based classes, added after certain time from document load. Breakpoints are specified via setTimeBreakpoints method.
+#### Time brekpoints
+
+You can specify breakpoints, added after certain time from document load.
 
 Javascript methods:
 
@@ -310,3 +312,33 @@ Example:
         {name:'cooool444', time: 10000}
     ]);
 ```
+
+#### Day times
+
+HTML element class names:
+
+*   **day-time-0h** - 00:00 and more
+*   **day-time-1h** - 01:00 and more
+*   **day-time-2h** - 02:00 and more
+*   **day-time-{n}h** - ...
+*   **day-time-23h** - 23:00 and more, till midnight
+
+
+#### Day periods
+
+HTML element class names:
+
+*   **day-period-morning** - 06:00 - 12:00
+*   **day-period-afternoon** - 12:00 - 17:00
+*   **day-period-evening** - 17:00 - 20:00
+*   **day-period-night** - 20:00 - 06:00
+
+
+#### Year periods (seasons)
+
+HTML element class names:
+
+*   **year-period-spring** - 20th of March - 21st of June
+*   **year-period-summer** - 21st of June - 23rd of September
+*   **year-period-autumn** - 23rd of September - 21st of December
+*   **year-period-winter** - 21st of December - 20th of March

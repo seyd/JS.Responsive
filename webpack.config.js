@@ -34,7 +34,7 @@ var config = {
       {
         test: /(\.jsx|\.js)$/,
         loader: "eslint-loader",
-        exclude: /node_modules/
+        exclude: /node_modules|bower_components/
       }
     ]
   },
