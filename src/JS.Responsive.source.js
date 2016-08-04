@@ -512,7 +512,7 @@
 	 * @param {Object[]} breakpoints - The employees who are responsible for the project.
 	 * @param {string} breakpoints[].name - The name of a breakpoint, this name will be used as className!
 	 * @param {Number} breakpoints[].time - The time after document load in [ms], breakpoint name will be applied.
-	 * @param {Number|String} [breakpoints[].remains] - The time in [ms], breakpoint name will be removed (optional). Or "resist" value to prevent replacing with next breakpoint.
+	 * @param {Number|Boolean} [breakpoints[].remains] - The time in [ms], breakpoint name will be removed (optional). Or TRUE value to prevent replacing with next breakpoint.
 	 * @example JS.Responsive.setTimeBreakPoints( config )
 	 */
 	$C.setTimeBreakpoints = function(breakpoints) {

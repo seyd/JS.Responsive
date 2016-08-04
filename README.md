@@ -140,7 +140,7 @@ Javascript methods:
 
 
 
-<dt id="horizontal-sizes">Custom window horizontal sizes (width)
+### Custom window horizontal sizes (width)
 
 
 This is the way how we can get around CSS Media queries. We can use javascript to setup custom window size breakpoints.
@@ -193,7 +193,7 @@ JS.Responsive.addHorizontalSizePoint( 'size-mobile', 0 ).addHorizontalSizePoint(
 481..960   size-tablet
 960+       size-desktop (default)
 ```
-<dt id="vertical-sizes">Custom window vertical sizes (height)
+### Custom window vertical sizes (height)
 
 
 This is the same like horizontal, but vertical ;)
@@ -238,7 +238,7 @@ Change of window size can be handled via method [addOnChangeHadler](#addOnChange
 
 
 
-<dt id="addOnChangeHadler">Handling realtime changes - _addOnChangeHadler_
+### Handling realtime changes - addOnChangeHadler
 
 
 TODO DOCUMENTATION
@@ -255,7 +255,7 @@ JS.Responsive.addOnChangeHadler( function(e){
 } );
 ```
 
-<dt id="isMethod">Testing class names - is
+### Testing class names - is
 
 
 Insert class names to function parameter as one argument(separed by space) or add as separate parameters. Values in parameter are processed as conjuction, and paramaters as disjunction. Conjuction has priority
@@ -270,7 +270,7 @@ Example:
 JS.Responsive.is( "small landscape", "medium portrait" );// procesed as (small AND landscape) OR (medium AND portrait)
 ````
 
-<dt id="watchVersion">Version watching - watchVersion
+### Version watching - watchVersion
 
 
 Provides classes for filtering actual browser version compared to specified version, e.g. class is specifying if the curtent browser version is less (-l), less-equal (-le), greater (-g) or greater-equal (-ge) than the specified version
@@ -292,5 +292,21 @@ JS.Responsive.watchVersion( "webkit", 500 );
 *   version - <var>(Number)</var> e.g. 43.5
 
 
+### Time breakpoints
 
-</dl>
+Time based classes, added after certain time from document load. Breakpoints are specified via setTimeBreakpoints method.
+
+Javascript methods:
+
+*   `JS.Responsive.setTimeBreakpoints( [{name, time, remains}] )` - <var>([object])</var>adding time breakpoint classes since document load
+
+Example:
+
+```js
+ JS.Responsive.setTimeBreakpoints([
+        {name:'cooool111', time: 2000},
+        {name:'cooool222', time: 4000, remains: 3000},
+        {name:'cooool333', time: 8000, remains: true},
+        {name:'cooool444', time: 10000}
+    ]);
+```
