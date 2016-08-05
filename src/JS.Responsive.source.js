@@ -866,6 +866,11 @@
 		this._lastDocHeight = dh;
 
 		this._lastDocumentState = actualState;
+
+        var changedDayTime = $C._lastDayTimeCurrent != $C._dayTimeCurrent;
+        var changedDayPeriod = $C._lastDayTimePeriod != $C._dayTimePeriod;
+        var changedYearPeriod = $C._lastDayYearPeriod != $C._dayYearPeriod;
+        change = change || changedDayTime || changedDayPeriod || changedYearPeriod;
 		
 		if (change) {
 			var e = {
@@ -889,8 +894,12 @@
 				changedDocumentState: changedDocumentState,
 				isDocumentUnloading: isUnloading,
 				changedWindowFocus: changedFocusedState,
-				changedScrolling: changedIsScrolling
-			};
+				changedScrolling: changedIsScrolling,
+
+                changedDayTime: changedDayTime,
+                changedDayPeriod: changedDayPeriod,
+                changedYearPeriod: changedYearPeriod
+        };
 			
 			if (changedBreakPoint && this._lastBreakPoint.horizontal != this._actualBreakPoint.horizontal)
 				e.lastBreakPointHorizontal = this._lastBreakPoint.horizontal;
@@ -1569,15 +1578,22 @@
 	$C._timeBreakPointTimeout = 0;
 	$C._timeBreakPointCurrentName = 0;
 	$C._timeBreakPointsInit = 0;
+	$C._lastTimeBreakPoints = 0;
 	$C._dayTimeCurrent = 0;
 	$C._dayTimePeriod = 0;
 	$C._dayYearPeriod = 0;
+	$C._lastDayTimeCurrent = 0;
+	$C._lastDayTimePeriod = 0;
+	$C._lastDayYearPeriod = 0;
 
 	$C._handleTimeBasedClasses = function () {
 		setClasses();
 
 		// fn definitions
 		function setClasses(){
+            $C._lastDayTimeCurrent = $C._dayTimeCurrent;
+            $C._lastDayTimePeriod = $C._dayTimePeriod;
+            $C._lastDayYearPeriod = $C._dayYearPeriod;
 			$C._removeClass($C._dayTimeCurrent);
 			$C._removeClass($C._dayTimePeriod);
 			$C._removeClass($C._dayYearPeriod);
@@ -1624,6 +1640,8 @@
 			setTimeout(function () {
 				setClasses();
 			}, 60*60*1000 - now.getMilliseconds());
+
+            $C._solveChanges();
 		}
 
 		function getYearPeriod(date) {
