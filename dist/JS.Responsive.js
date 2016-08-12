@@ -59,7 +59,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * (c) 2015 WEZEO http://wezeo.com
 	 * License: MIT
 	 *
-	 * @author Johnny Seyd seyd@wezeo.com
+	 * @author Johnny Seyd <seyd@wezeo.com>, Ctibor Laky <laky@wezeo.com>
 	 *
 	 * @description JS.Responsive is a free tool for responsive styling and responsive javascript coding.
 	 *
@@ -91,7 +91,7 @@ return /******/ (function(modules) { // webpackBootstrap
 		/**
 	  * @version
 	  */
-		$C.version = '2.3.5';
+		$C.version = '2.3.6';
 	
 		// -------------------------------------------------------------------------------------------------
 		// --- OVERVIEW ------------------------------------------------------------------------------------
@@ -147,12 +147,37 @@ return /******/ (function(modules) { // webpackBootstrap
 		// --- CONFIG --------------------------------------------------------------------------------------
 		// -------------------------------------------------------------------------------------------------
 	
+		var
+		// how many miliseconds stays class name 'scroll' after scrolling 
+		// (and than switch to 'no-scroll' class name)
+		AFTER_SCROLL_TIMEOUT = 250,
 	
-		// how many miliseconds stays class name 'scroll' after scrolling (and than switch to 'no-scroll' class name)
-		$C.AFTER_SCROLL_TIMEOUT = 250;
 	
 		// (ms) how offen is checking the document size (not just window, but content size)
-		$C.CHECK_DOCUMENT_SIZE_INTERVAL = 500;
+		CHECK_DOCUMENT_SIZE_INTERVAL = 500,
+	
+	
+		// substitution because minimalization (internal variables are shorten in minimizing process)
+		win = window,
+		    document = win.document,
+		    navigator = win.navigator,
+		    screen = win.screen,
+		    parseInt = win.parseInt,
+		    parseFloat = win.parseFloat,
+		    TRUE = true,
+		    FALSE = false,
+		    NULL = null,
+		    UNDEFINED = undefined,
+		    EMPTY_STRING = '',
+		    SPACE_CHAR = ' ',
+		    WIDTH_STRING = 'width',
+		    HEIGHT_STRING = 'height',
+		    MOZ_PREFIX = 'moz',
+		    MS_PREFIX = 'ms',
+		    PORTRAIT_STRING = 'portrait',
+		    LANDSCAPE_STRING = 'landscape',
+		    HORIZONTAL_STRING = 'horizontal',
+		    VERTICAL_STRING = 'vertical';
 	
 		// -------------------------------------------------------------------------------------------------	
 		// --- PUBLIC --------------------------------------------------------------------------------------
@@ -165,7 +190,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  */
 		$C.isMobile = function () {
 	
-			return this._detectmobilebrowsers_com();
+			return www_detectmobilebrowsers_com();
 		};
 	
 		/**
@@ -183,7 +208,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  */
 		$C.isHiResDisplay = function () {
 	
-			return window.devicePixelRatio > 1;
+			return win.devicePixelRatio > 1;
 		};
 	
 		/**
@@ -192,7 +217,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  */
 		$C.isLandscape = function () {
 	
-			return this.getWindowWidth() > this.getWindowHeight();
+			return getWindowWidth() > getWindowHeight();
 		};
 	
 		/**
@@ -210,7 +235,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  */
 		$C.isDocumentLoaded = function () {
 	
-			return this._isDocumentLoaded;
+			return isDocumentLoaded;
 		};
 	
 		/**
@@ -219,7 +244,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  */
 		$C.isDocumentUnloading = function () {
 	
-			return this._isDocumentUnloading;
+			return isDocumentUnloading;
 		};
 	
 		/**
@@ -228,7 +253,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  */
 		$C.isScrolling = function () {
 	
-			return this._isScrolling;
+			return isScrolling;
 		};
 	
 		/**
@@ -237,7 +262,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  */
 		$C.isFocused = function () {
 	
-			return this._isWindowFocused;
+			return isWindowFocused;
 		};
 	
 		/**
@@ -246,8 +271,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	  */
 		$C.getDeviceOrientation = function () {
 	
-			var angle = this._getDeviceOrientationAngle();
-			return angle == 0 || angle == 180 ? 'portrait' : 'landscape';
+			var angle = getDeviceOrientationAngle();
+			return angle == 0 || angle == 180 ? PORTRAIT_STRING : LANDSCAPE_STRING;
 		};
 	
 		/**
@@ -256,7 +281,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  */
 		$C.getDeviceOrientationAngle = function () {
 	
-			return this._getDeviceOrientationAngle();
+			return getDeviceOrientationAngle();
 		};
 	
 		/**
@@ -267,8 +292,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	  * @example JS.Responsive.addHorizontalBreakPoint('medium', 960);
 	  */
 		$C.addHorizontalBreakPoint = function (name, width) {
-	
-			return this._addBreakPoint(name, width, '_horizontalSizes', 'width');
+			addBreakPoint(name, width, horizontalSizes, WIDTH_STRING);
+			return this;
 		};
 	
 		/**
@@ -278,8 +303,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	  * @example JS.Responsive.removeHorizontalBreakPoint('medium');
 	  */
 		$C.removeHorizontalBreakPoint = function (name) {
-	
-			return this._removeBreakPoint(name, '_horizontalSizes');
+			removeBreakPoint(name, horizontalSizes);
+			return this;
 		};
 	
 		/**
@@ -288,7 +313,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  */
 		$C.getActualHorizontalBreakPoint = function () {
 	
-			return this._actualBreakPoint.horizontal || null;
+			return actualHorizontalBreakPoint || NULL;
 		};
 	
 		/**
@@ -298,8 +323,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	  */
 		$C.disableHorizontalBreakPoints = function (_leaveActualClasses) {
 	
-			if (!_leaveActualClasses) this._removeAllClassesInDimension(this._horizontalSizes);
-			this._isDisabledHorizontalBreakPoints = true;
+			if (!_leaveActualClasses) removeAllClassesInDimension(horizontalSizes);
+			isDisabledHorizontalBreakPoints = TRUE;
 			return this;
 		};
 	
@@ -309,8 +334,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	  */
 		$C.enableHorizontalBreakPoints = function () {
 	
-			this._isDisabledHorizontalBreakPoints = false;
-			this._solveChanges(true);
+			isDisabledHorizontalBreakPoints = FALSE;
+			solveChanges(TRUE);
 			return this;
 		};
 	
@@ -320,7 +345,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  */
 		$C.isDisabledHorizontalBreakPoints = function () {
 	
-			return this._isDisabledHorizontalBreakPoints;
+			return isDisabledHorizontalBreakPoints;
 		};
 	
 		/**
@@ -332,7 +357,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	  */
 		$C.addVerticalBreakPoint = function (name, height) {
 	
-			return this._addBreakPoint(name, height, '_verticalSizes', 'height');
+			addBreakPoint(name, height, verticalSizes, HEIGHT_STRING);
+			return this;
 		};
 	
 		/**
@@ -343,7 +369,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	  */
 		$C.removeVerticalBreakPoint = function (name) {
 	
-			return this._removeBreakPoint(name, '_verticalSizes');
+			removeBreakPoint(name, verticalSizes);
+			return this;
 		};
 	
 		/**
@@ -352,7 +379,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  */
 		$C.getActualVerticalBreakPoint = function () {
 	
-			return this._actualBreakPoint.vertical || null;
+			return actualVerticalBreakPoint || NULL;
 		};
 	
 		/**
@@ -362,8 +389,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	  */
 		$C.disableVerticalBreakPoints = function (_leaveActualClasses) {
 	
-			if (!_leaveActualClasses) this._removeAllClassesInDimension(this._verticalSizes);
-			this._isDisabledVerticalBreakPoints = true;
+			if (!_leaveActualClasses) removeAllClassesInDimension(verticalSizes);
+			isDisabledVerticalBreakPoints = TRUE;
 			return this;
 		};
 	
@@ -373,8 +400,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	  */
 		$C.enableVerticalBreakPoints = function () {
 	
-			this._isDisabledVerticalBreakPoints = false;
-			this._solveChanges(true);
+			isDisabledVerticalBreakPoints = FALSE;
+			solveChanges(TRUE);
 			return this;
 		};
 	
@@ -384,7 +411,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  */
 		$C.isDisabledVerticalBreakPoints = function () {
 	
-			return this._isDisabledVerticalBreakPoints;
+			return isDisabledVerticalBreakPoints;
 		};
 	
 		/**
@@ -397,14 +424,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	  */
 		$C.is = function () {
 	
-			for (var i = 0; i < arguments.length; i++) if (this._hasAllTheseClasses(arguments[i])) return true; // if once true then disjunction is true
+			for (var i = 0; i < arguments.length; i++) if (hasAllTheseClasses(arguments[i])) return TRUE; // if once true then disjunction is true
 	
-			return false;
+			return FALSE;
 		};
 	
 		/**
 	  * Set watching given browser and its version
-	  * @param {String} browser - browser name, see JS.Responsive._getAgentData attribute "identity"
+	  * @param {String} browser - browser name, see function getAgentData() attribute "identity"
 	  * @param {Number} version - browser version number
 	  * @returns {Object} this - for chaining.
 	  * @example JS.Responsive.watchBrowserVersion('Webkit', 530);
@@ -415,11 +442,11 @@ return /******/ (function(modules) { // webpackBootstrap
 		$C.watchBrowserVersion = function (browser, version) {
 	
 			var foundVersion,
-			    agentData = this._findAgentDataByBrowserName(browser);
+			    agentData = findAgentDataByBrowserName(browser);
 	
-			if (agentData) foundVersion = this._addBrowserVersionClasses(agentData, version);else throw new Error("Browser '" + browser + "' was not found.");
+			if (agentData) foundVersion = addBrowserVersionClasses(agentData, version);else throw new Error("Browser '" + browser + "' was not found.");
 	
-			if (!foundVersion) throw new Error("Parameter '" + browser + "' doesn't support version search.");
+			if (agentData && !agentData.versionSearch) throw new Error("Parameter '" + browser + "' doesn't support version search.");
 	
 			return this;
 		};
@@ -436,7 +463,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  */
 		$C.getPlatformInfo = function () {
 	
-			return this._detectAgentPlatform(true);
+			return detectAgentPlatform(TRUE);
 		};
 	
 		/**
@@ -464,7 +491,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  */
 		$C.addOnChangeHandler = function (fn) {
 	
-			this._onChangeHandlers.push(fn);
+			onChangeListeners.push(fn);
 			return this;
 		};
 	
@@ -474,49 +501,41 @@ return /******/ (function(modules) { // webpackBootstrap
 	  */
 		$C.removeOnChangeHadler = function (fn) {
 	
-			for (var i = this._onChangeHandlers.length - 1; i >= 0; i--) if (this._onChangeHandlers[i] === fn) this._onChangeHandlers.splice(i, 1);
+			for (var i = onChangeListeners.length - 1; i >= 0; i--) if (onChangeListeners[i] === fn) onChangeListeners.splice(i, 1);
 			return this;
 		};
 	
 		/**
 	  * Returns current window width in pixels.
-	  * @returns {Number}.
+	  * @function 
+	  * @returns {Number}
 	  * @example if (JS.Responsive.getWindowWidth()>JS.Responsive.getWindowHeight()) ...
 	  */
-		$C.getWindowWidth = function () {
-	
-			return this._getWindowSize('Width');
-		};
+		$C.getWindowWidth = getWindowWidth;
 	
 		/**
 	  * Returns current window height in pixels.
-	  * @returns {Number}.
+	  * @function 
+	  * @returns {Number}
 	  * @example if (JS.Responsive.getWindowWidth()>JS.Responsive.getWindowHeight()) ...
 	  */
-		$C.getWindowHeight = function () {
-	
-			return this._getWindowSize('Height');
-		};
+		$C.getWindowHeight = getWindowHeight;
 	
 		/**
 	  * Returns current document width in pixels (can be smaller than window size because scrollbar reduces it).
-	  * returns {Number}.
+	  * @function
+	  * @returns {Number}
 	  * @example if (JS.Responsive.getDocumentWidth()>JS.Responsive.getDocumentHeight()) ...
 	  */
-		$C.getDocumentWidth = function () {
-	
-			return this._getDocumentSize('Width');
-		};
+		$C.getDocumentWidth = getDocumentWidth;
 	
 		/**
 	  * Returns current document height in pixels (can be smaller than window size because scrollbar reduces it).
-	  * @returns {Number}.
+	  * @function
+	  * @returns {Number}
 	  * @example if (JS.Responsive.getDocumentWidth()>JS.Responsive.getWindowHeight()) ...
 	  */
-		$C.getDocumentHeight = function () {
-	
-			return this._getDocumentSize('Height');
-		};
+		$C.getDocumentHeight = getDocumentHeight;
 	
 		/**
 	  * Sets time brakepoints with classnames and start time value.
@@ -528,14 +547,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	  */
 		$C.setTimeBreakPoints = function (breakpoints) {
 			var sinceReady;
-			if (this._docReadyTime) init();else this._timeBreakPointsInit = init.bind(this);
+			if (docReadyTime) init();else timeBreakPointsInit = init;
 	
 			return this;
 	
 			// fn declarations
 			function init() {
 				var now = +new Date();
-				sinceReady = now - $C._docReadyTime;
+				sinceReady = now - docReadyTime;
 	
 				// sort by time
 				breakpoints.sort(function (a, b) {
@@ -546,7 +565,7 @@ return /******/ (function(modules) { // webpackBootstrap
 				while (breakpoints[0].time < sinceReady) breakpoints[0].shift();
 	
 				// clear running timeout if any
-				if ($C._timeBreakPointTimeout) clearTimeout($C._timeBreakPointTimeout);
+				if (timeBreakPointTimeout) clearTimeout(timeBreakPointTimeout);
 	
 				// set new timeout for first breakpoint
 				activateNext();
@@ -556,23 +575,23 @@ return /******/ (function(modules) { // webpackBootstrap
 				if (!breakpoints[0]) // no more breakpoints
 					return;
 	
-				$C._timeBreakPointTimeout = setTimeout(function () {
+				timeBreakPointTimeout = setTimeout(function () {
 	
 					// remove current breakpoint name
-					$C._removeClass($C._timeBreakPointCurrentName);
-					$C._timeBreakPointCurrentName = 0;
+					removeClass(timeBreakPointCurrentName);
+					timeBreakPointCurrentName = UNDEFINED;
 	
 					// apply new breakpoint
 					var bp = breakpoints.shift();
-					$C._addClass(bp.name);
+					addClass(bp.name);
 	
 					if (!bp.remains) {
 						// next breakpoint will clear the current one
-						$C._timeBreakPointCurrentName = bp.name;
+						timeBreakPointCurrentName = bp.name;
 					}
 	
-					if (bp.remains && bp.remains !== true) setTimeout(function () {
-						$C._removeClass(bp.name);
+					if (bp.remains && bp.remains !== TRUE) setTimeout(function () {
+						removeClass(bp.name);
 					}, bp.remains);
 	
 					activateNext();
@@ -601,242 +620,283 @@ return /******/ (function(modules) { // webpackBootstrap
 		// --- PRIVATE -------------------------------------------------------------------------------------
 		// -------------------------------------------------------------------------------------------------
 	
+		function forEach(array, fn) {
+			for (var i = 0; i < array.length; i++)
+			// calls on array (this == array) and 
+			// first argument is current array item, 
+			// second argument is current index
+			fn.call(array, array[i], i);
+		}
 	
-		$C._getHTML = function () {
-			if (!this._htmlElement) this._htmlElement = document.getElementsByTagName('html')[0];
-			return this._htmlElement;
+		/**
+	  * Returns current window width in pixels.
+	  * @returns {Number}.
+	  */
+		function getWindowWidth() {
+			return getWindowSize(WIDTH_STRING);
+		}
+	
+		/**
+	  * Returns current window height in pixels.
+	  * @returns {Number}.
+	  */
+		function getWindowHeight() {
+	
+			return getWindowSize(HEIGHT_STRING);
 		};
 	
-		$C._getBODY = function () {
-			if (!this._bodyElement) this._bodyElement = document.getElementsByTagName('body')[0];
-			return this._bodyElement;
-		};
+		/**
+	  * Returns current document width in pixels (can be smaller than window size because scrollbar reduces it).
+	  * @returns {Number}
+	  */
+		function getDocumentWidth() {
 	
-		$C._arrayIndex = function (array, value, _exactMatch) {
+			return getDocumentSize(WIDTH_STRING);
+		}
+	
+		/**
+	  * Returns current document height in pixels (can be smaller than window size because scrollbar reduces it).
+	  * @returns {Number}
+	  */
+		function getDocumentHeight() {
+	
+			return getDocumentSize(HEIGHT_STRING);
+		}
+	
+		var htmlElement, bodyElement;
+	
+		function getElementByTagName(tagName) {
+			return document.getElementsByTagName(tagName)[0];
+		}
+	
+		function getHtmlElement() {
+			if (!htmlElement) htmlElement = getElementByTagName('html');
+			return htmlElement;
+		}
+	
+		function getBodyElement() {
+			if (!bodyElement) bodyElement = getElementByTagName('body');
+			return bodyElement;
+		}
+	
+		function arrayIndex(array, value, _exactMatch) {
 			for (var i = 0; i < array.length; i++) if (_exactMatch && array[i] === value || !_exactMatch && array[i] == value) return i;
 			return -1;
 		};
 	
-		$C._arrayContains = function (array, item, _exactMatch) {
-			return this._arrayIndex(array, item, _exactMatch) >= 0;
+		function arrayContains(array, item, _exactMatch) {
+			return arrayIndex(array, item, _exactMatch) >= 0;
 		};
 	
-		$C._on = function (el, eventType, handlerFn) {
+		function bind(el, eventType, handlerFn) {
 	
 			var $this = this,
 			    fn = function (e) {
 				handlerFn.call($this, e || event);
 			};
-			if (el.addEventListener) el.addEventListener(eventType, fn, false);else if (el.attachEvent) el.attachEvent('on' + eventType, fn);
+			if (el.addEventListener) el.addEventListener(eventType, fn, FALSE);else if (el.attachEvent) el.attachEvent('on' + eventType, fn);
+		}
 	
-			return this;
-		};
-	
-		$C._addClass = function (name) {
-			var html = this._getHTML();
+		function addClass(name) {
+			var html = getHtmlElement();
 			if (html) {
-				if (!this._isInTransactionClass()) {
+				if (!isInTransactionClassMode) {
 					var className = html.className;
 					// remove double spaces and trim
-					var classes = className == '' ? [] : className.replace(/ +/g, ' ').replace(/^\s*|\s*$/g, '').split(' ');
-					if (!this._arrayContains(classes, name)) {
+					var classes = className == EMPTY_STRING ? [] : className.replace(/ +/g, SPACE_CHAR).replace(/^\s*|\s*$/g, EMPTY_STRING).split(SPACE_CHAR);
+	
+					if (!arrayContains(classes, name)) {
 						classes.push(name);
-						html.className = classes.join(' ');
+						html.className = classes.join(SPACE_CHAR);
 					}
-				} else this._addTransactionClass(name);
+				} else addTransactionClass(name);
 			}
-			return this;
-		};
+		}
 	
-		$C._removeClass = function (name) {
-			if (!name) return this;
-			var html = this._getHTML();
-			if (html) {
-				if (!this._isInTransactionClass()) {
+		function removeClass(name) {
+			var html = getHtmlElement();
+			if (html && name) {
+				if (!isInTransactionClassMode) {
 					var className = html.className;
-					var classes = className == '' ? [] : className.split(' ');
-					if (this._arrayContains(classes, name)) {
-						classes.splice(this._arrayIndex(classes, name), 1);
-						html.className = classes.join(' ');
+					var classes = className == EMPTY_STRING ? [] : className.split(SPACE_CHAR);
+					if (arrayContains(classes, name)) {
+						classes.splice(arrayIndex(classes, name), 1);
+						html.className = classes.join(SPACE_CHAR);
 					}
-				} else this._removeTransactionClass(name);
+				} else removeTransactionClass(name);
 			}
-			return this;
-		};
+		}
 	
-		$C._hasClass = function (name) {
-			var html = this._getHTML();
+		function hasClass(name) {
+			var html = getHtmlElement();
 			if (html) {
-				var classes = html.className.split(' ');
-				return this._arrayContains(classes, name);
+				var classes = html.className.split(SPACE_CHAR);
+				return arrayContains(classes, name);
 			}
-			return false;
-		};
+			return FALSE;
+		}
 	
-		$C._isInTransactionClassMode = false;
-		$C._addedClasses = [];
-		$C._removedClasses = [];
+		var isInTransactionClassMode = FALSE,
+		    addedClasses = [],
+		    removedClasses = [];
 	
-		$C._isInTransactionClass = function () {
-			return this._isInTransactionClassMode;
-		};
+		function startTransactionClass() {
+			isInTransactionClassMode = TRUE;
+			addedClasses = [];
+			removedClasses = [];
+		}
 	
-		$C._startTransactionClass = function () {
-			this._isInTransactionClassMode = true;
-			this._addedClasses = [];
-			this._removedClasses = [];
-			return this;
-		};
-	
-		$C._addTransactionClass = function (name) {
+		function addTransactionClass(name) {
 			// if was removed, undo this state
-			if (this._arrayContains(this._removedClasses, name)) this._removedClasses.splice(this._arrayIndex(this._removedClasses, name), 1);
+			if (arrayContains(removedClasses, name)) removedClasses.splice(arrayIndex(removedClasses, name), 1);
 			// else adds if not already added
-			else if (!this._hasClass(name) && !this._arrayContains(this._addedClasses, name)) this._addedClasses.push(name);
-			return this;
-		};
+			else if (!hasClass(name) && !arrayContains(addedClasses, name)) addedClasses.push(name);
+		}
 	
-		$C._removeTransactionClass = function (name) {
+		function removeTransactionClass(name) {
 			// if was added, undo this state
-			if (this._arrayContains(this._addedClasses, name)) this._addedClasses.splice(this._arrayIndex(this._addedClasses, name), 1);
+			if (arrayContains(addedClasses, name)) addedClasses.splice(arrayIndex(addedClasses, name), 1);
 			// else adds if not already added
-			else if (this._hasClass(name) && !this._arrayContains(this._removedClasses, name)) this._removedClasses.push(name);
-			return this;
-		};
+			else if (hasClass(name) && !arrayContains(removedClasses, name)) removedClasses.push(name);
+		}
 	
-		$C._commitTransactionClass = function () {
-			this._isInTransactionClassMode = false;
-			for (var i = 0; i < this._removedClasses.length; i++) this._removeClass(this._removedClasses[i]);
+		function commitTransactionClass() {
+			isInTransactionClassMode = FALSE;
+			for (var i = 0; i < removedClasses.length; i++) removeClass(removedClasses[i]);
 			// adding in one punch
-			if (this._addedClasses.length) this._addClass(this._addedClasses.join(' ')); //.replace(/^\s*|\s*$/g, '')
-			this._addedClasses = [];
-			this._removedClasses = [];
-			return this;
+			if (addedClasses.length) addClass(addedClasses.join(SPACE_CHAR)); //.replace(/^\s*|\s*$/g, EMPTY_STRING)
+			addedClasses = [];
+			removedClasses = [];
+		}
+	
+		/*
+	 // UNUSED
+	 function rollbackTransactionClass() {
+	 	isInTransactionClassMode = FALSE;
+	 	addedClasses = [];
+	 	removedClasses = [];
+	 }
+	 */
+	
+		// capitalize first letter
+		function ucFirst(str) {
+			return str.charAt(0).toUpperCase() + str.slice(1);
+		}
+	
+		// @param (String) sizeType - 'width' or 'height'
+		function getWindowSize(sizeType) {
+			var ucSizeType = ucFirst(sizeType),
+			    size = win['inner' + ucSizeType],
+			    docEl = document.documentElement;
+			return size || (docEl && docEl['offset' + ucSizeType] ? docEl['client' + ucSizeType] : screen[sizeType]);
 		};
 	
-		$C._rollbackTransactionClass = function () {
-			this._isInTransactionClassMode = false;
-			this._addedClasses = [];
-			this._removedClasses = [];
-			return this;
-		};
-	
-		// @param (String) sizeType - 'Width' or 'Height'
-		$C._getWindowSize = function (sizeType) {
-	
-			return window['inner' + sizeType] ? window['inner' + sizeType] : document.documentElement && document.documentElement['offset' + sizeType] ? document.documentElement['client' + sizeType] : screen[sizeType.toLowerCase()];
-		};
-	
-		$C._isIE = function () {
+		function isIE() {
 			return navigator.appName == 'Microsoft Internet Explorer';
-		};
+		}
 	
-		// @param (String) sizeType - 'Width' or 'Height'
-		$C._getDocumentSize = function (sizeType) {
-			var el = !this._isIE() ? this._getHTML() : this._getBODY();
-			return el ? el['offset' + sizeType] : 0;
-		};
+		// @param (String) sizeType - 'width' or 'height'
+		function getDocumentSize(sizeType) {
+			var el = !isIE() ? getHtmlElement() : getBodyElement();
+			return el ? el['offset' + ucFirst(sizeType)] : 0;
+		}
 	
 		// adds "mobile" or "desktop" class (once)
-		$C._detectMobile = function () {
-	
-			this._addClass(this.isMobile() ? 'mobile' : 'desktop');
-		};
+		function detectMobile() {
+			addClass($C.isMobile() ? 'mobile' : 'desktop');
+		}
 	
 		// adds "touch" or "no-touch" class (once)
-		$C._detectTouch = function () {
-	
-			this._addClass(this.isTouch() ? 'touch' : 'no-touch');
-		};
+		function detectTouch() {
+			addClass($C.isTouch() ? 'touch' : 'no-touch');
+		}
 	
 		// adds "hires-display" or "normal-display" class (once)
-		$C._detectHiResDisplay = function () {
-			var ratio = window.devicePixelRatio;
-			this._addClass(ratio > 1 ? 'hires-display' : 'normal-display');
-			this._addClass('display-pixel-ratio-' + ratio);
-		};
+		function detectHiResDisplay() {
+			var ratio = win.devicePixelRatio;
+			addClass(ratio > 1 ? 'hires-display' : 'normal-display');
+			addClass('display-pixel-ratio-' + ratio);
+		}
 	
 		// adds "portrait" or "landscape" class
-		$C._detectOrientation = function () {
-			var landscape = this.isLandscape();
-			if (landscape && (this._hasClass('portrait') || !this._hasClass('landscape'))) {
-				this._removeClass('portrait');
-				this._addClass('landscape');
-				return true;
+		function detectOrientation() {
+			var landscape = $C.isLandscape();
+			if (landscape && (hasClass(PORTRAIT_STRING) || !hasClass(LANDSCAPE_STRING))) {
+				removeClass(PORTRAIT_STRING);
+				addClass(LANDSCAPE_STRING);
+				return TRUE;
 			}
-			if (!landscape && (this._hasClass('landscape') || !this._hasClass('portrait'))) {
-				this._removeClass('landscape');
-				this._addClass('portrait');
-				return true;
+			if (!landscape && (hasClass(LANDSCAPE_STRING) || !hasClass(PORTRAIT_STRING))) {
+				removeClass(LANDSCAPE_STRING);
+				addClass(PORTRAIT_STRING);
+				return TRUE;
 			}
-			return false;
-		};
+			return FALSE;
+		}
 	
-		$C._lastWinWidth = 0;
-		$C._lastWinHeight = 0;
+		var lastWinWidth = 0,
+		    lastWinHeight = 0,
+		    lastDocWidth = 0,
+		    lastDocHeight = 0,
+		    lastHorizontalBreakPoint = EMPTY_STRING,
+		    lastVerticalBreakPoint = EMPTY_STRING,
+		    actualHorizontalBreakPoint = EMPTY_STRING,
+		    actualVerticalBreakPoint = EMPTY_STRING,
+		    lastFocusedState = NULL;
 	
-		$C._lastDocWidth = 0;
-		$C._lastDocHeight = 0;
+		function solveChanges(_forceRecalculate) {
 	
-		$C._lastBreakPoint = { horizontal: '', vertical: '' };
-		$C._actualBreakPoint = { horizontal: '', vertical: '' };
-	
-		$C._lastFocusedState = null;
-	
-		$C._solveChanges = function (_forceRecalculate) {
-			var change = false,
-			    changedOrientation = this._detectOrientation();
+			var change = FALSE,
+			    changedOrientation = detectOrientation();
 			change = change || changedOrientation;
 	
-			var changedDeviceOrientation = this._detectDeviceOrientation();
+			var changedDeviceOrientation = detectDeviceOrientation();
 			change = change || changedDeviceOrientation;
 	
-			var ww = this.getWindowWidth(),
-			    wh = this.getWindowHeight(),
-			    changedWinSize = ww != this._lastWinWidth || wh != this._lastWinHeight;
+			var ww = getWindowWidth(),
+			    wh = getWindowHeight(),
+			    changedWinSize = ww != lastWinWidth || wh != lastWinHeight;
 			change = change || changedWinSize;
 	
-			var dw = this.getDocumentWidth(),
-			    dh = this.getDocumentHeight(),
-			    changedDocSize = dw != this._lastDocWidth || dh != this._lastDocHeight;
+			var dw = getDocumentWidth(),
+			    dh = getDocumentHeight(),
+			    changedDocSize = dw != lastDocWidth || dh != lastDocHeight;
 			change = change || changedDocSize;
 	
-			var changedBreakPoint = false;
-			if (changedWinSize || _forceRecalculate) changedBreakPoint = this._solveSizes();
+			var changedBreakPoint = FALSE;
+			if (changedWinSize || _forceRecalculate) changedBreakPoint = solveSizes();
 			change = change || changedBreakPoint;
 	
-			var actualState = this.getDocumentState(),
-			    changedDocumentState = actualState != this._lastDocumentState;
+			var actualState = getDocumentState(),
+			    changedDocumentState = actualState != lastDocumentState;
 			change = change || changedDocumentState;
 	
 			// also unload
-			var isUnloading = this.isDocumentUnloading();
+			var isUnloading = isDocumentUnloading;
 			change = change || isUnloading;
 	
-			var actualFocusState = this.isFocused(),
-			    changedFocusedState = actualFocusState != this._lastFocusedState;
-			this._lastFocusedState = actualFocusState;
+			var changedFocusedState = isWindowFocused != lastFocusedState;
+			lastFocusedState = isWindowFocused;
 			change = change || changedFocusedState;
 	
-			var isScrolling = this.isScrolling(),
-			    changedIsScrolling = isScrolling != this._lastWasScrolling;
-			this._lastWasScrolling = isScrolling;
+			var changedIsScrolling = isScrolling != lastWasScrolling;
+			lastWasScrolling = isScrolling;
 			change = change || changedIsScrolling;
 	
-			var changedBreakPointHorizontal = changedBreakPoint && this._lastBreakPoint.horizontal != this._actualBreakPoint.horizontal,
-			    changedBreakPointVertical = changedBreakPoint && this._lastBreakPoint.vertical != this._actualBreakPoint.vertical;
+			var changedBreakPointHorizontal = changedBreakPoint && lastHorizontalBreakPoint != actualHorizontalBreakPoint,
+			    changedBreakPointVertical = changedBreakPoint && lastVerticalBreakPoint != actualVerticalBreakPoint;
 	
-			this._lastWinWidth = ww;
-			this._lastWinHeight = wh;
+			lastWinWidth = ww;
+			lastWinHeight = wh;
 	
-			this._lastDocWidth = dw;
-			this._lastDocHeight = dh;
+			lastDocWidth = dw;
+			lastDocHeight = dh;
 	
-			this._lastDocumentState = actualState;
+			lastDocumentState = actualState;
 	
-			var changedDayTime = $C._lastDayTimeCurrent != $C._dayTimeCurrent;
-			var changedDayPeriod = $C._lastDayTimePeriod != $C._dayTimePeriod;
-			var changedYearPeriod = $C._lastDayYearPeriod != $C._dayYearPeriod;
+			var changedDayTime = lastDayTimeCurrent != dayTimeCurrent;
+			var changedDayPeriod = lastDayTimePeriod != dayTimePeriod;
+			var changedYearPeriod = lastDayYearPeriod != dayYearPeriod;
 			change = change || changedDayTime || changedDayPeriod || changedYearPeriod;
 	
 			if (change) {
@@ -849,14 +909,14 @@ return /******/ (function(modules) { // webpackBootstrap
 					changedBreakPointHorizontal: changedBreakPointHorizontal,
 					changedSizePointHorizontal: changedBreakPointHorizontal, // due to backward compatibility with v1.0
 	
-					actualBreakPointHorizontal: this._actualBreakPoint.horizontal,
-					actualSizePointHorizontal: this._actualBreakPoint.horizontal, // due to backward compatibility with v1.0
+					actualBreakPointHorizontal: actualHorizontalBreakPoint,
+					actualSizePointHorizontal: actualHorizontalBreakPoint, // due to backward compatibility with v1.0
 	
 					changedBreakPointVertical: changedBreakPointVertical,
 					changedSizePointVertical: changedBreakPointVertical, // due to backward compatibility with v1.0
 	
-					actualBreakPointVertical: this._actualBreakPoint.vertical,
-					actualSizePointVertical: this._actualBreakPoint.vertical, // due to backward compatibility with v1.0
+					actualBreakPointVertical: actualVerticalBreakPoint,
+					actualSizePointVertical: actualVerticalBreakPoint, // due to backward compatibility with v1.0
 	
 					changedDocumentState: changedDocumentState,
 					isDocumentUnloading: isUnloading,
@@ -868,230 +928,237 @@ return /******/ (function(modules) { // webpackBootstrap
 					changedYearPeriod: changedYearPeriod
 				};
 	
-				if (changedBreakPoint && this._lastBreakPoint.horizontal != this._actualBreakPoint.horizontal) e.lastBreakPointHorizontal = this._lastBreakPoint.horizontal;
+				if (changedBreakPoint && lastHorizontalBreakPoint != actualHorizontalBreakPoint) e.lastBreakPointHorizontal = lastHorizontalBreakPoint;
 	
-				if (changedBreakPoint && this._lastBreakPoint.vertical != this._actualBreakPoint.vertical) e.lastBreakPointVertical = this._lastBreakPoint.vertical;
+				if (changedBreakPoint && lastVerticalBreakPoint != actualVerticalBreakPoint) e.lastBreakPointVertical = lastVerticalBreakPoint;
 	
-				this._onchangeHandler(e);
+				onchangeHandler(e);
 			}
 		};
 	
 		// on mobile devices is window size changing while scrolling content - because some panels are hiding
-		$C._checkWindowOrDocumentResize = function () {
-			if (this.getWindowWidth() != this._lastWinWidth || this.getWindowHeight() != this._lastWinHeight || this.getDocumentWidth() != this._lastDocWidth || this.getDocumentHeight() != this._lastDocHeight) this._solveChanges();
+		function checkWindowOrDocumentResize() {
+			if (getWindowWidth() != lastWinWidth || getWindowHeight() != lastWinHeight || getDocumentWidth() != lastDocWidth || getDocumentHeight() != lastDocHeight) solveChanges();
 		};
 	
-		$C._isScrolling = false;
-		$C._lastWasScrolling = $C._isScrolling;
+		var isScrolling = FALSE,
+		    lastWasScrolling = isScrolling,
+		    SCROLLING_CLASS = 'scrolling',
+		    NO_SCROLLING_CLASS = 'no-' + SCROLLING_CLASS,
+		    timeoutedNoScrollProcess;
 	
-		$C._onscrollHandler = function () {
+		function onscrollHandler() {
 			// -----------------------------------------------------TODO: if IE8 and less - return;  --- no support of "scroll | no-scroll" ----------------------------------
-			//if (this._isIE() --- need version detection --------------
-			this._checkWindowOrDocumentResize();
-			clearTimeout(this._timeoutedNoScrollProcess);
-			this._removeClass('no-scrolling')._addClass('scrolling');
-			this._timeoutedNoScrollProcess = setTimeout(this._timeoutedNoScrollBindedFn, this.AFTER_SCROLL_TIMEOUT);
-			this._isScrolling = true;
-			this._solveChanges();
+			//if (isIE() --- need version detection --------------
+			checkWindowOrDocumentResize();
+			clearTimeout(timeoutedNoScrollProcess);
+			removeClass(NO_SCROLLING_CLASS);
+			addClass(SCROLLING_CLASS);
+			timeoutedNoScrollProcess = setTimeout(timeoutedNoScroll, AFTER_SCROLL_TIMEOUT);
+			isScrolling = TRUE;
+			solveChanges();
 		};
 	
-		$C._timeoutedNoScroll = function () {
-			this._setNoScrollingClass();
-			this._isScrolling = false;
-			this._solveChanges();
-		};
-		$C._setNoScrollingClass = function () {
-			this._removeClass('scrolling')._addClass('no-scrolling');
+		function timeoutedNoScroll() {
+			setNoScrollingClass();
+			isScrolling = FALSE;
+			solveChanges();
 		};
 	
-		$C._timeoutedNoScrollBindedFn = function () {
-			$C._timeoutedNoScroll();
+		function setNoScrollingClass() {
+			removeClass(SCROLLING_CLASS);
+			addClass(NO_SCROLLING_CLASS);
 		};
 	
-		$C._lastDocumentState = 'uninitialized';
+		var lastDocumentState = 'uninitialized';
 	
-		$C.getDocumentState = function () {
-			return this.isDocumentLoaded() ? 'loaded' : document.readyState;
+		function getDocumentState() {
+			return isDocumentLoaded ? 'loaded' : document.readyState;
 		};
 	
-		$C._onceLoaded = false;
+		var onceLoaded = FALSE;
 	
-		$C._onreadyStateChangeHandler = function () {
-			if (this._onceLoaded) return;
-			/*
-	   ---uncommnon states----------------------------------------------------------------
-	   uninitialized - Has not started loading yet
-	   loading - Is loading
-	   ---common states-------------------------------------------------------------------
-	   interactive - Has loaded enough and the user can interact with it
-	   complete - Fully loaded
-	   ---custom state--------------------------------------------------------------------
-	   loaded - when document is loaded (including all images)
-	   state-unloading - when document is unloading
-	   */
-			this._removeClass('state-uninitialized')._removeClass('state-loading')._removeClass('state-interactive');
-			// 'state-complete' sa nebude odstranovat
-			var newState = this.getDocumentState();
-			this._addClass('state-' + newState);
-			if (newState == 'loaded') this._onceLoaded = true;
-			//alert(this.getDocumentState());
-			this._solveChanges();
-		};
+		function onreadyStateChangeHandler() {
+			if (!onceLoaded) {
+				/*
+	    ---uncommnon states----------------------------------------------------------------
+	    uninitialized - Has not started loading yet
+	    loading - Is loading
+	    ---common states-------------------------------------------------------------------
+	    interactive - Has loaded enough and the user can interact with it
+	    complete - Fully loaded
+	    ---custom state--------------------------------------------------------------------
+	    loaded - when document is loaded (including all images)
+	    state-unloading - when document is unloading
+	    */
+				removeClass('state-uninitialized');
+				removeClass('state-loading');
+				removeClass('state-interactive');
+				// 'state-complete' sa nebude odstranovat
+				var newState = getDocumentState();
+				addClass('state-' + newState);
+				if (newState == 'loaded') onceLoaded = TRUE;
+				solveChanges();
+			}
+		}
 	
-		$C._isDocumentLoaded = false;
+		var isDocumentLoaded = FALSE,
+		    docReadyTime;
 	
-		$C._onloadHandler = function () {
-			this._isDocumentLoaded = true;
-			this._docReadyTime = +new Date();
-			if (this._timeBreakPointsInit) this._timeBreakPointsInit();
-			this._onreadyStateChangeHandler();
-		};
+		function onloadHandler() {
+			isDocumentLoaded = TRUE;
+			docReadyTime = +new Date();
+			if (timeBreakPointsInit) timeBreakPointsInit();
+			onreadyStateChangeHandler();
+		}
 	
-		$C._isDocumentUnloading = false;
+		var isDocumentUnloading = FALSE;
 	
-		$C._onunloadHandler = function () {
-			this._addClass('state-unloading');
-			this._isDocumentUnloading = false;
-			this._solveChanges();
-		};
+		function onunloadHandler() {
+			addClass('state-unloading');
+			isDocumentUnloading = FALSE;
+			solveChanges();
+		}
 	
 		// Opera does not support document.hasFocus()
-		$C._isWindowFocused = document.hasFocus ? document.hasFocus() : true;
+		var isWindowFocused = document.hasFocus ? document.hasFocus() : TRUE;
 	
-		$C._onblurHandler = function (e) {
-			this._isWindowFocused = false;
-			this._removeClass('window-focused')._addClass('window-blured');
-			this._solveChanges();
-		};
+		var WINDOW_FOCUSED_CLASS = 'window-focused',
+		    WINDOW_BLURED_CLASS = 'window-blured';
 	
-		$C._onfocusHandler = function (e) {
-			this._isWindowFocused = true;
-			this._removeClass('window-blured')._addClass('window-focused');
-			this._solveChanges();
-		};
+		function onblurHandler(e) {
+			isWindowFocused = FALSE;
+			removeClass(WINDOW_FOCUSED_CLASS);
+			addClass(WINDOW_BLURED_CLASS);
+			solveChanges();
+		}
+	
+		function onfocusHandler(e) {
+			isWindowFocused = TRUE;
+			removeClass(WINDOW_BLURED_CLASS);
+			addClass(WINDOW_FOCUSED_CLASS);
+			solveChanges();
+		}
 	
 		/*
 	 // Normal form of this function without Error handling...
-	 $C._onchangeHandler = function( e ) {
-	 	for (var i = 0; i < this._onChangeHandlers.length; i++)
-	 		this._onChangeHandlers[i].call(this, e);
+	 function onchangeHandler( e ) {
+	 	for (var i = 0; i < onChangeListeners.length; i++)
+	 		onChangeListeners[i].call(this, e);
 	 };
 	 */
 	
 		// upper function with error handling (because if some error ocures in any handler, it ended cycle and did not run all event listeners)
-		$C._onchangeHandler = function (e, _startIndex, _errors) {
+		function onchangeHandler(e, _startIndex, _errors) {
 			var errors = _errors || [];
-			for (var i = _startIndex || 0; i < this._onChangeHandlers.length; i++) {
+			for (var i = _startIndex || 0; i < onChangeListeners.length; i++) {
 	
 				try {
-					this._onChangeHandlers[i].call(this, e);
+					onChangeListeners[i].call($C, e);
 				} catch (error) {
 					errors.push(error);
-					if (i + 1 < this._onChangeHandlers.length) {
-						this._onchangeHandler(e, i + 1, errors);
+					if (i + 1 < onChangeListeners.length) {
+						onchangeHandler(e, i + 1, errors);
 					}
 				}
 			}
 			if (errors.length) {
 				// if more errors, we want to print all to console
-				if (errors.length > 1) console.log('All errors in JS.Responsive._onchangeHandler:', errors);
+				if (errors.length > 1) console.log('All errors in JS.Responsive onchangeHandler:', errors);
 				throw errors[0];
 			}
 		};
 	
-		$C._onChangeHandlers = [];
+		var onChangeListeners = [],
+		    horizontalSizes = [],
+		    verticalSizes = [];
 	
-		$C._horizontalSizes = [];
-		$C._verticalSizes = [];
-	
-		$C._sortSizes = function (a, b) {
-			return a.width - b.width;
-		};
-	
-		$C._arrayGetIndexOfName = function (array, name) {
+		function arrayGetIndexOfName(array, name) {
 			for (var i = 0; i < array.length; i++) if (array[i].name == name) return i;
 			return -1;
-		};
+		}
 	
-		$C._addBreakPoint = function (name, size, propertyName, sizeAttr) {
+		function addBreakPoint(name, size, sizesArray, sizeAttr) {
 	
-			var sizes = this[propertyName],
-			    index = this._arrayGetIndexOfName(sizes, name);
+			var index = arrayGetIndexOfName(sizesArray, name);
 			// if does not exists this name
 			if (index == -1) {
 				var sizeObj = { name: name };
 				sizeObj[sizeAttr] = parseInt(size, 10);
-				sizes.push(sizeObj);
-				sizes.sort(this._sortSizes);
-				this._solveChanges(true);
+				sizesArray.push(sizeObj);
+				sizesArray.sort(function (a, b) {
+					return a[sizeAttr] - b[sizeAttr];
+				});
+				solveChanges(TRUE);
 			}
-			return this;
-		};
+		}
 	
-		$C._removeBreakPoint = function (name, propertyName) {
+		function removeBreakPoint(name, sizesArray) {
 	
-			var sizes = this[propertyName],
-			    index = this._arrayGetIndexOfName(sizes, name);
+			var index = arrayGetIndexOfName(sizesArray, name);
 			// if does exists this name
 			if (index >= 0) {
-				sizes.splice(index, 1);
-				this._removeAllClasses(name);
-				this._solveChanges(true);
+				sizesArray.splice(index, 1);
+				removeAllClasses(name);
+				solveChanges(TRUE);
 			}
-			return this;
-		};
+		}
 	
-		$C._lessAppendix = '-less';
+		var LESS_APPENDIX = '-less',
+		    MORE_APPENDIX = '-more';
 	
-		$C._moreAppendix = '-more';
+		function removeAllClasses(sizeAttributeName) {
 	
-		$C._removeAllClasses = function (sizeAttributeName) {
+			removeClass(sizeAttributeName + LESS_APPENDIX);
+			removeClass(sizeAttributeName);
+			removeClass(sizeAttributeName + MORE_APPENDIX);
+		}
 	
-			return this._removeClass(sizeAttributeName + this._lessAppendix)._removeClass(sizeAttributeName)._removeClass(sizeAttributeName + this._moreAppendix);
-		};
+		var isDisabledHorizontalBreakPoints = FALSE,
+		    isDisabledVerticalBreakPoints = FALSE;
 	
-		$C._isDisabledHorizontalBreakPoints = false;
-		$C._isDisabledVerticalBreakPoints = false;
+		function removeAllClassesInDimension(sizesArray) {
 	
-		$C._removeAllClassesInDimension = function (sizesArray) {
-			for (var i = 0; i < sizesArray.length; i++) this._removeAllClasses(sizesArray[i].name);
-		};
+			forEach(sizesArray, function (size) {
+				removeAllClasses(size.name);
+			});
+		}
 	
-		$C._solveSizes = function () {
+		function solveSizes() {
 	
-			this._startTransactionClass();
+			startTransactionClass();
 	
 			var arrays = [],
 			    sizes = [],
 			    sizeAttributes = [],
 			    dimensions = [];
 	
-			if (!this._isDisabledHorizontalBreakPoints) {
-				arrays.push(this._horizontalSizes);
-				sizes.push(this.getWindowWidth());
-				sizeAttributes.push('width');
-				dimensions.push('horizontal');
+			if (!isDisabledHorizontalBreakPoints) {
+				arrays.push(horizontalSizes);
+				sizes.push(getWindowWidth());
+				sizeAttributes.push(WIDTH_STRING);
+				dimensions.push(HORIZONTAL_STRING);
 			}
 	
-			if (!this._isDisabledVerticalBreakPoints) {
-				arrays.push(this._verticalSizes);
-				sizes.push(this.getWindowHeight());
-				sizeAttributes.push('height');
-				dimensions.push('vertical');
+			if (!isDisabledVerticalBreakPoints) {
+				arrays.push(verticalSizes);
+				sizes.push(getWindowHeight());
+				sizeAttributes.push(HEIGHT_STRING);
+				dimensions.push(VERTICAL_STRING);
 			}
 	
-			this._lastBreakPoint.horizontal = this._actualBreakPoint.horizontal;
-			this._actualBreakPoint.horizontal = '';
-			this._lastBreakPoint.vertical = this._actualBreakPoint.vertical;
-			this._actualBreakPoint.vertical = '';
+			lastHorizontalBreakPoint = actualHorizontalBreakPoint;
+			actualHorizontalBreakPoint = EMPTY_STRING;
+			lastVerticalBreakPoint = actualVerticalBreakPoint;
+			actualVerticalBreakPoint = EMPTY_STRING;
 	
 			var size, nextSize, sizeIsEqualToCurrentBreakPoint, sizeIsGreaterThanCurrentBreakPoint, sizeIsGreaterOrEqualToCurrentBreakPoint, thisBreakPointIsLastOne, isSmallerThanNextBreakPoint;
 	
-			// for all dimensions, both 'horizontal' and 'vertical
+			// for all dimensions, both 'horizontal' and 'vertical'
 			for (var k = 0; k < arrays.length; k++) {
 	
 				var actualSize = sizes[k],
-				    firstIn = false,
+				    firstIn = FALSE,
 				    a = arrays[k],
 				    sizeAttributeName = sizeAttributes[k];
 	
@@ -1099,7 +1166,7 @@ return /******/ (function(modules) { // webpackBootstrap
 				for (var i = 0; i < a.length; i++) {
 					size = a[i];
 					nextSize = a[i + 1];
-					this._removeAllClasses(size.name);
+					removeAllClasses(size.name);
 	
 					sizeIsEqualToCurrentBreakPoint = size[sizeAttributeName] == actualSize;
 					sizeIsGreaterThanCurrentBreakPoint = size[sizeAttributeName] < actualSize;
@@ -1107,193 +1174,100 @@ return /******/ (function(modules) { // webpackBootstrap
 					thisBreakPointIsLastOne = i == a.length - 1;
 					isSmallerThanNextBreakPoint = nextSize && nextSize[sizeAttributeName] > actualSize;
 	
-					if (sizeIsGreaterOrEqualToCurrentBreakPoint) this._addClass(size.name + this._moreAppendix);
+					if (sizeIsGreaterOrEqualToCurrentBreakPoint) addClass(size.name + MORE_APPENDIX);
 	
 					if (!firstIn) {
 						if (sizeIsEqualToCurrentBreakPoint || sizeIsGreaterThanCurrentBreakPoint && (thisBreakPointIsLastOne || isSmallerThanNextBreakPoint)) {
-							this._addClass(size.name);
-							this._actualBreakPoint[dimensions[k]] = size.name;
-							firstIn = true;
+							addClass(size.name);
+							if (dimensions[k] == HORIZONTAL_STRING) actualHorizontalBreakPoint = size.name;
+							if (dimensions[k] == VERTICAL_STRING) actualVerticalBreakPoint = size.name;
+							firstIn = TRUE;
 						}
 					}
 	
-					if (!sizeIsGreaterOrEqualToCurrentBreakPoint) this._addClass(size.name + this._lessAppendix);
+					if (!sizeIsGreaterOrEqualToCurrentBreakPoint) addClass(size.name + LESS_APPENDIX);
 				}
 			}
 	
-			this._commitTransactionClass();
+			commitTransactionClass();
 	
 			// returns true if something has changed or false if nothing has changed
-			return this._lastBreakPoint.horizontal != this._actualBreakPoint.horizontal || this._lastBreakPoint.vertical != this._actualBreakPoint.vertical;
+			return lastHorizontalBreakPoint != actualHorizontalBreakPoint || lastVerticalBreakPoint != actualVerticalBreakPoint;
 		};
 	
 		// SOURCE: http://www.quirksmode.org/js/detect.html
 		// no longer supported / updated
 		// @todo update/test on new browsers
-		$C._getAgentData = function () {
+		function getAgentData() {
 			var nua = navigator.userAgent,
 			    np = navigator.platform,
 			    nv = navigator.vendor,
-			    nall = nua + ' ' + np + ' ' + nv;
-			return [{
-				identity: "Edge",
-				string: nua,
-				subString: "Edge",
-				versionSearch: "Edge/"
-			}, {
-				identity: "Webkit",
-				string: nua,
-				subString: "WebKit",
-				versionSearch: "WebKit/"
-			}, {
-				identity: "Android",
-				string: nall,
-				subString: "Android"
-			}, {
-				identity: "CoreMedia",
-				string: nall,
-				subString: "CoreMedia"
-			}, {
-				identity: "QuickTime",
-				string: nall,
-				subString: "QuickTime"
-			}, {
-				identity: "BlackBerry",
-				string: nall,
-				subString: "BlackBerry"
-			}, {
-				identity: "Windows",
-				string: np,
-				subString: "Win"
-			}, {
-				identity: "Mac",
-				string: np,
-				subString: "Mac"
-			}, {
-				identity: "MacOSX",
-				string: nua,
-				subString: "Intel Mac OS X" // because on iPhone is "like Mac OS X"
-			}, {
-				identity: "iPhone",
-				string: nua,
-				subString: "iPhone"
-			}, {
-				identity: "iOS",
-				string: nua,
-				subString: "iPhone"
-			}, {
-				identity: "iPad",
-				string: nall,
-				subString: "iPad"
-			}, {
-				identity: "iOS",
-				string: nall,
-				subString: "iPad"
-			}, {
-				identity: "iPod",
-				string: nall,
-				subString: "iPod"
-			}, {
-				identity: "iOS",
-				string: nall,
-				subString: "iPod"
-			}, {
-				identity: "PSP", //PlayStation Portable
-				string: nall,
-				subString: "PSP"
-			}, {
-				identity: "Kindle",
-				string: nall,
-				subString: "Kindle"
-			}, {
-				identity: "Linux",
-				string: np,
-				subString: "Linux"
-			}, {
-				identity: "Maxthon",
-				string: navigator.userAgent,
-				subString: "Maxthon",
-				versionSearch: "Maxthon/"
-			}, {
-				identity: "Chrome",
-				string: navigator.userAgent,
-				subString: "Chrome",
-				versionSearch: "Chrome/"
-			}, {
-				identity: "OmniWeb",
-				string: nua,
-				subString: "OmniWeb",
-				versionSearch: "OmniWeb/"
-			}, {
-				identity: "Safari",
-				string: nv,
-				subString: "Apple",
-				versionSearch: "Version/"
-			}, {
-				identity: "Opera",
-				prop: window.opera,
-				versionSearch: "Version/"
-			}, {
-				identity: "OperaMini",
-				string: nall,
-				subString: "Opera Mini"
-			}, {
-				identity: "iCab",
-				string: nv,
-				subString: "iCab"
-			}, {
-				identity: "Konqueror",
-				string: nv,
-				subString: "KDE"
-			}, {
-				identity: "Firefox",
-				string: nua,
-				subString: "Firefox",
-				versionSearch: "Firefox/"
-			}, {
-				identity: "Camino",
-				string: nv,
-				subString: "Camino"
-			}, { // for newer Netscapes (6+)
-				identity: "Netscape",
-				string: nua,
-				subString: "Netscape"
-			}, {
-				identity: "MSIE",
-				string: nua,
-				subString: "MSIE",
-				versionSearch: "MSIE"
-			}, {
-				identity: "MSIE",
-				string: nua,
-				subString: "WOW64",
-				versionSearch: "rv:"
-			}, {
-				identity: "Mozilla",
-				string: nua,
-				subString: "Gecko",
-				versionSearch: "rv"
-			}, { // for older Netscapes (4-)
-				identity: "Netscape",
-				string: nua,
-				subString: "Mozilla",
-				versionSearch: "Mozilla"
-			}];
+			    nall = nua + SPACE_CHAR + np + SPACE_CHAR + nv,
+			    agentList = [];
+	
+			function add(identity, string, subString, versionSearch, prop) {
+				agentList.push({
+					identity: identity,
+					string: string,
+					subString: subString == UNDEFINED ? identity : subString,
+					versionSearch: versionSearch !== TRUE ? versionSearch : identity + '/',
+					prop: prop
+				});
+			}
+			add("Edge", nua, NULL, TRUE);
+			add("Webkit", nua, NULL, TRUE);
+			add("Android", nall);
+			add("CoreMedia", nall);
+			add("QuickTime", nall);
+			add("BlackBerry", nall);
+			add("Windows", np, "Win");
+			add("Mac", np);
+			add("MacOSX", nua, "Intel Mac OS X"); // because on iPhone is "like Mac OS X"
+			add("iPhone", nua);
+			add("iOS", nua, "iPhone");
+			add("iPad", nall);
+			add("iOS", nall, "iPad");
+			add("iPod", nall);
+			add("iOS", nall, "iPod");
+			add("PSP", nall); //PlayStation Portable
+			add("Kindle", nall);
+			add("Linux", np);
+			add("Maxthon", nua, NULL, TRUE);
+			add("Chrome", nua, NULL, TRUE);
+			add("OmniWeb", nua, NULL, TRUE);
+			add("Safari", nv, "Apple", "Version/");
+			add("Opera", UNDEFINED, NULL, "Version/", win.opera);
+			add("OperaMini", nall, "Opera Mini");
+			add("iCab", nv);
+			add("Konqueror", nv, "KDE");
+			add("Firefox", nua, NULL, TRUE);
+			add("Camino", nv);
+			add("Netscape", nua); // for newer Netscapes (6+)
+			add("MSIE", nua, NULL, "MSIE");
+			add("MSIE WOW", nua, "WOW64", "rv:");
+			add("Mozilla", nua, "Gecko", "rv");
+			add("Mozilla", nua, NULL, "Mozilla"); // for older Netscapes (4-)
+	
+			return agentList;
 		};
 	
-		$C._getAgentTags = function () {
-			for (var i = 0, data = this._getAgentData(), tags = []; i < data.length; i++) tags.push(data[i].identity.toLowerCase());
-			return tags;
-		};
+		/*
+	 // unused function
+	 function getAgentTags() {
+	 	for (var i = 0, data = getAgentData(), tags = []; i < data.length; i++)
+	 		tags.push(data[i].identity.toLowerCase());
+	 	return tags;
+	 };
+	 */
 	
-		$C._detectAgentPlatform = function (_justReturnValue) {
+		function detectAgentPlatform(_justReturnValue) {
 	
-			var data = this._getAgentData(),
-			    foundBrowser = false,
+			var data = getAgentData(),
+			    foundBrowser = FALSE,
 			    returnValue = {
 				platform: [],
 				browser: [],
-				version: null
+				version: NULL
 			};
 	
 			for (var i = 0; i < data.length; i++) {
@@ -1304,14 +1278,20 @@ return /******/ (function(modules) { // webpackBootstrap
 				if ((dataString || dataProp) && (!foundBrowser || !data[i].versionSearch)) {
 					if (dataProp || dataString.indexOf(data[i].subString) != -1) {
 						var clsName = data[i].identity.toLowerCase();
-						if (_justReturnValue) returnValue.platform.push(clsName);else this._addClass(clsName);
+						if (_justReturnValue) returnValue.platform.push(clsName);else addClass(clsName);
 						if (data[i].versionSearch) {
 							var version = parseFloat(navigator.userAgent.split(data[i].versionSearch || data[i].identity)[1], 10);
 	
-							if (clsName != 'webkit') foundBrowser = true; // this is exception for webkit
+							if (clsName != 'webkit') foundBrowser = TRUE; // this is exception for webkit
+	
 							if (!isNaN(version)) {
-								if (_justReturnValue) returnValue.version = version;else this._addClass(clsName + '-v' + parseInt(version));
-								if (version != parseInt(version) && !_justReturnValue) this._addClass(clsName + '-v' + version.toString().replace('.', '-'));
+								if (_justReturnValue) returnValue.version = version;else
+									// if more classes with spaces, adds versions to all classes 
+									// (e.g. msie-v11 wow-v11)
+									addClass(clsName.replace(/( |$)/g, '-v' + parseInt(version) + ' ').trim());
+								if (version != parseInt(version) && !_justReturnValue)
+									// if more classes with spaces, adds versions to all classes 
+									addClass(clsName.replace(/( |$)/g, '-v' + version.toString().replace('.', '-') + ' ').trim());
 							}
 						}
 					}
@@ -1321,80 +1301,84 @@ return /******/ (function(modules) { // webpackBootstrap
 				returnValue.browser = returnValue.platform[returnValue.platform.length - 1];
 				return returnValue;
 			}
-		};
+		}
 	
 		/**
 	  * Returns true if HTML element contains all given class names (space separated)
 	  * @returns {Boolean}
 	  */
-		$C._hasAllTheseClasses = function (classNames) {
+		function hasAllTheseClasses(classNames) {
 	
-			var classes = classNames.split(' ');
+			var classes = classNames.split(SPACE_CHAR);
 			for (var i = 0; i < classes.length; i++) {
-				if (classes[i] != '' && !this._hasClass(classes[i])) return false;
+				if (classes[i] != EMPTY_STRING && !hasClass(classes[i])) return FALSE;
 			}
-			return true;
+			return TRUE;
 		};
 	
-		$C._detectmobilebrowsers_com = function () {
+		function www_detectmobilebrowsers_com() {
 			// from http://detectmobilebrowsers.com/
-			// last update 2015-12-29 --- IMPORTANT: new version redirects page to 'http://detectmobilebrowser.com/mobile', so I replaced it by return 'window.location = MOBILE_WEBSITE' with ';'
+			// last update 2015-12-29 --- IMPORTANT: new version redirects page to 'http://detectmobilebrowser.com/mobile', 
+			// so I replaced it by return 'window.location = MOBILE_WEBSITE' with ';'
 			return function (a) {
 				return (/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|iris|kindle|lge |maemo|midp|mmp|mobile.+firefox|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\.(browser|link)|vodafone|wap|windows ce|xda|xiino/i.test(a) || /1207|6310|6590|3gso|4thp|50[1-6]i|770s|802s|a wa|abac|ac(er|oo|s\-)|ai(ko|rn)|al(av|ca|co)|amoi|an(ex|ny|yw)|aptu|ar(ch|go)|as(te|us)|attw|au(di|\-m|r |s )|avan|be(ck|ll|nq)|bi(lb|rd)|bl(ac|az)|br(e|v)w|bumb|bw\-(n|u)|c55\/|capi|ccwa|cdm\-|cell|chtm|cldc|cmd\-|co(mp|nd)|craw|da(it|ll|ng)|dbte|dc\-s|devi|dica|dmob|do(c|p)o|ds(12|\-d)|el(49|ai)|em(l2|ul)|er(ic|k0)|esl8|ez([4-7]0|os|wa|ze)|fetc|fly(\-|_)|g1 u|g560|gene|gf\-5|g\-mo|go(\.w|od)|gr(ad|un)|haie|hcit|hd\-(m|p|t)|hei\-|hi(pt|ta)|hp( i|ip)|hs\-c|ht(c(\-| |_|a|g|p|s|t)|tp)|hu(aw|tc)|i\-(20|go|ma)|i230|iac( |\-|\/)|ibro|idea|ig01|ikom|im1k|inno|ipaq|iris|ja(t|v)a|jbro|jemu|jigs|kddi|keji|kgt( |\/)|klon|kpt |kwc\-|kyo(c|k)|le(no|xi)|lg( g|\/(k|l|u)|50|54|\-[a-w])|libw|lynx|m1\-w|m3ga|m50\/|ma(te|ui|xo)|mc(01|21|ca)|m\-cr|me(rc|ri)|mi(o8|oa|ts)|mmef|mo(01|02|bi|de|do|t(\-| |o|v)|zz)|mt(50|p1|v )|mwbp|mywa|n10[0-2]|n20[2-3]|n30(0|2)|n50(0|2|5)|n7(0(0|1)|10)|ne((c|m)\-|on|tf|wf|wg|wt)|nok(6|i)|nzph|o2im|op(ti|wv)|oran|owg1|p800|pan(a|d|t)|pdxg|pg(13|\-([1-8]|c))|phil|pire|pl(ay|uc)|pn\-2|po(ck|rt|se)|prox|psio|pt\-g|qa\-a|qc(07|12|21|32|60|\-[2-7]|i\-)|qtek|r380|r600|raks|rim9|ro(ve|zo)|s55\/|sa(ge|ma|mm|ms|ny|va)|sc(01|h\-|oo|p\-)|sdk\/|se(c(\-|0|1)|47|mc|nd|ri)|sgh\-|shar|sie(\-|m)|sk\-0|sl(45|id)|sm(al|ar|b3|it|t5)|so(ft|ny)|sp(01|h\-|v\-|v )|sy(01|mb)|t2(18|50)|t6(00|10|18)|ta(gt|lk)|tcl\-|tdg\-|tel(i|m)|tim\-|t\-mo|to(pl|sh)|ts(70|m\-|m3|m5)|tx\-9|up(\.b|g1|si)|utst|v400|v750|veri|vi(rg|te)|vk(40|5[0-3]|\-v)|vm40|voda|vulc|vx(52|53|60|61|70|80|81|83|85|98)|w3c(\-| )|webc|whit|wi(g |nc|nw)|wmlb|wonu|x700|yas\-|your|zeto|zte\-/i.test(a.substr(0, 4))
 				);
-			}(navigator.userAgent || navigator.vendor || window.opera);
+			}(navigator.userAgent || navigator.vendor || win.opera);
 		};
 	
-		$C._findAgentDataByBrowserName = function (browser) {
+		function findAgentDataByBrowserName(browser) {
 	
-			var data = this._getAgentData();
+			var data = getAgentData();
 			browser = browser.toLowerCase();
 			for (var i = 0; i < data.length; i++) {
 				if (browser == data[i].identity.toLowerCase()) return data[i];
 			}
-			return null;
+			return NULL;
 		};
 	
-		$C._addBrowserVersionClasses = function (agentData, version) {
+		function addBrowserVersionClasses(agentData, version) {
 	
 			if (agentData.versionSearch) {
 				var browser = agentData.identity.toLowerCase(),
 				    actualVersion = parseFloat(navigator.userAgent.split(agentData.versionSearch || agentData.identity)[1], 10);
-				if ((version + '').indexOf('.') == -1) actualVersion = parseInt(actualVersion);
+				if ((version + EMPTY_STRING).indexOf('.') == -1) actualVersion = parseInt(actualVersion);
 	
 				if (!isNaN(actualVersion)) {
 	
 					if (version == actualVersion) {
-						this._addClass(browser + '-v' + version + '-le');
-						this._addClass(browser + '-v' + version + '-ge');
+						addClass(browser + '-v' + version + '-le');
+						addClass(browser + '-v' + version + '-ge');
 					}
 	
-					if (version > actualVersion) this._addClass(browser + '-v' + version + '-l');
+					if (version > actualVersion) addClass(browser + '-v' + version + '-l');
 	
-					if (version < actualVersion) this._addClass(browser + '-v' + version + '-g');
+					if (version < actualVersion) addClass(browser + '-v' + version + '-g');
 	
-					return true;
+					return TRUE;
 				}
 			}
-			return false;
+			return FALSE;
 		};
 	
 		// returns device orientation 0, 90, 180, 270 (degrees cross clock wise)
-		$C._getDeviceOrientationAngle = function () {
+		function getDeviceOrientationAngle() {
 			var orientation = 0;
-			// window.orientation is deprecated (https://developer.mozilla.org/en-US/docs/Web/API/Window/orientation)
-			if (typeof window.orientation == 'number') {
-				orientation = window.orientation;
+			// win.orientation is deprecated (https://developer.mozilla.org/en-US/docs/Web/API/Window/orientation)
+			if (typeof win.orientation == 'number') {
+				orientation = win.orientation;
 			} else {
-				var screenOrientation = screen.orientation || screen.mozOrientation || screen.msOrientation;
+				var //screenOrientation = screen.orientation || screen.mozOrientation || screen.msOrientation;
+				// minification to form:  n=F[We]||F[$+Ee]||F[Z+Ee];
+				// in compare to:         n=screen.orientation||screen.mozOrientation||screen.msOrientation;
+				screenOrientation = screen[ORIENTATION_STRING] || screen[MOZ_PREFIX + UC_ORIENTATION_STRING] || screen[MS_PREFIX + UC_ORIENTATION_STRING];
 				if (screenOrientation) {
 					if (typeof screenOrientation == 'string') {
 						// is commented because zero is default
-						//if (screenOrientation == 'portrait-primary')
+						//if (screenOrientation == PORTRAIT_STRING + PRIMARY_APPENDIX)
 						//orientation = 0;
-						if (screenOrientation == 'landscape-primary') orientation = 90;
-						if (screenOrientation == 'portrait-secondary') orientation = 180;
-						if (screenOrientation == 'landscape-secondary') orientation = 270;
+						if (screenOrientation == LANDSCAPE_STRING + PRIMARY_APPENDIX) orientation = 90;
+						if (screenOrientation == PORTRAIT_STRING + SECONDARY_APPENDIX) orientation = 180;
+						if (screenOrientation == LANDSCAPE_STRING + SECONDARY_APPENDIX) orientation = 270;
 					} else if (screenOrientation.angle) {
 						orientation = screenOrientation.angle;
 					}
@@ -1404,98 +1388,114 @@ return /******/ (function(modules) { // webpackBootstrap
 			return orientation;
 		};
 	
-		// adds "device-orientation-portrait" or "device-orientation-landscape" class  and  "device-orientation-0", "device-orientation-90", "device-orientation-180" or "device-orientation-270" class
-		$C._detectDeviceOrientation = function () {
-			var angle = this._getDeviceOrientationAngle(),
-			    retVal = false,
-			    dO = 'device-orientation';
-			if (angle == 0 || angle == 180) {
-				if (this._hasClass(dO + '-landscape')) {
-					this._removeClass(dO + '-landscape')._removeClass(dO + '-90')._removeClass(dO + '-270');
-					retVal = true;
-				}
-				if (!this._hasClass(dO + '-portrait')) this._addClass(dO + '-portrait');
+		var ORIENTATION_STRING = 'orientation',
+		    UC_ORIENTATION_STRING = ucFirst(ORIENTATION_STRING),
+		    DEVICE_ORIENTATION_CLASS = 'device-orientation',
+		    LANDSCAPE_APPENDIX = '-' + LANDSCAPE_STRING,
+		    PORTRAIT_APPENDIX = '-' + PORTRAIT_STRING,
+		    PRIMARY_APPENDIX = '-primary',
+		    SECONDARY_APPENDIX = '-secondary',
+		    ANGLE_0_APPENDIX = '-0',
+		    ANGLE_90_APPENDIX = '-90',
+		    ANGLE_180_APPENDIX = '-180',
+		    ANGLE_270_APPENDIX = '-270';
 	
-				if (angle == 0 && this._hasClass(dO + '-180')) {
-					this._removeClass(dO + '-180');
-					retVal = true;
+		// adds "device-orientation-portrait" or "device-orientation-landscape" class  and  "device-orientation-0", "device-orientation-90", "device-orientation-180" or "device-orientation-270" class
+		function detectDeviceOrientation() {
+			var angle = getDeviceOrientationAngle(),
+			    retVal = FALSE;
+			if (angle == 0 || angle == 180) {
+				if (hasClass(DEVICE_ORIENTATION_CLASS + LANDSCAPE_APPENDIX)) {
+					removeClass(DEVICE_ORIENTATION_CLASS + LANDSCAPE_APPENDIX);
+					removeClass(DEVICE_ORIENTATION_CLASS + ANGLE_90_APPENDIX);
+					removeClass(DEVICE_ORIENTATION_CLASS + ANGLE_270_APPENDIX);
+					retVal = TRUE;
 				}
-				if (angle == 180 && this._hasClass(dO + '-0')) {
-					this._removeClass(dO + '-0');
-					retVal = true;
+				// unnecessary to check if has already class, addClass adds it just once
+				//if (!hasClass(DEVICE_ORIENTATION_CLASS + PORTRAIT_APPENDIX))
+				addClass(DEVICE_ORIENTATION_CLASS + PORTRAIT_APPENDIX);
+	
+				if (angle == 0 && hasClass(DEVICE_ORIENTATION_CLASS + ANGLE_180_APPENDIX)) {
+					removeClass(DEVICE_ORIENTATION_CLASS + ANGLE_180_APPENDIX);
+					retVal = TRUE;
+				}
+				if (angle == 180 && hasClass(DEVICE_ORIENTATION_CLASS + ANGLE_0_APPENDIX)) {
+					removeClass(DEVICE_ORIENTATION_CLASS + ANGLE_0_APPENDIX);
+					retVal = TRUE;
 				}
 			}
 			if (angle == 90 || angle == 270) {
-				if (this._hasClass(dO + '-portrait')) {
-					this._removeClass(dO + '-portrait')._removeClass(dO + '-0')._removeClass(dO + '-180');
-					retVal = true;
+				if (hasClass(DEVICE_ORIENTATION_CLASS + PORTRAIT_APPENDIX)) {
+					removeClass(DEVICE_ORIENTATION_CLASS + PORTRAIT_APPENDIX);
+					removeClass(DEVICE_ORIENTATION_CLASS + ANGLE_0_APPENDIX);
+					removeClass(DEVICE_ORIENTATION_CLASS + ANGLE_180_APPENDIX);
+					retVal = TRUE;
 				}
 	
-				if (!this._hasClass(dO + '-landscape')) this._addClass(dO + '-landscape');
+				// unnecessary to check if has already class, addClass adds it just once
+				//if (!hasClass(DEVICE_ORIENTATION_CLASS + LANDSCAPE_APPENDIX))
+				addClass(DEVICE_ORIENTATION_CLASS + LANDSCAPE_APPENDIX);
 	
-				if (angle == 90 && this._hasClass(dO + '-270')) {
-					this._removeClass(dO + '-270');
-					retVal = true;
+				if (angle == 90 && hasClass(DEVICE_ORIENTATION_CLASS + ANGLE_270_APPENDIX)) {
+					removeClass(DEVICE_ORIENTATION_CLASS + ANGLE_270_APPENDIX);
+					retVal = TRUE;
 				}
-				if (angle == 270 && this._hasClass(dO + '-90')) {
-					this._removeClass(dO + '-90');
-					retVal = true;
+				if (angle == 270 && hasClass(DEVICE_ORIENTATION_CLASS + ANGLE_90_APPENDIX)) {
+					removeClass(DEVICE_ORIENTATION_CLASS + ANGLE_90_APPENDIX);
+					retVal = TRUE;
 				}
 			}
 	
-			this._addClass(dO + '-' + angle);
+			addClass(DEVICE_ORIENTATION_CLASS + '-' + angle);
 			return retVal;
 		};
 	
-		$C._timeBreakPointTimeout = 0;
-		$C._timeBreakPointCurrentName = 0;
-		$C._timeBreakPointsInit = 0;
-		$C._lastTimeBreakPoints = 0;
-		$C._dayTimeCurrent = 0;
-		$C._dayTimePeriod = 0;
-		$C._dayYearPeriod = 0;
-		$C._lastDayTimeCurrent = 0;
-		$C._lastDayTimePeriod = 0;
-		$C._lastDayYearPeriod = 0;
+		var timeBreakPointTimeout, timeBreakPointCurrentName, timeBreakPointsInit,
+		//lastTimeBreakPoints = 0,
+		dayTimeCurrent, dayTimePeriod, dayYearPeriod, lastDayTimeCurrent, lastDayTimePeriod, lastDayYearPeriod;
 	
-		$C._handleTimeBasedClasses = function () {
+		function handleTimeBasedClasses() {
 			setClasses();
 	
 			// fn definitions
 			function setClasses() {
-				$C._lastDayTimeCurrent = $C._dayTimeCurrent;
-				$C._lastDayTimePeriod = $C._dayTimePeriod;
-				$C._lastDayYearPeriod = $C._dayYearPeriod;
-				$C._removeClass($C._dayTimeCurrent);
-				$C._removeClass($C._dayTimePeriod);
-				$C._removeClass($C._dayYearPeriod);
+				lastDayTimeCurrent = dayTimeCurrent;
+				lastDayTimePeriod = dayTimePeriod;
+				lastDayYearPeriod = dayYearPeriod;
+				removeClass(dayTimeCurrent);
+				removeClass(dayTimePeriod);
+				removeClass(dayYearPeriod);
 	
 				var now = new Date(),
+				    MORNING = 'morning',
+				    AFTERNOON = 'afternoon',
+				    EVENING = 'evening',
+				    NIGHT = 'night',
 				    DAYPERIODS = {
-					0: 'night',
-					1: 'night',
-					2: 'night',
-					3: 'night',
-					4: 'night',
-					5: 'night',
-					6: 'morning',
-					7: 'morning',
-					8: 'morning',
-					9: 'morning',
-					10: 'morning',
-					11: 'morning',
-					12: 'afternoon',
-					13: 'afternoon',
-					14: 'afternoon',
-					15: 'afternoon',
-					16: 'afternoon',
-					17: 'evening',
-					18: 'evening',
-					19: 'evening',
-					20: 'night',
-					21: 'night',
-					22: 'night',
-					23: 'night'
+					0: NIGHT,
+					1: NIGHT,
+					2: NIGHT,
+					3: NIGHT,
+					4: NIGHT,
+					5: NIGHT,
+					6: MORNING,
+					7: MORNING,
+					8: MORNING,
+					9: MORNING,
+					10: MORNING,
+					11: MORNING,
+					12: AFTERNOON,
+					13: AFTERNOON,
+					14: AFTERNOON,
+					15: AFTERNOON,
+					16: AFTERNOON,
+					17: EVENING,
+					18: EVENING,
+					19: EVENING,
+					20: NIGHT,
+					21: NIGHT,
+					22: NIGHT,
+					23: NIGHT
 				},
 				    classNameDayTime = 'day-time-' + now.getHours() + 'h',
 				    classNameDayPeriod = DAYPERIODS[now.getHours()],
@@ -1503,17 +1503,17 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 				// console.log('classNames', classNameDayTime, classNameDayPeriod, classNameYearPeriod);
 	
-				$C._addClass(classNameDayTime);
-				$C._addClass(classNameDayPeriod);
-				$C._addClass(classNameYearPeriod);
+				addClass(classNameDayTime);
+				addClass(classNameDayPeriod);
+				addClass(classNameYearPeriod);
 	
-				$C._dayTimeCurrent = classNameDayTime;
+				dayTimeCurrent = classNameDayTime;
 	
 				setTimeout(function () {
 					setClasses();
 				}, 60 * 60 * 1000 - now.getMilliseconds());
 	
-				$C._solveChanges();
+				solveChanges();
 			}
 	
 			function getYearPeriod(date) {
@@ -1529,56 +1529,69 @@ return /******/ (function(modules) { // webpackBootstrap
 					} else if (firstDates[++index]) return testPeriod(index);else return firstDates[0].name;;
 				}
 			}
-		};
+		}
 	
-		$C._init = function () {
+		var initWasExecuted;
+	
+		function init() {
 	
 			// runs only once
-			if (this._init.wasExecuted) return;
+			if (initWasExecuted) return;
 	
-			this._init.wasExecuted = true;
+			initWasExecuted = TRUE;
 	
-			this._detectAgentPlatform();
+			detectAgentPlatform();
 	
 			// adds "mobile" or "desktop"
-			this._detectMobile();
+			detectMobile();
 	
 			// adds "touch" or "no-touch"
-			this._detectTouch();
+			detectTouch();
 	
 			// adds "retina-display" or "normal-display"
-			this._detectHiResDisplay();
+			detectHiResDisplay();
 	
 			// adds "portrait" or "landscape"
-			this._detectOrientation();
+			detectOrientation();
 	
 			// adds "device-orientation-portrait" or "device-orientation-landscape" class  and  "device-orientation-0", "device-orientation-90", "device-orientation-180" or "device-orientation-270" class
-			this._detectDeviceOrientation();
+			detectDeviceOrientation();
 	
 			// register onresizeHandler
-			this._on(window, 'resize', this._solveChanges)._on(window, 'orientationchange', this._solveChanges)._on(window, 'scroll', this._onscrollHandler)
+			bind(window, 'resize', solveChanges);
+			bind(window, 'orientationchange', solveChanges);
+			bind(window, 'scroll', onscrollHandler);
 	
 			// for mobiles - on mobile devices is window size changing while scrolling content - because some panels are hiding
-			._on(document, 'touchmove', this._checkWindowOrDocumentResize)._on(document, 'touchend', this._checkWindowOrDocumentResize)._on(document, 'readystatechange', this._onreadyStateChangeHandler)._on(window, 'load', this._onloadHandler)._on(window, 'unload', this._onunloadHandler)._on(window, 'onbeforeunload', this._onunloadHandler)._on(window, 'blur', this._onblurHandler)._on(window, 'focus', this._onfocusHandler);
+			bind(document, 'touchmove', checkWindowOrDocumentResize);
+			bind(document, 'touchend', checkWindowOrDocumentResize);
 	
-			if (this._isWindowFocused) this._onfocusHandler();else this._onblurHandler();
+			bind(document, 'readystatechange', onreadyStateChangeHandler);
+			bind(window, 'load', onloadHandler);
+			bind(window, 'unload', onunloadHandler);
+			bind(window, 'onbeforeunload', onunloadHandler);
+	
+			bind(window, 'blur', onblurHandler);
+			bind(window, 'focus', onfocusHandler);
+	
+			if (isWindowFocused) onfocusHandler();else onblurHandler();
 	
 			// start handling time based classes
-			$C._handleTimeBasedClasses();
+			handleTimeBasedClasses();
 	
-			setInterval(this._checkWindowOrDocumentResize.bind(this), this.CHECK_DOCUMENT_SIZE_INTERVAL);
+			setInterval(checkWindowOrDocumentResize, CHECK_DOCUMENT_SIZE_INTERVAL);
 	
-			this._setNoScrollingClass();
+			setNoScrollingClass();
 	
 			// and run it once
-			this._solveChanges();
-		};
+			solveChanges();
+		}
 	
 		// -------------------------------------------------------------------------------------------------
 		// --- INITIALIZATION ------------------------------------------------------------------------------
 		// -------------------------------------------------------------------------------------------------
 	
-		$C._init();
+		init();
 	})();
 	
 	if (module) module.exports = window.JS.Responsive;

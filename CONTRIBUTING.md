@@ -29,7 +29,7 @@ After that you can clone the repository and run `npm i` inside the cloned folder
 
 There are several gulp tasks that are used for generating different builds:
 
-* `npm run build` - produces production version of your library under the `lib` folder
+* `npm run build` - produces production version of your library under the `dist` folder
 * `npm run dev` - produces development version of your library and runs a watcher
 * `npm run test` - well ... it runs the tests :)
 
