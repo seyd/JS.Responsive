@@ -40,3 +40,5 @@ jspm_packages
 
 # Webstorm project files
 .idea
+
+/demo
