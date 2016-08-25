@@ -44,7 +44,7 @@
 	// -------------------------------------------------------------------------------------------------
 
 	/**
-	 * Static part:
+	 * Public functions (methods):
 	 *
 	 *    isMobile()
 	 *    isTouch()
@@ -388,9 +388,9 @@
 	 * Tests if HTML element contains given class names.
 	 * @param {...String} - class names
 	 * @returns {Boolean}
-	 * @example JS.Responsive('mobile') === true, when HTML contains "mobile" class
-	 * @example JS.Responsive('portrait touch') === true, when HTML contains "portrait" and "touch" class
-	 * @example JS.Responsive('portrait touch', 'mobile') === true, when HTML contains ("portrait" and "touch" class) OR ('mobile')
+	 * @example JS.Responsive.is('mobile') === true, when HTML contains "mobile" class
+	 * @example JS.Responsive.is('portrait touch') === true, when HTML contains "portrait" and "touch" class
+	 * @example JS.Responsive.is('portrait touch', 'mobile') === true, when HTML contains ("portrait" and "touch" class) OR ('mobile')
 	 */
 	$C.is = function() {
 
@@ -964,7 +964,7 @@
                 changedDayTime: changedDayTime,
                 changedDayPeriod: changedDayPeriod,
                 changedYearPeriod: changedYearPeriod
-        };
+			};
 			
 			if (changedBreakPoint && lastHorizontalBreakPoint != actualHorizontalBreakPoint)
 				e.lastBreakPointHorizontal = lastHorizontalBreakPoint;
@@ -1181,6 +1181,7 @@
 		forEach(sizesArray, function( size ){
 			removeAllClasses( size.name );		
 		});
+		
 	}
 	
 	
