@@ -141,7 +141,7 @@
 	 */
 
 	$C.init = function(config) {
-		this._init(config);
+		init(config);
 	};
 
 
@@ -646,7 +646,7 @@
 	function getWindowHeight() {
 
 		return getWindowSize(HEIGHT_STRING);
-	};
+	}
 
 	/**
 	 * Returns current document width in pixels (can be smaller than window size because scrollbar reduces it).
@@ -691,12 +691,12 @@
 			if ((_exactMatch && array[i] === value) || (!_exactMatch && array[i] == value))
 				return i;
 		return -1;
-	};
+	}
 
 
 	function arrayContains(array, item, _exactMatch) {
 		return arrayIndex(array, item, _exactMatch) >= 0;
-	};
+	}
 
 
 	function bind(el, eventType, handlerFn) {
@@ -820,7 +820,7 @@
 			size = win['inner' + ucSizeType],
 			docEl = document.documentElement;
 		return size || (docEl && docEl['offset' + ucSizeType] ? docEl['client' + ucSizeType] : screen[sizeType]);
-	};
+	}
 
 	function isIE() {
 		return navigator.appName == 'Microsoft Internet Explorer';
@@ -830,12 +830,6 @@
 	function getDocumentSize(sizeType) {
 		var el = !isIE() ? getHtmlElement() : getBodyElement();
 		return el ? el['offset' + ucFirst(sizeType)] : 0;
-	}
-
-
-	// adds "mobile" or "desktop" class (once)
-	function detectMobile() {
-		addClass($C.isMobile() ? 'mobile' : 'desktop');
 	}
 
 	// adds "touch" or "no-touch" class (once)
@@ -977,14 +971,14 @@
 			
 			onchangeHandler(e);
 		}		
-	};
+	}
 
 	// on mobile devices is window size changing while scrolling content - because some panels are hiding
 	function checkWindowOrDocumentResize() {
 		if (getWindowWidth() != lastWinWidth || getWindowHeight() != lastWinHeight ||
 			getDocumentWidth() != lastDocWidth || getDocumentHeight() != lastDocHeight)
 			solveChanges();
-	};
+	}
 
 
 	var isScrolling = FALSE,
@@ -1006,24 +1000,24 @@
 		timeoutedNoScrollProcess = setTimeout(timeoutedNoScroll, AFTER_SCROLL_TIMEOUT);
 		isScrolling = TRUE;
 		solveChanges();
-	};
+	}
 
 	function timeoutedNoScroll() {
 		setNoScrollingClass();
 		isScrolling = FALSE;
 		solveChanges();
-	};
+	}
 
 	function setNoScrollingClass() {
 		removeClass(SCROLLING_CLASS);
 		addClass(NO_SCROLLING_CLASS);
-	};
+	}
 
 	var lastDocumentState = 'uninitialized';
 
 	function getDocumentState() {
 		return isDocumentLoaded ? 'loaded' : document.readyState;
-	};
+	}
 
 	var onceLoaded = FALSE;
 
@@ -1123,7 +1117,7 @@
 				console.log('All errors in JS.Responsive onchangeHandler:', errors);
 			throw errors[0];
 		}
-	};
+	}
 
 	
 	var onChangeListeners = [],
@@ -1271,7 +1265,7 @@
 		// returns true if something has changed or false if nothing has changed
 		return lastHorizontalBreakPoint != actualHorizontalBreakPoint ||
 		       lastVerticalBreakPoint   != actualVerticalBreakPoint;
-	};
+	}
 	
 
 	// SOURCE: http://www.quirksmode.org/js/detect.html
@@ -1329,7 +1323,7 @@
 
 		return agentList;
 
-	};
+	}
 
 	/*
 	// unused function
@@ -1402,7 +1396,7 @@
 					return FALSE;
 		}
 		return TRUE;
-	};
+	}
 
 	
 	function findAgentDataByBrowserName( browser ) {
@@ -1414,7 +1408,7 @@
 				return data[i];
 		}
 		return NULL;
-	};
+	}
 
 
 	function addBrowserVersionClasses( agentData, version ) {
@@ -1442,7 +1436,7 @@
 			}
 		}
 		return FALSE;
-	};
+	}
 	
 	
 	// returns device orientation 0, 90, 180, 270 (degrees cross clock wise)
@@ -1479,7 +1473,7 @@
 		if (orientation==-90)
 			orientation = 270;
 		return orientation;
-	};
+	}
 	
 	var ORIENTATION_STRING = 'orientation',
 		UC_ORIENTATION_STRING = ucFirst(ORIENTATION_STRING),
@@ -1541,7 +1535,7 @@
 		
 		addClass(DEVICE_ORIENTATION_CLASS+'-'+angle);
 		return retVal;
-	};
+	}
 
 	var timeBreakPointTimeout,
 		timeBreakPointCurrentName,
@@ -1637,7 +1631,7 @@
 					if(firstDates[++index])
 						return testPeriod(index);
 					else
-						return firstDates[0].name;;
+						return firstDates[0].name;
 			}
 		}
 	}

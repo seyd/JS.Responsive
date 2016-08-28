@@ -3,7 +3,8 @@
  * @todo Find out if mobile is just a phone or tablet also...
  * @returns {Boolean} The return value is not changing in time.
  */
-$C.isMobile = function() {
+
+www_detectmobilebrowsers_com = function() {
     // from http://detectmobilebrowsers.com/
     // last update 2015-12-29 --- IMPORTANT: new version redirects page to 'http://detectmobilebrowser.com/mobile', so I replaced it by return 'window.location = MOBILE_WEBSITE' with ';'
     return (function( a ) {
@@ -12,9 +13,9 @@ $C.isMobile = function() {
 };
 
 // adds "mobile" or "desktop" class (once)
-$C._detectMobile = function() {
+detectMobile = function() {
 
-    this._addClass(this.isMobile() ? 'mobile' : 'desktop');
+    addClass(www_detectmobilebrowsers_com() ? 'mobile' : 'desktop');
 };
 
-$C._features.mobile = $C._detectMobile;
+$C._features.mobile = detectMobile;

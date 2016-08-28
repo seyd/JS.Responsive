@@ -54,7 +54,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 0 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function(module) {/**
+	/**
 	 * @license JS.Responsive v2.3.3
 	 * (c) 2015 WEZEO http://wezeo.com
 	 * License: MIT
@@ -91,14 +91,14 @@ return /******/ (function(modules) { // webpackBootstrap
 		/**
 	  * @version
 	  */
-		$C.version = '2.3.6';
+		$C.version = '2.4.0';
 	
 		// -------------------------------------------------------------------------------------------------
 		// --- OVERVIEW ------------------------------------------------------------------------------------
 		// -------------------------------------------------------------------------------------------------
 	
 		/**
-	  * Static part:
+	  * Public functions (methods):
 	  *
 	  *    isMobile()
 	  *    isTouch()
@@ -128,7 +128,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  *    watchBrowserVersion( browser, version )
 	  *    getPlatformInfo()
 	  *
-	  *    addOnChangeHandler( fn )
+	  *    addOnChangeHadler( fn )
 	  *    removeOnChangeHadler( fn )
 	  *
 	  *    getWindowWidth()
@@ -148,7 +148,7 @@ return /******/ (function(modules) { // webpackBootstrap
 		// -------------------------------------------------------------------------------------------------
 	
 		var
-		// how many miliseconds stays class name 'scroll' after scrolling 
+		// how many miliseconds stays class name 'scroll' after scrolling
 		// (and than switch to 'no-scroll' class name)
 		AFTER_SCROLL_TIMEOUT = 250,
 	
@@ -179,18 +179,43 @@ return /******/ (function(modules) { // webpackBootstrap
 		    HORIZONTAL_STRING = 'horizontal',
 		    VERTICAL_STRING = 'vertical';
 	
+		$C._features = {};
+	
 		// -------------------------------------------------------------------------------------------------	
 		// --- PUBLIC --------------------------------------------------------------------------------------
 		// -------------------------------------------------------------------------------------------------
 	
 		/**
-	  * Detects mobile browser - if device is a mobile device.
-	  * @todo Find out if mobile is just a phone or tablet also...
-	  * @returns {Boolean} The return value is not changing in time.
-	  */
-		$C.isMobile = function () {
+	 * Detects mobile browser - if device is a mobile device.
+	 * @todo Find out if mobile is just a phone or tablet also...
+	 * @returns {Boolean} The return value is not changing in time.
+	 */
 	
-			return www_detectmobilebrowsers_com();
+		www_detectmobilebrowsers_com = function () {
+			// from http://detectmobilebrowsers.com/
+			// last update 2015-12-29 --- IMPORTANT: new version redirects page to 'http://detectmobilebrowser.com/mobile', so I replaced it by return 'window.location = MOBILE_WEBSITE' with ';'
+			return function (a) {
+				return (/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|iris|kindle|lge |maemo|midp|mmp|mobile.+firefox|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\.(browser|link)|vodafone|wap|windows ce|xda|xiino/i.test(a) || /1207|6310|6590|3gso|4thp|50[1-6]i|770s|802s|a wa|abac|ac(er|oo|s\-)|ai(ko|rn)|al(av|ca|co)|amoi|an(ex|ny|yw)|aptu|ar(ch|go)|as(te|us)|attw|au(di|\-m|r |s )|avan|be(ck|ll|nq)|bi(lb|rd)|bl(ac|az)|br(e|v)w|bumb|bw\-(n|u)|c55\/|capi|ccwa|cdm\-|cell|chtm|cldc|cmd\-|co(mp|nd)|craw|da(it|ll|ng)|dbte|dc\-s|devi|dica|dmob|do(c|p)o|ds(12|\-d)|el(49|ai)|em(l2|ul)|er(ic|k0)|esl8|ez([4-7]0|os|wa|ze)|fetc|fly(\-|_)|g1 u|g560|gene|gf\-5|g\-mo|go(\.w|od)|gr(ad|un)|haie|hcit|hd\-(m|p|t)|hei\-|hi(pt|ta)|hp( i|ip)|hs\-c|ht(c(\-| |_|a|g|p|s|t)|tp)|hu(aw|tc)|i\-(20|go|ma)|i230|iac( |\-|\/)|ibro|idea|ig01|ikom|im1k|inno|ipaq|iris|ja(t|v)a|jbro|jemu|jigs|kddi|keji|kgt( |\/)|klon|kpt |kwc\-|kyo(c|k)|le(no|xi)|lg( g|\/(k|l|u)|50|54|\-[a-w])|libw|lynx|m1\-w|m3ga|m50\/|ma(te|ui|xo)|mc(01|21|ca)|m\-cr|me(rc|ri)|mi(o8|oa|ts)|mmef|mo(01|02|bi|de|do|t(\-| |o|v)|zz)|mt(50|p1|v )|mwbp|mywa|n10[0-2]|n20[2-3]|n30(0|2)|n50(0|2|5)|n7(0(0|1)|10)|ne((c|m)\-|on|tf|wf|wg|wt)|nok(6|i)|nzph|o2im|op(ti|wv)|oran|owg1|p800|pan(a|d|t)|pdxg|pg(13|\-([1-8]|c))|phil|pire|pl(ay|uc)|pn\-2|po(ck|rt|se)|prox|psio|pt\-g|qa\-a|qc(07|12|21|32|60|\-[2-7]|i\-)|qtek|r380|r600|raks|rim9|ro(ve|zo)|s55\/|sa(ge|ma|mm|ms|ny|va)|sc(01|h\-|oo|p\-)|sdk\/|se(c(\-|0|1)|47|mc|nd|ri)|sgh\-|shar|sie(\-|m)|sk\-0|sl(45|id)|sm(al|ar|b3|it|t5)|so(ft|ny)|sp(01|h\-|v\-|v )|sy(01|mb)|t2(18|50)|t6(00|10|18)|ta(gt|lk)|tcl\-|tdg\-|tel(i|m)|tim\-|t\-mo|to(pl|sh)|ts(70|m\-|m3|m5)|tx\-9|up(\.b|g1|si)|utst|v400|v750|veri|vi(rg|te)|vk(40|5[0-3]|\-v)|vm40|voda|vulc|vx(52|53|60|61|70|80|81|83|85|98)|w3c(\-| )|webc|whit|wi(g |nc|nw)|wmlb|wonu|x700|yas\-|your|zeto|zte\-/i.test(a.substr(0, 4))
+				);
+			}(navigator.userAgent || navigator.vendor || window.opera);
+		};
+	
+		// adds "mobile" or "desktop" class (once)
+		detectMobile = function () {
+	
+			addClass(www_detectmobilebrowsers_com() ? 'mobile' : 'desktop');
+		};
+	
+		$C._features.mobile = detectMobile;
+	
+		/**
+	  * Initialise JS.Responsive
+	  * @param {Object} [config] - Object with key value pairs of features which will be initialised, if not
+	  * provided, all features will be initialised. If you provide empty object, none of features will be initialised.
+	  */
+	
+		$C.init = function (config) {
+			init(config);
 		};
 	
 		/**
@@ -418,9 +443,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	  * Tests if HTML element contains given class names.
 	  * @param {...String} - class names
 	  * @returns {Boolean}
-	  * @example JS.Responsive('mobile') === true, when HTML contains "mobile" class
-	  * @example JS.Responsive('portrait touch') === true, when HTML contains "portrait" and "touch" class
-	  * @example JS.Responsive('portrait touch', 'mobile') === true, when HTML contains ("portrait" and "touch" class) OR ('mobile')
+	  * @example JS.Responsive.is('mobile') === true, when HTML contains "mobile" class
+	  * @example JS.Responsive.is('portrait touch') === true, when HTML contains "portrait" and "touch" class
+	  * @example JS.Responsive.is('portrait touch', 'mobile') === true, when HTML contains ("portrait" and "touch" class) OR ('mobile')
 	  */
 		$C.is = function () {
 	
@@ -507,7 +532,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 		/**
 	  * Returns current window width in pixels.
-	  * @function 
+	  * @function
 	  * @returns {Number}
 	  * @example if (JS.Responsive.getWindowWidth()>JS.Responsive.getWindowHeight()) ...
 	  */
@@ -515,7 +540,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 		/**
 	  * Returns current window height in pixels.
-	  * @function 
+	  * @function
 	  * @returns {Number}
 	  * @example if (JS.Responsive.getWindowWidth()>JS.Responsive.getWindowHeight()) ...
 	  */
@@ -622,8 +647,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 		function forEach(array, fn) {
 			for (var i = 0; i < array.length; i++)
-			// calls on array (this == array) and 
-			// first argument is current array item, 
+			// calls on array (this == array) and
+			// first argument is current array item,
 			// second argument is current index
 			fn.call(array, array[i], i);
 		}
@@ -643,7 +668,7 @@ return /******/ (function(modules) { // webpackBootstrap
 		function getWindowHeight() {
 	
 			return getWindowSize(HEIGHT_STRING);
-		};
+		}
 	
 		/**
 	  * Returns current document width in pixels (can be smaller than window size because scrollbar reduces it).
@@ -682,11 +707,11 @@ return /******/ (function(modules) { // webpackBootstrap
 		function arrayIndex(array, value, _exactMatch) {
 			for (var i = 0; i < array.length; i++) if (_exactMatch && array[i] === value || !_exactMatch && array[i] == value) return i;
 			return -1;
-		};
+		}
 	
 		function arrayContains(array, item, _exactMatch) {
 			return arrayIndex(array, item, _exactMatch) >= 0;
-		};
+		}
 	
 		function bind(el, eventType, handlerFn) {
 	
@@ -789,7 +814,7 @@ return /******/ (function(modules) { // webpackBootstrap
 			    size = win['inner' + ucSizeType],
 			    docEl = document.documentElement;
 			return size || (docEl && docEl['offset' + ucSizeType] ? docEl['client' + ucSizeType] : screen[sizeType]);
-		};
+		}
 	
 		function isIE() {
 			return navigator.appName == 'Microsoft Internet Explorer';
@@ -799,11 +824,6 @@ return /******/ (function(modules) { // webpackBootstrap
 		function getDocumentSize(sizeType) {
 			var el = !isIE() ? getHtmlElement() : getBodyElement();
 			return el ? el['offset' + ucFirst(sizeType)] : 0;
-		}
-	
-		// adds "mobile" or "desktop" class (once)
-		function detectMobile() {
-			addClass($C.isMobile() ? 'mobile' : 'desktop');
 		}
 	
 		// adds "touch" or "no-touch" class (once)
@@ -934,12 +954,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 				onchangeHandler(e);
 			}
-		};
+		}
 	
 		// on mobile devices is window size changing while scrolling content - because some panels are hiding
 		function checkWindowOrDocumentResize() {
 			if (getWindowWidth() != lastWinWidth || getWindowHeight() != lastWinHeight || getDocumentWidth() != lastDocWidth || getDocumentHeight() != lastDocHeight) solveChanges();
-		};
+		}
 	
 		var isScrolling = FALSE,
 		    lastWasScrolling = isScrolling,
@@ -957,24 +977,24 @@ return /******/ (function(modules) { // webpackBootstrap
 			timeoutedNoScrollProcess = setTimeout(timeoutedNoScroll, AFTER_SCROLL_TIMEOUT);
 			isScrolling = TRUE;
 			solveChanges();
-		};
+		}
 	
 		function timeoutedNoScroll() {
 			setNoScrollingClass();
 			isScrolling = FALSE;
 			solveChanges();
-		};
+		}
 	
 		function setNoScrollingClass() {
 			removeClass(SCROLLING_CLASS);
 			addClass(NO_SCROLLING_CLASS);
-		};
+		}
 	
 		var lastDocumentState = 'uninitialized';
 	
 		function getDocumentState() {
 			return isDocumentLoaded ? 'loaded' : document.readyState;
-		};
+		}
 	
 		var onceLoaded = FALSE;
 	
@@ -1067,7 +1087,7 @@ return /******/ (function(modules) { // webpackBootstrap
 				if (errors.length > 1) console.log('All errors in JS.Responsive onchangeHandler:', errors);
 				throw errors[0];
 			}
-		};
+		}
 	
 		var onChangeListeners = [],
 		    horizontalSizes = [],
@@ -1193,7 +1213,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 			// returns true if something has changed or false if nothing has changed
 			return lastHorizontalBreakPoint != actualHorizontalBreakPoint || lastVerticalBreakPoint != actualVerticalBreakPoint;
-		};
+		}
 	
 		// SOURCE: http://www.quirksmode.org/js/detect.html
 		// no longer supported / updated
@@ -1249,7 +1269,7 @@ return /******/ (function(modules) { // webpackBootstrap
 			add("Mozilla", nua, NULL, "Mozilla"); // for older Netscapes (4-)
 	
 			return agentList;
-		};
+		}
 	
 		/*
 	 // unused function
@@ -1286,11 +1306,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 							if (!isNaN(version)) {
 								if (_justReturnValue) returnValue.version = version;else
-									// if more classes with spaces, adds versions to all classes 
+									// if more classes with spaces, adds versions to all classes
 									// (e.g. msie-v11 wow-v11)
 									addClass(clsName.replace(/( |$)/g, '-v' + parseInt(version) + ' ').trim());
 								if (version != parseInt(version) && !_justReturnValue)
-									// if more classes with spaces, adds versions to all classes 
+									// if more classes with spaces, adds versions to all classes
 									addClass(clsName.replace(/( |$)/g, '-v' + version.toString().replace('.', '-') + ' ').trim());
 							}
 						}
@@ -1314,17 +1334,7 @@ return /******/ (function(modules) { // webpackBootstrap
 				if (classes[i] != EMPTY_STRING && !hasClass(classes[i])) return FALSE;
 			}
 			return TRUE;
-		};
-	
-		function www_detectmobilebrowsers_com() {
-			// from http://detectmobilebrowsers.com/
-			// last update 2015-12-29 --- IMPORTANT: new version redirects page to 'http://detectmobilebrowser.com/mobile', 
-			// so I replaced it by return 'window.location = MOBILE_WEBSITE' with ';'
-			return function (a) {
-				return (/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|iris|kindle|lge |maemo|midp|mmp|mobile.+firefox|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\.(browser|link)|vodafone|wap|windows ce|xda|xiino/i.test(a) || /1207|6310|6590|3gso|4thp|50[1-6]i|770s|802s|a wa|abac|ac(er|oo|s\-)|ai(ko|rn)|al(av|ca|co)|amoi|an(ex|ny|yw)|aptu|ar(ch|go)|as(te|us)|attw|au(di|\-m|r |s )|avan|be(ck|ll|nq)|bi(lb|rd)|bl(ac|az)|br(e|v)w|bumb|bw\-(n|u)|c55\/|capi|ccwa|cdm\-|cell|chtm|cldc|cmd\-|co(mp|nd)|craw|da(it|ll|ng)|dbte|dc\-s|devi|dica|dmob|do(c|p)o|ds(12|\-d)|el(49|ai)|em(l2|ul)|er(ic|k0)|esl8|ez([4-7]0|os|wa|ze)|fetc|fly(\-|_)|g1 u|g560|gene|gf\-5|g\-mo|go(\.w|od)|gr(ad|un)|haie|hcit|hd\-(m|p|t)|hei\-|hi(pt|ta)|hp( i|ip)|hs\-c|ht(c(\-| |_|a|g|p|s|t)|tp)|hu(aw|tc)|i\-(20|go|ma)|i230|iac( |\-|\/)|ibro|idea|ig01|ikom|im1k|inno|ipaq|iris|ja(t|v)a|jbro|jemu|jigs|kddi|keji|kgt( |\/)|klon|kpt |kwc\-|kyo(c|k)|le(no|xi)|lg( g|\/(k|l|u)|50|54|\-[a-w])|libw|lynx|m1\-w|m3ga|m50\/|ma(te|ui|xo)|mc(01|21|ca)|m\-cr|me(rc|ri)|mi(o8|oa|ts)|mmef|mo(01|02|bi|de|do|t(\-| |o|v)|zz)|mt(50|p1|v )|mwbp|mywa|n10[0-2]|n20[2-3]|n30(0|2)|n50(0|2|5)|n7(0(0|1)|10)|ne((c|m)\-|on|tf|wf|wg|wt)|nok(6|i)|nzph|o2im|op(ti|wv)|oran|owg1|p800|pan(a|d|t)|pdxg|pg(13|\-([1-8]|c))|phil|pire|pl(ay|uc)|pn\-2|po(ck|rt|se)|prox|psio|pt\-g|qa\-a|qc(07|12|21|32|60|\-[2-7]|i\-)|qtek|r380|r600|raks|rim9|ro(ve|zo)|s55\/|sa(ge|ma|mm|ms|ny|va)|sc(01|h\-|oo|p\-)|sdk\/|se(c(\-|0|1)|47|mc|nd|ri)|sgh\-|shar|sie(\-|m)|sk\-0|sl(45|id)|sm(al|ar|b3|it|t5)|so(ft|ny)|sp(01|h\-|v\-|v )|sy(01|mb)|t2(18|50)|t6(00|10|18)|ta(gt|lk)|tcl\-|tdg\-|tel(i|m)|tim\-|t\-mo|to(pl|sh)|ts(70|m\-|m3|m5)|tx\-9|up(\.b|g1|si)|utst|v400|v750|veri|vi(rg|te)|vk(40|5[0-3]|\-v)|vm40|voda|vulc|vx(52|53|60|61|70|80|81|83|85|98)|w3c(\-| )|webc|whit|wi(g |nc|nw)|wmlb|wonu|x700|yas\-|your|zeto|zte\-/i.test(a.substr(0, 4))
-				);
-			}(navigator.userAgent || navigator.vendor || win.opera);
-		};
+		}
 	
 		function findAgentDataByBrowserName(browser) {
 	
@@ -1334,7 +1344,7 @@ return /******/ (function(modules) { // webpackBootstrap
 				if (browser == data[i].identity.toLowerCase()) return data[i];
 			}
 			return NULL;
-		};
+		}
 	
 		function addBrowserVersionClasses(agentData, version) {
 	
@@ -1358,7 +1368,7 @@ return /******/ (function(modules) { // webpackBootstrap
 				}
 			}
 			return FALSE;
-		};
+		}
 	
 		// returns device orientation 0, 90, 180, 270 (degrees cross clock wise)
 		function getDeviceOrientationAngle() {
@@ -1386,7 +1396,7 @@ return /******/ (function(modules) { // webpackBootstrap
 			}
 			if (orientation == -90) orientation = 270;
 			return orientation;
-		};
+		}
 	
 		var ORIENTATION_STRING = 'orientation',
 		    UC_ORIENTATION_STRING = ucFirst(ORIENTATION_STRING),
@@ -1448,7 +1458,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 			addClass(DEVICE_ORIENTATION_CLASS + '-' + angle);
 			return retVal;
-		};
+		}
 	
 		var timeBreakPointTimeout, timeBreakPointCurrentName, timeBreakPointsInit,
 		//lastTimeBreakPoints = 0,
@@ -1526,24 +1536,38 @@ return /******/ (function(modules) { // webpackBootstrap
 					if (date < firstDates[index].date) {
 						if (!index) // index === 0
 							return firstDates[3].name;else return firstDates[index - 1].name;
-					} else if (firstDates[++index]) return testPeriod(index);else return firstDates[0].name;;
+					} else if (firstDates[++index]) return testPeriod(index);else return firstDates[0].name;
 				}
 			}
 		}
 	
+		$C._missingFeature = function (feat) {
+			console.log('Feature "' + feat + '" is not available in this bundle!');
+		};
+	
 		var initWasExecuted;
 	
-		function init() {
+		function init(cfg) {
 	
 			// runs only once
 			if (initWasExecuted) return;
 	
 			initWasExecuted = TRUE;
 	
-			detectAgentPlatform();
+			var prop;
+			if (cfg) // init features by config
 	
-			// adds "mobile" or "desktop"
-			detectMobile();
+				for (prop in cfg) {
+					if (cfg.hasOwnProperty(prop)) {
+						if ($C._features[prop]) $C._features[prop]();else $C._missingFeature(prop);
+					}
+				} else // init all available features
+	
+				for (prop in $C._features) {
+					$C._features[prop].call($C);
+				}
+	
+			detectAgentPlatform();
 	
 			// adds "touch" or "no-touch"
 			detectTouch();
@@ -1591,27 +1615,8 @@ return /******/ (function(modules) { // webpackBootstrap
 		// --- INITIALIZATION ------------------------------------------------------------------------------
 		// -------------------------------------------------------------------------------------------------
 	
-		init();
+		if (true) module.exports = window.JS.Responsive;
 	})();
-	
-	if (module) module.exports = window.JS.Responsive;
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)(module)))
-
-/***/ },
-/* 1 */
-/***/ function(module, exports) {
-
-	module.exports = function(module) {
-		if(!module.webpackPolyfill) {
-			module.deprecate = function() {};
-			module.paths = [];
-			// module.parent = undefined by default
-			module.children = [];
-			module.webpackPolyfill = 1;
-		}
-		return module;
-	}
-
 
 /***/ }
 /******/ ])
