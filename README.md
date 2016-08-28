@@ -220,7 +220,7 @@ Javascript methods:
 *   `JS.Responsive.getWindowWidth()` - <var>(Number)</var> returns window width
 *   `JS.Responsive.getWindowHeight()` - <var>(Number)</var> returns window height
 
-Change of window size can be handled via method [addOnChangeHadler](#addOnChangeHadler).
+Change of window size can be handled via method [addOnChangeHandler](#addOnChangeHandler).
 
 
 
@@ -234,23 +234,23 @@ Javascript methods:
 *   `JS.Responsive.getDocumentWidth()` - <var>(Number)</var> returns document width
 *   `JS.Responsive.getDocumentHeight()` - <var>(Number)</var> returns document height
 
-Change of window size can be handled via method [addOnChangeHadler](#addOnChangeHadler).
+Change of window size can be handled via method [addOnChangeHandler](#addOnChangeHandler).
 
 
 
-<dt id="addOnChangeHadler">Handling realtime changes - _addOnChangeHadler_
+<dt id="addOnChangeHandler">Handling realtime changes - _addOnChangeHandler_
 
 
 TODO DOCUMENTATION
 
 Javascript methods:
 
-*   `JS.Responsive.addOnChangeHadler( handlerFn )` - <var>(void)</var> adds listener to watch changes
+*   `JS.Responsive.addOnChangeHandler( handlerFn )` - <var>(void)</var> adds listener to watch changes
 
 Example:
 
 ```js
-JS.Responsive.addOnChangeHadler( function(e){
+JS.Responsive.addOnChangeHandler( function(e){
 
 } );
 ```
