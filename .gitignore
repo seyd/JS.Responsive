@@ -43,4 +43,6 @@ jspm_packages
 
 # not ready for publicity
 demo
+
+# temporary files
 tmp

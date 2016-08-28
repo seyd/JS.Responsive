@@ -74,7 +74,7 @@
 	 *    watchBrowserVersion( browser, version )
 	 *    getPlatformInfo()
 	 *
-	 *    addOnChangeHandler( fn )
+	 *    addOnChangeHadler( fn )
 	 *    removeOnChangeHadler( fn )
 	 *
 	 *    getWindowWidth()
@@ -95,14 +95,14 @@
 	// --- CONFIG --------------------------------------------------------------------------------------
 	// -------------------------------------------------------------------------------------------------
 	
-	var 
-		// how many miliseconds stays class name 'scroll' after scrolling 
+	var
+		// how many miliseconds stays class name 'scroll' after scrolling
 		// (and than switch to 'no-scroll' class name)
 		AFTER_SCROLL_TIMEOUT = 250,
 
 		// (ms) how offen is checking the document size (not just window, but content size)
-		CHECK_DOCUMENT_SIZE_INTERVAL = 500,	
-	
+		CHECK_DOCUMENT_SIZE_INTERVAL = 500,
+
 		// substitution because minimalization (internal variables are shorten in minimizing process)
 		win = window,
 		document = win.document,
@@ -110,7 +110,7 @@
 		screen = win.screen,
 		parseInt = win.parseInt,
 		parseFloat = win.parseFloat,
-		
+
 		TRUE = true,
 		FALSE = false,
 		NULL = null,
@@ -125,20 +125,23 @@
 		LANDSCAPE_STRING = 'landscape',
 		HORIZONTAL_STRING = 'horizontal',
 		VERTICAL_STRING = 'vertical';
-		
+
+    $C._features = {};
 	
 	// -------------------------------------------------------------------------------------------------	
 	// --- PUBLIC --------------------------------------------------------------------------------------
 	// -------------------------------------------------------------------------------------------------
-	
-	/**
-	 * Detects mobile browser - if device is a mobile device.
-	 * @todo Find out if mobile is just a phone or tablet also...
-	 * @returns {Boolean} The return value is not changing in time.
-	 */
-	$C.isMobile = function() {
 
-		return www_detectmobilebrowsers_com();
+	/* Optional files content goes here! */
+
+	/**
+	 * Initialise JS.Responsive
+	 * @param {Object} [config] - Object with key value pairs of features which will be initialised, if not
+	 * provided, all features will be initialised. If you provide empty object, none of features will be initialised.
+	 */
+
+	$C.init = function(config) {
+		this._init(config);
 	};
 
 
@@ -490,7 +493,7 @@
 	
 	/**
 	 * Returns current window width in pixels.
-	 * @function 
+	 * @function
 	 * @returns {Number}
 	 * @example if (JS.Responsive.getWindowWidth()>JS.Responsive.getWindowHeight()) ...
 	 */
@@ -500,7 +503,7 @@
 	
 	/**
 	 * Returns current window height in pixels.
-	 * @function 
+	 * @function
 	 * @returns {Number}
 	 * @example if (JS.Responsive.getWindowWidth()>JS.Responsive.getWindowHeight()) ...
 	 */
@@ -515,7 +518,7 @@
 	 */
 	$C.getDocumentWidth = getDocumentWidth;
 
-	
+
 	/**
 	 * Returns current document height in pixels (can be smaller than window size because scrollbar reduces it).
 	 * @function
@@ -622,12 +625,12 @@
 
 	function forEach( array, fn ) {
 		for (var i = 0; i < array.length; i++)
-			// calls on array (this == array) and 
-			// first argument is current array item, 
+			// calls on array (this == array) and
+			// first argument is current array item,
 			// second argument is current index
 			fn.call(array, array[i], i);
 	}
-	
+
 	/**
 	 * Returns current window width in pixels.
 	 * @returns {Number}.
@@ -635,7 +638,7 @@
 	function getWindowWidth() {
 		return getWindowSize(WIDTH_STRING);
 	}
-	
+
 	/**
 	 * Returns current window height in pixels.
 	 * @returns {Number}.
@@ -644,38 +647,38 @@
 
 		return getWindowSize(HEIGHT_STRING);
 	};
-	
+
 	/**
 	 * Returns current document width in pixels (can be smaller than window size because scrollbar reduces it).
 	 * @returns {Number}
 	 */
 	function getDocumentWidth() {
-		
+
 		return getDocumentSize(WIDTH_STRING);
 	}
 
 	/**
 	 * Returns current document height in pixels (can be smaller than window size because scrollbar reduces it).
 	 * @returns {Number}
-	 */	
+	 */
 	function getDocumentHeight() {
-		
+
 		return getDocumentSize(HEIGHT_STRING);
 	}
-	
+
 	var htmlElement,
 		bodyElement;
-	
+
 	function getElementByTagName( tagName ) {
 		return document.getElementsByTagName(tagName)[0];
 	}
-	
+
 	function getHtmlElement() {
 		if (!htmlElement)
 			htmlElement = getElementByTagName('html');
 		return htmlElement;
 	}
-	
+
 	function getBodyElement() {
 		if (!bodyElement)
 			bodyElement = getElementByTagName('body');
@@ -715,13 +718,13 @@
 			if (!isInTransactionClassMode) {
 				var className = html.className;
 				// remove double spaces and trim
-				var classes = className == EMPTY_STRING ? 
-								[] : 
+				var classes = className == EMPTY_STRING ?
+								[] :
 								className
 									.replace(/ +/g, SPACE_CHAR)
 									.replace(/^\s*|\s*$/g, EMPTY_STRING)
 									.split(SPACE_CHAR);
-									
+
 				if (!arrayContains(classes, name)) {
 					classes.push(name);
 					html.className = classes.join(SPACE_CHAR);
@@ -865,24 +868,24 @@
 		return FALSE;
 	}
 
-	
+
 	var lastWinWidth = 0,
 		lastWinHeight = 0,
 
 		lastDocWidth = 0,
 		lastDocHeight = 0,
-		
+
 		lastHorizontalBreakPoint = EMPTY_STRING,
 		lastVerticalBreakPoint = EMPTY_STRING,
-		
+
 		actualHorizontalBreakPoint = EMPTY_STRING,
 		actualVerticalBreakPoint = EMPTY_STRING,
 
 		lastFocusedState = NULL;
-		
+
 
 	function solveChanges( _forceRecalculate ) {
-		
+
 		var change = FALSE,
 			changedOrientation = detectOrientation();
 		change = change || changedOrientation;
@@ -989,10 +992,10 @@
 
 		SCROLLING_CLASS = 'scrolling',
 		NO_SCROLLING_CLASS = 'no-'+SCROLLING_CLASS,
-		
+
 		timeoutedNoScrollProcess;
-		
-	
+
+
 	function onscrollHandler() {
 // -----------------------------------------------------TODO: if IE8 and less - return;  --- no support of "scroll | no-scroll" ----------------------------------
 		//if (isIE() --- need version detection --------------
@@ -1010,7 +1013,7 @@
 		isScrolling = FALSE;
 		solveChanges();
 	};
-	
+
 	function setNoScrollingClass() {
 		removeClass(SCROLLING_CLASS);
 		addClass(NO_SCROLLING_CLASS);
@@ -1044,7 +1047,7 @@
 			var newState = getDocumentState();
 			addClass('state-' + newState);
 			if (newState == 'loaded')
-				onceLoaded = TRUE;		
+				onceLoaded = TRUE;
 			solveChanges();
 		}
 	}
@@ -1075,7 +1078,7 @@
 
 	var WINDOW_FOCUSED_CLASS = 'window-focused',
 		WINDOW_BLURED_CLASS = 'window-blured';
-		
+
 	function onblurHandler( e ) {
 		isWindowFocused = FALSE;
 		removeClass(WINDOW_FOCUSED_CLASS);
@@ -1124,7 +1127,7 @@
 
 	
 	var onChangeListeners = [],
-	
+
 		horizontalSizes = [],
 		verticalSizes = [];
 
@@ -1163,31 +1166,31 @@
 	
 	
 	var LESS_APPENDIX = '-less',
-		MORE_APPENDIX = '-more'; 
+		MORE_APPENDIX = '-more';
 	
 	function removeAllClasses( sizeAttributeName ) {
-		
+
 		removeClass(sizeAttributeName + LESS_APPENDIX);
 		removeClass(sizeAttributeName);
 		removeClass(sizeAttributeName + MORE_APPENDIX);
 	}
-	
-	
+
+
 	var isDisabledHorizontalBreakPoints = FALSE,
 		isDisabledVerticalBreakPoints = FALSE;
-	
+
 	function removeAllClassesInDimension( sizesArray ) {
-		
+
 		forEach(sizesArray, function( size ){
-			removeAllClasses( size.name );		
+			removeAllClasses( size.name );
 		});
-		
+
 	}
-	
-	
-	
+
+
+
 	function solveSizes() {
-		
+
 		startTransactionClass();
 		
 		var arrays = [],
@@ -1249,7 +1252,7 @@
 				
 				if (!firstIn) {
 					if (sizeIsEqualToCurrentBreakPoint || (sizeIsGreaterThanCurrentBreakPoint && (thisBreakPointIsLastOne || isSmallerThanNextBreakPoint))) {
-						addClass(size.name);						
+						addClass(size.name);
 						if (dimensions[k]==HORIZONTAL_STRING)
 							actualHorizontalBreakPoint = size.name;
 						if (dimensions[k]==VERTICAL_STRING)
@@ -1266,7 +1269,7 @@
 		commitTransactionClass();
 
 		// returns true if something has changed or false if nothing has changed
-		return lastHorizontalBreakPoint != actualHorizontalBreakPoint || 
+		return lastHorizontalBreakPoint != actualHorizontalBreakPoint ||
 		       lastVerticalBreakPoint   != actualVerticalBreakPoint;
 	};
 	
@@ -1280,7 +1283,7 @@
 			nv = navigator.vendor,
 			nall = nua + SPACE_CHAR + np + SPACE_CHAR + nv,
 			agentList = [];
-		
+
 		function add(identity, string, subString, versionSearch, prop) {
 			agentList.push({
 				identity: identity,
@@ -1306,13 +1309,13 @@
 		add("iPod", nall);
 		add("iOS", nall, "iPod");
 		add("PSP", nall); //PlayStation Portable
-		add("Kindle", nall); 
-		add("Linux", np); 
-		add("Maxthon", nua, NULL, TRUE); 
+		add("Kindle", nall);
+		add("Linux", np);
+		add("Maxthon", nua, NULL, TRUE);
 		add("Chrome", nua, NULL, TRUE);
-		add("OmniWeb", nua, NULL, TRUE); 
-		add("Safari", nv, "Apple", "Version/"); 
-		add("Opera", UNDEFINED, NULL, "Version/", win.opera); 
+		add("OmniWeb", nua, NULL, TRUE);
+		add("Safari", nv, "Apple", "Version/");
+		add("Opera", UNDEFINED, NULL, "Version/", win.opera);
 		add("OperaMini", nall, "Opera Mini");
 		add("iCab", nv);
 		add("Konqueror", nv, "KDE");
@@ -1323,9 +1326,9 @@
 		add("MSIE WOW", nua, "WOW64", "rv:");
 		add("Mozilla", nua, "Gecko", "rv");
 		add("Mozilla", nua, NULL, "Mozilla"); // for older Netscapes (4-)
-		
+
 		return agentList;
-		
+
 	};
 
 	/*
@@ -1362,18 +1365,18 @@
 					if (data[i].versionSearch) {
 						var version = parseFloat(navigator.userAgent.split(data[i].versionSearch || data[i].identity)[1], 10);
 
-						if (clsName != 'webkit') 
+						if (clsName != 'webkit')
 							foundBrowser = TRUE; // this is exception for webkit
-						
+
 						if (!isNaN(version)) {
 							if (_justReturnValue)
 								returnValue.version = version;
 							else
-								// if more classes with spaces, adds versions to all classes 
+								// if more classes with spaces, adds versions to all classes
 								// (e.g. msie-v11 wow-v11)
 								addClass(clsName.replace(/( |$)/g, '-v' + parseInt(version)+' ').trim() );
 							if (version != parseInt(version) && !_justReturnValue)
-								// if more classes with spaces, adds versions to all classes 
+								// if more classes with spaces, adds versions to all classes
 								addClass(clsName.replace(/( |$)/g, '-v' + version.toString().replace('.', '-')+' ').trim() );
 						}
 					}
@@ -1399,16 +1402,6 @@
 					return FALSE;
 		}
 		return TRUE;
-	};
-
-
-	function www_detectmobilebrowsers_com() {
-		// from http://detectmobilebrowsers.com/
-		// last update 2015-12-29 --- IMPORTANT: new version redirects page to 'http://detectmobilebrowser.com/mobile', 
-		// so I replaced it by return 'window.location = MOBILE_WEBSITE' with ';'
-		return (function( a ) {
-			return (/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|iris|kindle|lge |maemo|midp|mmp|mobile.+firefox|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\.(browser|link)|vodafone|wap|windows ce|xda|xiino/i.test(a) || /1207|6310|6590|3gso|4thp|50[1-6]i|770s|802s|a wa|abac|ac(er|oo|s\-)|ai(ko|rn)|al(av|ca|co)|amoi|an(ex|ny|yw)|aptu|ar(ch|go)|as(te|us)|attw|au(di|\-m|r |s )|avan|be(ck|ll|nq)|bi(lb|rd)|bl(ac|az)|br(e|v)w|bumb|bw\-(n|u)|c55\/|capi|ccwa|cdm\-|cell|chtm|cldc|cmd\-|co(mp|nd)|craw|da(it|ll|ng)|dbte|dc\-s|devi|dica|dmob|do(c|p)o|ds(12|\-d)|el(49|ai)|em(l2|ul)|er(ic|k0)|esl8|ez([4-7]0|os|wa|ze)|fetc|fly(\-|_)|g1 u|g560|gene|gf\-5|g\-mo|go(\.w|od)|gr(ad|un)|haie|hcit|hd\-(m|p|t)|hei\-|hi(pt|ta)|hp( i|ip)|hs\-c|ht(c(\-| |_|a|g|p|s|t)|tp)|hu(aw|tc)|i\-(20|go|ma)|i230|iac( |\-|\/)|ibro|idea|ig01|ikom|im1k|inno|ipaq|iris|ja(t|v)a|jbro|jemu|jigs|kddi|keji|kgt( |\/)|klon|kpt |kwc\-|kyo(c|k)|le(no|xi)|lg( g|\/(k|l|u)|50|54|\-[a-w])|libw|lynx|m1\-w|m3ga|m50\/|ma(te|ui|xo)|mc(01|21|ca)|m\-cr|me(rc|ri)|mi(o8|oa|ts)|mmef|mo(01|02|bi|de|do|t(\-| |o|v)|zz)|mt(50|p1|v )|mwbp|mywa|n10[0-2]|n20[2-3]|n30(0|2)|n50(0|2|5)|n7(0(0|1)|10)|ne((c|m)\-|on|tf|wf|wg|wt)|nok(6|i)|nzph|o2im|op(ti|wv)|oran|owg1|p800|pan(a|d|t)|pdxg|pg(13|\-([1-8]|c))|phil|pire|pl(ay|uc)|pn\-2|po(ck|rt|se)|prox|psio|pt\-g|qa\-a|qc(07|12|21|32|60|\-[2-7]|i\-)|qtek|r380|r600|raks|rim9|ro(ve|zo)|s55\/|sa(ge|ma|mm|ms|ny|va)|sc(01|h\-|oo|p\-)|sdk\/|se(c(\-|0|1)|47|mc|nd|ri)|sgh\-|shar|sie(\-|m)|sk\-0|sl(45|id)|sm(al|ar|b3|it|t5)|so(ft|ny)|sp(01|h\-|v\-|v )|sy(01|mb)|t2(18|50)|t6(00|10|18)|ta(gt|lk)|tcl\-|tdg\-|tel(i|m)|tim\-|t\-mo|to(pl|sh)|ts(70|m\-|m3|m5)|tx\-9|up(\.b|g1|si)|utst|v400|v750|veri|vi(rg|te)|vk(40|5[0-3]|\-v)|vm40|voda|vulc|vx(52|53|60|61|70|80|81|83|85|98)|w3c(\-| )|webc|whit|wi(g |nc|nw)|wmlb|wonu|x700|yas\-|your|zeto|zte\-/i.test(a.substr(0, 4)));
-		})(navigator.userAgent || navigator.vendor || win.opera);
 	};
 
 	
@@ -1457,14 +1450,14 @@
 		var orientation = 0;
 		// win.orientation is deprecated (https://developer.mozilla.org/en-US/docs/Web/API/Window/orientation)
 		if (typeof win.orientation == 'number') {
-			orientation = win.orientation;			
+			orientation = win.orientation;
 		}
 		else {
 			var //screenOrientation = screen.orientation || screen.mozOrientation || screen.msOrientation;
 				// minification to form:  n=F[We]||F[$+Ee]||F[Z+Ee];
 				// in compare to:         n=screen.orientation||screen.mozOrientation||screen.msOrientation;
-				screenOrientation = screen[ORIENTATION_STRING] || 
-									screen[MOZ_PREFIX + UC_ORIENTATION_STRING] || 
+				screenOrientation = screen[ORIENTATION_STRING] ||
+									screen[MOZ_PREFIX + UC_ORIENTATION_STRING] ||
 									screen[MS_PREFIX + UC_ORIENTATION_STRING];
 			if (screenOrientation) {
 				if (typeof screenOrientation == 'string') {
@@ -1494,12 +1487,12 @@
 		LANDSCAPE_APPENDIX = '-'+LANDSCAPE_STRING,
 		PORTRAIT_APPENDIX = '-'+PORTRAIT_STRING,
 		PRIMARY_APPENDIX = '-primary',
-		SECONDARY_APPENDIX = '-secondary',		
+		SECONDARY_APPENDIX = '-secondary',
 		ANGLE_0_APPENDIX = '-0',
 		ANGLE_90_APPENDIX = '-90',
 		ANGLE_180_APPENDIX = '-180',
 		ANGLE_270_APPENDIX = '-270';
-	
+
 	// adds "device-orientation-portrait" or "device-orientation-landscape" class  and  "device-orientation-0", "device-orientation-90", "device-orientation-180" or "device-orientation-270" class
 	function detectDeviceOrientation() {
 		var angle = getDeviceOrientationAngle(),
@@ -1549,7 +1542,7 @@
 		addClass(DEVICE_ORIENTATION_CLASS+'-'+angle);
 		return retVal;
 	};
-	
+
 	var timeBreakPointTimeout,
 		timeBreakPointCurrentName,
 		timeBreakPointsInit,
@@ -1648,10 +1641,14 @@
 			}
 		}
 	}
-	
+
+    $C._missingFeature = function(feat) {
+        console.log('Feature "' + feat + '" is not available in this bundle!');
+    };
+
 	var initWasExecuted;
-	
-	function init() {
+
+	function init(cfg) {
 
 		// runs only once
 		if (initWasExecuted)
@@ -1659,11 +1656,22 @@
 
 		initWasExecuted = TRUE;
 
+		var prop;
+		if (cfg) // init features by config
+
+			for (prop in cfg) {
+				if (cfg.hasOwnProperty(prop)) {
+					if ($C._features[prop])  $C._features[prop]();
+					else  $C._missingFeature(prop);
+				}
+			}
+		else // init all available features
+
+			for (prop in $C._features) {
+				$C._features[prop].call($C);
+			}
 
 		detectAgentPlatform();
-
-		// adds "mobile" or "desktop"
-		detectMobile();
 
 		// adds "touch" or "no-touch"
 		detectTouch();
@@ -1709,14 +1717,12 @@
 		// and run it once
 		solveChanges();
 	}
-	
+
 	// -------------------------------------------------------------------------------------------------
 	// --- INITIALIZATION ------------------------------------------------------------------------------
 	// -------------------------------------------------------------------------------------------------
-	
-	init();
+
+    if(typeof module != 'undefined')
+        module.exports = window.JS.Responsive;
 
 })();
-
-if (module)
-	module.exports = window.JS.Responsive;

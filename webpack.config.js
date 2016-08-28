@@ -15,7 +15,7 @@ if (env === 'build') {
 }
 
 var config = {
-  entry: __dirname + '/src/JS.Responsive.source.js',
+  entry: __dirname + '/tmp/JS.Responsive.entry.js',
   devtool: 'source-map',
   output: {
     path: __dirname + '/dist',
@@ -42,7 +42,8 @@ var config = {
     root: path.resolve('./src'),
     extensions: ['', '.js']
   },
-  plugins: plugins
+  plugins: plugins,
+  watch: true
 };
 
 module.exports = config;
