@@ -417,11 +417,10 @@
 	 */
 	$C.watchBrowserVersion = function( browser, version ) {
 
-		var foundVersion,
-			agentData = findAgentDataByBrowserName( browser );
+		var agentData = findAgentDataByBrowserName( browser );
 			
 		if (agentData)
-			foundVersion = addBrowserVersionClasses( agentData, version );
+			addBrowserVersionClasses( agentData, version );
 		else
 			throw new Error("Browser '" + browser + "' was not found.");
 
