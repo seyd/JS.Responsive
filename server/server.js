@@ -30,25 +30,40 @@ app.use(express.static(path.resolve( __dirname + '/../demo')));
 
 // /download?cfg=1234
 app.get('/download', function (req, res) {
-    console.log('req.query', req.query.cfg);
+    var cfg = req.query.cfg && (+req.query.cfg).toString(2); // convert decimal string to binary string
+    console.log('cfg: ', cfg);
 
     var selectedFilesList = [],
         skippedFilesList = [];
 
-    // tmp clone
-    selectedFilesList = optionalFilesList.slice(0);
+    if(cfg)
+        optionalFilesList.forEach(function (feature, i) {
+            if(parseInt(cfg[i])) // get 0 or 1 from binary string
+                selectedFilesList.push(feature);
+            else
+                skippedFilesList.push(feature);
+        });
+    else
+        selectedFilesList = optionalFilesList.slice(0); // TODO: Replace by defaultList
 
     fs.readFile( __dirname + '/../src/JS.Responsive.source.js', 'utf8', function (err,JSRSource) {
         if (err) return console.log(err);
 
-        fs_readFiles(selectedFilesList, function (err, data) {
-            if (err) return console.log(err);
+        if(selectedFilesList.length)
+            fs_readFiles(selectedFilesList, function (err, data) {
+                if (err) return console.log(err);
 
-            var concat = '';
-            data.forEach(function (content) {
-                concat += content;
+                var concat = '';
+                data.forEach(function (content) {
+                    concat += content;
+                });
+
+                writeResult(concat);
             });
+        else
+            writeResult('// TODO: missing features console message');
 
+        function writeResult(concat) {
             var result = JSRSource.replace(/\/\* Optional files content goes here! \*\//g, concat);
 
             fs.writeFile( __dirname + '/../tmp/JS.Responsive.entry.js', result, 'utf8', function (err) {
@@ -62,7 +77,7 @@ app.get('/download', function (req, res) {
                     res.sendFile(path.resolve(__dirname + '/../dist/JS.Responsive.js'));
                 });
             });
-        });
+        }
     });
 });
 app.get('/dist/*', function (req, res) {
