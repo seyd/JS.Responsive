@@ -7,9 +7,14 @@ var purgeCache = require("./../utils/purgeCache"),
     server = http.Server(app),
     webpack = require("webpack"),
     webpackConfig = require("./../webpack.config"),
-    optionalFilesList = [
-        '/../src/isMobile.js'
-    ];
+    featuresFilesList = [
+            { file:'isMobile', methods:'isMobile' }
+        ].map(function fillPaths(feature) { // processing raw list
+            return {
+                file:'/../src/' + feature.file + '.js',
+                methods: Array.isArray(feature.methods) ? feature.methods : [feature.methods]
+            }
+        });
 
 purgeCache("./../webpack.config");
 
@@ -36,32 +41,38 @@ app.get('/download', function (req, res) {
     var selectedFilesList = [],
         skippedFilesList = [];
 
+    cfg = cfg.substr(1); // first place is always 1 as protection of loosing leading zeros
+
     if(cfg)
-        optionalFilesList.forEach(function (feature, i) {
+        featuresFilesList.forEach(function (feature, i) {
             if(parseInt(cfg[i])) // get 0 or 1 from binary string
-                selectedFilesList.push(feature);
+                selectedFilesList.push(feature.file);
             else
-                skippedFilesList.push(feature);
+                skippedFilesList.push(feature.methods);
         });
     else
-        selectedFilesList = optionalFilesList.slice(0); // TODO: Replace by defaultList
+        selectedFilesList = featuresFilesList.slice(0); // TODO: Replace by defaultList
 
     fs.readFile( __dirname + '/../src/JS.Responsive.source.js', 'utf8', function (err,JSRSource) {
         if (err) return console.log(err);
+
+        var missing = skippedFilesList.reduce(function (result, methods) {
+            return result + methods.reduce(function (methodsResult, method) {
+                return methodsResult + '\r\n $C.' + method + ' = missingMethod("' + method + '");';
+            }, '');
+        }, '');
 
         if(selectedFilesList.length)
             fs_readFiles(selectedFilesList, function (err, data) {
                 if (err) return console.log(err);
 
-                var concat = '';
-                data.forEach(function (content) {
-                    concat += content;
-                });
+                var concat = data.join('\r\n'); // new line separator
+                concat += missing;
 
                 writeResult(concat);
             });
         else
-            writeResult('// TODO: missing features console message');
+            writeResult(missing);
 
         function writeResult(concat) {
             var result = JSRSource.replace(/\/\* Optional files content goes here! \*\//g, concat);

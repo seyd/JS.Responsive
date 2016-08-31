@@ -1635,9 +1635,12 @@
 		}
 	}
 
-    $C._missingFeature = function(feat) {
-        console.log('Feature "' + feat + '" is not available in this bundle!');
-    };
+	// missingMethod function is used in bundle! Do NOT remove!!
+    function missingMethod(feat) {
+    	return function(){
+			throw Error('Method "' + feat + '" is not available in this bundle!');
+		}
+    }
 
 	var initWasExecuted;
 
