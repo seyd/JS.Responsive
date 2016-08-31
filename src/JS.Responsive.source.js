@@ -125,12 +125,17 @@
 		LANDSCAPE_STRING = 'landscape',
 		HORIZONTAL_STRING = 'horizontal',
 		VERTICAL_STRING = 'vertical';
-
-    $C._features = {};
 	
 	// -------------------------------------------------------------------------------------------------	
 	// --- PUBLIC --------------------------------------------------------------------------------------
 	// -------------------------------------------------------------------------------------------------
+
+	/**
+	 * @property {object} - List of included features in current bundle, each property represent one feature and value is initialisation
+	 * function of the feature, so it can be initialised later
+	 */
+
+	$C.features = {};
 
 	/* Optional files content goes here! */
 
@@ -1635,7 +1640,6 @@
 		}
 	}
 
-	// missingMethod function is used in bundle! Do NOT remove!!
     function missingMethod(feat) {
     	return function(){
 			throw Error('Method "' + feat + '" is not available in this bundle!');
@@ -1657,14 +1661,14 @@
 
 			for (prop in cfg) {
 				if (cfg.hasOwnProperty(prop)) {
-					if ($C._features[prop])  $C._features[prop]();
-					else  $C._missingFeature(prop);
+					if ($C.features[prop])  $C.features[prop]();
+					else  missingMethod(prop)();
 				}
 			}
 		else // init all available features
 
-			for (prop in $C._features) {
-				$C._features[prop].call($C);
+			for (prop in $C.features) {
+				$C.features[prop].call($C);
 			}
 
 		detectAgentPlatform();

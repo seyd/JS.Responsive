@@ -1,26 +1,18 @@
-var webpack = require('webpack');
-var UglifyJsPlugin = webpack.optimize.UglifyJsPlugin;
-var path = require('path');
-var env = require('yargs').argv.mode;
+var webpack = require('webpack'),
+  path = require('path');
 
-var libraryName = 'JS.Responsive';
-
-var plugins = [], outputFile;
-
-if (env === 'build') {
-  plugins.push(new UglifyJsPlugin({ minimize: true }));
-  outputFile = libraryName + '.min.js';
-} else {
-  outputFile = libraryName + '.js';
-}
+var entry = __dirname + '/tmp/JS.Responsive.entryDefault.js';
 
 var config = {
-  entry: __dirname + '/tmp/JS.Responsive.entry.js',
+  entry: {
+    "JS.Responsive": entry,
+    "JS.Responsive.min": entry,
+  },
   devtool: 'source-map',
   output: {
     path: __dirname + '/dist',
-    filename: outputFile,
-    library: libraryName,
+    filename: '[name].js',
+    library: 'JS.Responsive',
     libraryTarget: 'umd',
     umdNamedDefine: true
   },
@@ -42,8 +34,12 @@ var config = {
     root: path.resolve('./src'),
     extensions: ['', '.js']
   },
-  plugins: plugins,
-  watch: true
+  plugins: [
+    new webpack.optimize.UglifyJsPlugin({
+      include: /\.min\.js$/,
+      minimize: true
+    })
+  ]
 };
 
 module.exports = config;

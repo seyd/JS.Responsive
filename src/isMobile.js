@@ -18,4 +18,4 @@ detectMobile = function() {
     addClass(www_detectmobilebrowsers_com() ? 'mobile' : 'desktop');
 };
 
-$C._features.mobile = detectMobile;
+$C.features.mobile = detectMobile;

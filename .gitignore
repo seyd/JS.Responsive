@@ -46,3 +46,7 @@ demo
 
 # temporary files
 tmp
+/dist/JS.Responsive.custom.js
+/dist/JS.Responsive.custom.min.js.map
+/dist/JS.Responsive.custom.min.js
+/dist/JS.Responsive.custom.js.map
