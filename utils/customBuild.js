@@ -2,7 +2,8 @@ var fs = require('fs'),
     webpack = require("webpack"),
     webpackConfig = require("./../webpack.config"),
     featuresList = [
-        { file:'isMobile', methods:'isMobile' }
+        { file:'isMobile', methods:'isMobile' },
+        { file:'detectAgent', methods:['watchBrowserVersion', 'getPlatformInfo', 'getAgentTags'] }
     ].map(function processList(feature) { // processing raw list
         return {
             file:'/../src/' + feature.file + '.js',
