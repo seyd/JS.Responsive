@@ -151,16 +151,6 @@
 
 
 	/**
-	 * Detects if current device supports touch events.
-	 * @returns {Boolean} The return value is not changing in time.
-	 */
-	$C.isTouch = function() {
-
-		return 'ontouchstart' in document.documentElement;
-	};
-
-
-	/**
 	 * Detects if current device has a high resolution display (such as retina).
 	 * @returns {Boolean} The return value is not changing in time.
 	 */
@@ -793,12 +783,6 @@
 		var el = !isIE() ? getHtmlElement() : getBodyElement();
 		return el ? el['offset' + ucFirst(sizeType)] : 0;
 	}
-
-	// adds "touch" or "no-touch" class (once)
-	function detectTouch() {
-		addClass($C.isTouch() ? 'touch' : 'no-touch');
-	}
-
 
 	// adds "hires-display" or "normal-display" class (once)
 	function detectHiResDisplay() {
@@ -1471,9 +1455,6 @@
 			for (prop in $C.features) {
 				$C.features[prop].call($C);
 			}
-
-		// adds "touch" or "no-touch"
-		detectTouch();
 
 		// adds "retina-display" or "normal-display"
 		detectHiResDisplay();

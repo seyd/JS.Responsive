@@ -49,7 +49,7 @@ buildFullAndDefault();
 
 function buildFullAndDefault() {
     customBuild(false, 'full', function () {
-        customBuild('111', 'default');
+        customBuild(false, 'default'); // temporary default is same as full
     });
 }
 

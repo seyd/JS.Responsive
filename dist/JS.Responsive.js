@@ -247,6 +247,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 			return detectAgentPlatform(TRUE);
 		};
+		/**
+	  * Returns browser tags
+	  * @returns {Array} all browser tags strings in Array.
+	  **/
+	
+		$C.getAgentTags = getAgentTags;
 	
 		function findAgentDataByBrowserName(browser) {
 	
@@ -257,12 +263,6 @@ return /******/ (function(modules) { // webpackBootstrap
 			}
 			return NULL;
 		}
-		/**
-	  * Returns browser tags
-	  * @returns {Array} all browser tags strings in Array.
-	  **/
-	
-		$C.getAgentTags = getAgentTags;
 	
 		function addBrowserVersionClasses(agentData, version) {
 	
@@ -402,15 +402,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 		$C.init = function (config) {
 			init(config);
-		};
-	
-		/**
-	  * Detects if current device supports touch events.
-	  * @returns {Boolean} The return value is not changing in time.
-	  */
-		$C.isTouch = function () {
-	
-			return 'ontouchstart' in document.documentElement;
 		};
 	
 		/**
@@ -973,11 +964,6 @@ return /******/ (function(modules) { // webpackBootstrap
 		function getDocumentSize(sizeType) {
 			var el = !isIE() ? getHtmlElement() : getBodyElement();
 			return el ? el['offset' + ucFirst(sizeType)] : 0;
-		}
-	
-		// adds "touch" or "no-touch" class (once)
-		function detectTouch() {
-			addClass($C.isTouch() ? 'touch' : 'no-touch');
 		}
 	
 		// adds "hires-display" or "normal-display" class (once)
@@ -1575,9 +1561,6 @@ return /******/ (function(modules) { // webpackBootstrap
 				for (prop in $C.features) {
 					$C.features[prop].call($C);
 				}
-	
-			// adds "touch" or "no-touch"
-			detectTouch();
 	
 			// adds "retina-display" or "normal-display"
 			detectHiResDisplay();

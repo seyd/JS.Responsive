@@ -37,6 +37,13 @@ $C.getPlatformInfo = function() {
 
     return detectAgentPlatform(TRUE);
 };
+/**
+ * Returns browser tags
+ * @returns {Array} all browser tags strings in Array.
+ **/
+
+$C.getAgentTags = getAgentTags;
+
 
 function findAgentDataByBrowserName( browser ) {
 
@@ -48,13 +55,6 @@ function findAgentDataByBrowserName( browser ) {
     }
     return NULL;
 }
-/**
- * Returns browser tags
- * @returns {Array} all browser tags strings in Array.
- **/
-
-$C.getAgentTags = getAgentTags;
-
 
 function addBrowserVersionClasses( agentData, version ) {
 
