@@ -38,7 +38,7 @@ app.get('/', function (req, res) {
     res.sendFile(path.resolve(__dirname + '/../demo/demo.html'));
 });
 
-fs.watchFile(path.resolve(__dirname + '/../src/JS.Responsive.source.js'), function(){
+fs.watch(path.resolve(__dirname + '/../src/'), function(){
     "use strict";
     customBuild(false, 'full', function () {
         customBuild('1', 'default');

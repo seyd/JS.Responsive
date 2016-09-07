@@ -259,7 +259,7 @@ return /******/ (function(modules) { // webpackBootstrap
 		}
 		/**
 	  * Returns browser tags
-	  * @returns {Array}
+	  * @returns {Array} all browser tags strings in Array.
 	  **/
 	
 		$C.getAgentTags = getAgentTags;

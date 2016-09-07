@@ -9,10 +9,17 @@ var fs = require('fs'),
             file:'/../src/' + feature.file + '.js',
             methods: Array.isArray(feature.methods) ? feature.methods : [feature.methods]
         }
-    });
+    }),
+    running = {};
 
 module.exports = function(cfg, buildName, callback){
     "use strict";
+
+    if(running[buildName]) // do start same build twice in a time
+        return;
+    else
+        running[buildName] = true;
+
     var selectedFilesList = [],
         skippedFilesList = [];
 
@@ -76,6 +83,8 @@ module.exports = function(cfg, buildName, callback){
                     // console.log("webpack stats", stats);
                     if(callback)
                         callback();
+
+                    running[buildName] = false;
                 });
             });
         }
