@@ -44,6 +44,9 @@ $C.getPlatformInfo = function() {
 
 $C.getAgentTags = getAgentTags;
 
+$C.features.detectAgent = detectAgentPlatform;
+
+// Declarations:
 
 function findAgentDataByBrowserName( browser ) {
 
@@ -195,6 +198,3 @@ function getAgentData() {
      tags.push(data[i].identity.toLowerCase());
      return tags;
  }
-
-
-$C.features.agentPlatform = detectAgentPlatform;

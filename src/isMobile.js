@@ -12,10 +12,10 @@ function www_detectmobilebrowsers_com() {
     })(navigator.userAgent || navigator.vendor || window.opera);
 }
 
+$C.features.mobile = detectMobile;
+
 // adds "mobile" or "desktop" class (once)
 function detectMobile() {
 
     addClass(www_detectmobilebrowsers_com() ? 'mobile' : 'desktop');
 }
-
-$C.features.mobile = detectMobile;

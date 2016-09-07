@@ -151,16 +151,6 @@
 
 
 	/**
-	 * Detects if current device has a high resolution display (such as retina).
-	 * @returns {Boolean} The return value is not changing in time.
-	 */
-	$C.isHiResDisplay = function() {
-
-		return win.devicePixelRatio > 1;
-	};
-
-
-	/**
 	 * Returns if current device has display landscape oriented (width is larger than height).
 	 * @returns {Boolean}
 	 */
@@ -782,13 +772,6 @@
 	function getDocumentSize(sizeType) {
 		var el = !isIE() ? getHtmlElement() : getBodyElement();
 		return el ? el['offset' + ucFirst(sizeType)] : 0;
-	}
-
-	// adds "hires-display" or "normal-display" class (once)
-	function detectHiResDisplay() {
-		var ratio = win.devicePixelRatio;
-		addClass(ratio>1 ? 'hires-display' : 'normal-display');
-		addClass('display-pixel-ratio-'+ratio);
 	}
 
 
@@ -1455,9 +1438,6 @@
 			for (prop in $C.features) {
 				$C.features[prop].call($C);
 			}
-
-		// adds "retina-display" or "normal-display"
-		detectHiResDisplay();
 
 		// adds "portrait" or "landscape"
 		detectOrientation();

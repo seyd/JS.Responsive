@@ -8,9 +8,9 @@ $C.isTouch = function() {
     return 'ontouchstart' in document.documentElement;
 };
 
+$C.features.detectTouch = detectTouch;
+
 // adds "touch" or "no-touch" class (once)
 function detectTouch() {
     addClass($C.isTouch() ? 'touch' : 'no-touch');
 }
-
-$C.features.agentPlatform = detectTouch;

@@ -205,13 +205,13 @@ return /******/ (function(modules) { // webpackBootstrap
 			}(navigator.userAgent || navigator.vendor || window.opera);
 		}
 	
+		$C.features.mobile = detectMobile;
+	
 		// adds "mobile" or "desktop" class (once)
 		function detectMobile() {
 	
 			addClass(www_detectmobilebrowsers_com() ? 'mobile' : 'desktop');
 		}
-	
-		$C.features.mobile = detectMobile;
 		/**
 	  * Set watching given browser and its version
 	  * @param {String} browser - browser name, see function getAgentData() attribute "identity"
@@ -253,6 +253,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	  **/
 	
 		$C.getAgentTags = getAgentTags;
+	
+		$C.features.detectAgent = detectAgentPlatform;
+	
+		// Declarations:
 	
 		function findAgentDataByBrowserName(browser) {
 	
@@ -392,8 +396,6 @@ return /******/ (function(modules) { // webpackBootstrap
 			return tags;
 		}
 	
-		$C.features.agentPlatform = detectAgentPlatform;
-	
 		/**
 	  * Initialise JS.Responsive
 	  * @param {Object} [config] - Object with key value pairs of features which will be initialised, if not
@@ -402,15 +404,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 		$C.init = function (config) {
 			init(config);
-		};
-	
-		/**
-	  * Detects if current device has a high resolution display (such as retina).
-	  * @returns {Boolean} The return value is not changing in time.
-	  */
-		$C.isHiResDisplay = function () {
-	
-			return win.devicePixelRatio > 1;
 		};
 	
 		/**
@@ -964,13 +957,6 @@ return /******/ (function(modules) { // webpackBootstrap
 		function getDocumentSize(sizeType) {
 			var el = !isIE() ? getHtmlElement() : getBodyElement();
 			return el ? el['offset' + ucFirst(sizeType)] : 0;
-		}
-	
-		// adds "hires-display" or "normal-display" class (once)
-		function detectHiResDisplay() {
-			var ratio = win.devicePixelRatio;
-			addClass(ratio > 1 ? 'hires-display' : 'normal-display');
-			addClass('display-pixel-ratio-' + ratio);
 		}
 	
 		// adds "portrait" or "landscape" class
@@ -1561,9 +1547,6 @@ return /******/ (function(modules) { // webpackBootstrap
 				for (prop in $C.features) {
 					$C.features[prop].call($C);
 				}
-	
-			// adds "retina-display" or "normal-display"
-			detectHiResDisplay();
 	
 			// adds "portrait" or "landscape"
 			detectOrientation();
