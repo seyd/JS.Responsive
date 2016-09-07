@@ -407,24 +407,6 @@ return /******/ (function(modules) { // webpackBootstrap
 		};
 	
 		/**
-	  * Returns if current device has display landscape oriented (width is larger than height).
-	  * @returns {Boolean}
-	  */
-		$C.isLandscape = function () {
-	
-			return getWindowWidth() > getWindowHeight();
-		};
-	
-		/**
-	  * Returns if current device has display portrait oriented (height is larger than width).
-	  * @returns {Boolean}
-	  */
-		$C.isPortrait = function () {
-	
-			return !this.isLandscape();
-		};
-	
-		/**
 	  * Returns if document is in state that everything is loaded.
 	  * @returns {Boolean}
 	  */
@@ -957,22 +939,6 @@ return /******/ (function(modules) { // webpackBootstrap
 		function getDocumentSize(sizeType) {
 			var el = !isIE() ? getHtmlElement() : getBodyElement();
 			return el ? el['offset' + ucFirst(sizeType)] : 0;
-		}
-	
-		// adds "portrait" or "landscape" class
-		function detectOrientation() {
-			var landscape = $C.isLandscape();
-			if (landscape && (hasClass(PORTRAIT_STRING) || !hasClass(LANDSCAPE_STRING))) {
-				removeClass(PORTRAIT_STRING);
-				addClass(LANDSCAPE_STRING);
-				return TRUE;
-			}
-			if (!landscape && (hasClass(LANDSCAPE_STRING) || !hasClass(PORTRAIT_STRING))) {
-				removeClass(LANDSCAPE_STRING);
-				addClass(PORTRAIT_STRING);
-				return TRUE;
-			}
-			return FALSE;
 		}
 	
 		var lastWinWidth = 0,
@@ -1547,9 +1513,6 @@ return /******/ (function(modules) { // webpackBootstrap
 				for (prop in $C.features) {
 					$C.features[prop].call($C);
 				}
-	
-			// adds "portrait" or "landscape"
-			detectOrientation();
 	
 			// adds "device-orientation-portrait" or "device-orientation-landscape" class  and  "device-orientation-0", "device-orientation-90", "device-orientation-180" or "device-orientation-270" class
 			detectDeviceOrientation();
