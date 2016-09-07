@@ -40,10 +40,18 @@ app.get('/', function (req, res) {
 
 fs.watch(path.resolve(__dirname + '/../src/'), function(){
     "use strict";
-    customBuild(false, 'full', function () {
-        customBuild('1', 'default');
-    });
+    buildFullAndDefault();
 });
+
+buildFullAndDefault();
+
+// DECLARATIONS:
+
+function buildFullAndDefault() {
+    customBuild(false, 'full', function () {
+        customBuild('111', 'default');
+    });
+}
 
 
 

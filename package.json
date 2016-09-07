@@ -4,6 +4,7 @@
   "description": "Tool for responsive styling and responsive javascript coding.",
   "main": "dist/JS.Responsive.js",
   "scripts": {
+    "dev": "node server/server.js",
     "build": "webpack --progress --colors",
     "test": "mocha --compilers js:babel-core/register --colors -w ./test/*.spec.js"
   },
