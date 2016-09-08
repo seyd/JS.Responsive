@@ -1371,6 +1371,40 @@
 		}
 	}
 
+	var listeners = [];
+
+	$C.on = function (type, fn) {
+		if(!listeners[type])
+			listeners[type] = [];
+		listeners[type].push(fn);
+	};
+
+	$C.off = function (type, fn) {
+		if(!listeners[type])
+			return;
+		var typeListeners = listeners[type],
+			index = typeListeners.indexOf(fn);
+		if(index != -1)
+			typeListeners.splice(index,1);
+	};
+
+	$C.emit = function (type) {
+
+		// https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Functions/arguments
+		var args = (arguments.length === 1 ? [arguments[0]] : Array.apply(null, arguments));
+			args.unshift(type); // first argument is event type
+
+		if(listeners[type])
+			listeners[type].forEach(applyEach);
+		if(listeners['all']) // listeners to all event types
+			listeners['all'].forEach(applyEach);
+
+		function applyEach(listener) {
+			listener.apply(listener, args);
+		}
+
+	};
+
     function missingMethod(feat) {
     	return function(){
 			throw Error('Method "' + feat + '" is not available in this bundle!');

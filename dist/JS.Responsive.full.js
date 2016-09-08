@@ -397,6 +397,39 @@ return /******/ (function(modules) { // webpackBootstrap
 		}
 	
 		/**
+	  * Detects if current device supports touch events.
+	  * @returns {Boolean} The return value is not changing in time.
+	  */
+		$C.isTouch = function () {
+	
+			return 'ontouchstart' in document.documentElement;
+		};
+	
+		$C.features.detectTouch = detectTouch;
+	
+		// adds "touch" or "no-touch" class (once)
+		function detectTouch() {
+			addClass($C.isTouch() ? 'touch' : 'no-touch');
+		}
+		/**
+	  * Detects if current device has a high resolution display (such as retina).
+	  * @returns {Boolean} The return value is not changing in time.
+	  */
+		$C.isHiResDisplay = function () {
+	
+			return win.devicePixelRatio > 1;
+		};
+	
+		$C.features.detectHiRes = detectHiResDisplay;
+	
+		// adds "hires-display" or "normal-display" class (once)
+		function detectHiResDisplay() {
+			var ratio = win.devicePixelRatio;
+			addClass(ratio > 1 ? 'hires-display' : 'normal-display');
+			addClass('display-pixel-ratio-' + ratio);
+		}
+	
+		/**
 	  * Initialise JS.Responsive
 	  * @param {Object} [config] - Object with key value pairs of features which will be initialised, if not
 	  * provided, all features will be initialised. If you provide empty object, none of features will be initialised.
@@ -1485,6 +1518,35 @@ return /******/ (function(modules) { // webpackBootstrap
 				}
 			}
 		}
+	
+		var listeners = [];
+	
+		$C.on = function (type, fn) {
+			if (!listeners[type]) listeners[type] = [];
+			listeners[type].push(fn);
+		};
+	
+		$C.off = function (type, fn) {
+			if (!listeners[type]) return;
+			var typeListeners = listeners[type],
+			    index = typeListeners.indexOf(fn);
+			if (index != -1) typeListeners.splice(index, 1);
+		};
+	
+		$C.emit = function (type) {
+	
+			// https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Functions/arguments
+			var args = arguments.length === 1 ? [arguments[0]] : Array.apply(null, arguments);
+			args.unshift(type); // first argument is event type
+	
+			if (listeners[type]) listeners[type].forEach(applyEach);
+			if (listeners['all']) // listeners to all event types
+				listeners['all'].forEach(applyEach);
+	
+			function applyEach(listener) {
+				listener.apply(listener, args);
+			}
+		};
 	
 		function missingMethod(feat) {
 			return function () {
