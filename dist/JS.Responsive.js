@@ -428,6 +428,47 @@ return /******/ (function(modules) { // webpackBootstrap
 			addClass(ratio > 1 ? 'hires-display' : 'normal-display');
 			addClass('display-pixel-ratio-' + ratio);
 		}
+		/**
+	  * Returns if current device has display landscape oriented (width is larger than height).
+	  * @returns {Boolean}
+	  */
+		$C.isLandscape = function () {
+	
+			return getWindowWidth() > getWindowHeight();
+		};
+	
+		/**
+	  * Returns if current device has display portrait oriented (height is larger than width).
+	  * @returns {Boolean}
+	  */
+		$C.isPortrait = function () {
+	
+			return !this.isLandscape();
+		};
+	
+		$C.features.detectOrientation = initDetectOrientation;
+	
+		// init detection
+		function initDetectOrientation() {
+			detectOrientation();
+			bind(window, 'orientationchange', detectOrientation);
+		}
+	
+		// adds "portrait" or "landscape" class
+		function detectOrientation() {
+			var landscape = $C.isLandscape(),
+			    newValue = landscape ? LANDSCAPE_STRING : PORTRAIT_STRING,
+			    oldValue = landscape ? PORTRAIT_STRING : LANDSCAPE_STRING;
+	
+			$C.emit('changedOrientation', newValue, oldValue);
+	
+			if (!hasClass(newValue)) {
+				addClass(newValue);
+				removeClass(oldValue);
+			}
+	
+			return newValue;
+		}
 	
 		/**
 	  * Initialise JS.Responsive
@@ -986,9 +1027,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 		function solveChanges(_forceRecalculate) {
 	
-			var change = FALSE,
-			    changedOrientation = detectOrientation();
-			change = change || changedOrientation;
+			var change = FALSE;
 	
 			var changedDeviceOrientation = detectDeviceOrientation();
 			change = change || changedDeviceOrientation;
@@ -1043,7 +1082,6 @@ return /******/ (function(modules) { // webpackBootstrap
 				var e = {
 					changedWindowSize: changedWinSize,
 					changedDocumentSize: changedDocSize,
-					changedOrientation: changedOrientation,
 					changedDeviceOrientation: changedDeviceOrientation,
 	
 					changedBreakPointHorizontal: changedBreakPointHorizontal,
@@ -1537,7 +1575,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 			// https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Functions/arguments
 			var args = arguments.length === 1 ? [arguments[0]] : Array.apply(null, arguments);
-			args.unshift(type); // first argument is event type
+			args.unshift(); // first argument is event type
 	
 			if (listeners[type]) listeners[type].forEach(applyEach);
 			if (listeners['all']) // listeners to all event types
@@ -1581,7 +1619,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 			// register onresizeHandler
 			bind(window, 'resize', solveChanges);
-			bind(window, 'orientationchange', solveChanges);
 			bind(window, 'scroll', onscrollHandler);
 	
 			// for mobiles - on mobile devices is window size changing while scrolling content - because some panels are hiding

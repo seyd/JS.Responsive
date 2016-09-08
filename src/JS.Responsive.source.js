@@ -772,9 +772,7 @@
 
 	function solveChanges( _forceRecalculate ) {
 
-		var change = FALSE,
-			changedOrientation = detectOrientation();
-		change = change || changedOrientation;
+		var change = FALSE;
 
 		var changedDeviceOrientation = detectDeviceOrientation();
 		change = change || changedDeviceOrientation;
@@ -830,7 +828,6 @@
 			var e = {
 				changedWindowSize: changedWinSize,
 				changedDocumentSize: changedDocSize,
-				changedOrientation: changedOrientation,
 				changedDeviceOrientation: changedDeviceOrientation,
 				
 				changedBreakPointHorizontal: changedBreakPointHorizontal,
@@ -1392,7 +1389,7 @@
 
 		// https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Functions/arguments
 		var args = (arguments.length === 1 ? [arguments[0]] : Array.apply(null, arguments));
-			args.unshift(type); // first argument is event type
+			args.unshift(); // first argument is event type
 
 		if(listeners[type])
 			listeners[type].forEach(applyEach);
@@ -1441,7 +1438,6 @@
 
 		// register onresizeHandler
 		bind(window, 'resize', solveChanges);
-		bind(window, 'orientationchange', solveChanges);
 		bind(window, 'scroll', onscrollHandler);
 
 		// for mobiles - on mobile devices is window size changing while scrolling content - because some panels are hiding

@@ -5,7 +5,8 @@ var fs = require('fs'),
         { file:'isMobile', methods:'isMobile' },
         { file:'detectAgent', methods:['watchBrowserVersion', 'getPlatformInfo', 'getAgentTags'] },
         { file:'detectTouch', methods:'isTouch' },
-        { file:'detectHiRes', methods:'isHiResDisplay' }
+        { file:'detectHiRes', methods:'isHiResDisplay' },
+        { file:'detectOrientation', methods:['isLandscape', 'isPortrait']}
     ].map(function processList(feature) { // processing raw list
         return {
             file:'/../src/' + feature.file + '.js',
