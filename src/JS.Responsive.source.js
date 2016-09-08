@@ -188,25 +188,6 @@
 
 		return isWindowFocused;
 	};
-
-	/**
-	 * Returns device orientation "portrait" or "landscape".
-	 * @returns {String} "portrait" or "landscape"
-	 */
-	$C.getDeviceOrientation = function() {
-
-		var angle = getDeviceOrientationAngle();
-		return angle==0 || angle==180 ? PORTRAIT_STRING : LANDSCAPE_STRING;
-	};
-
-	/**
-	 * Returns angle of device orientation 0, 90, 180, 270 in degrees cross clock wise.
-	 * @returns {Number} 0, 90, 180, 270
-	 */
-	$C.getDeviceOrientationAngle = function() {
-
-		return getDeviceOrientationAngle();
-	};
 	
 	/**
 	 * Sets a new horizontal break point for responsive styling.
@@ -773,9 +754,6 @@
 	function solveChanges( _forceRecalculate ) {
 
 		var change = FALSE;
-
-		var changedDeviceOrientation = detectDeviceOrientation();
-		change = change || changedDeviceOrientation;
 		
 		var ww = getWindowWidth(),
 			wh = getWindowHeight(),
@@ -828,7 +806,6 @@
 			var e = {
 				changedWindowSize: changedWinSize,
 				changedDocumentSize: changedDocSize,
-				changedDeviceOrientation: changedDeviceOrientation,
 				
 				changedBreakPointHorizontal: changedBreakPointHorizontal,
 				changedSizePointHorizontal: changedBreakPointHorizontal,  // due to backward compatibility with v1.0
@@ -1169,105 +1146,6 @@
 		}
 		return TRUE;
 	}
-	
-	
-	// returns device orientation 0, 90, 180, 270 (degrees cross clock wise)
-	function getDeviceOrientationAngle() {
-		var orientation = 0;
-		// win.orientation is deprecated (https://developer.mozilla.org/en-US/docs/Web/API/Window/orientation)
-		if (typeof win.orientation == 'number') {
-			orientation = win.orientation;
-		}
-		else {
-			var //screenOrientation = screen.orientation || screen.mozOrientation || screen.msOrientation;
-				// minification to form:  n=F[We]||F[$+Ee]||F[Z+Ee];
-				// in compare to:         n=screen.orientation||screen.mozOrientation||screen.msOrientation;
-				screenOrientation = screen[ORIENTATION_STRING] ||
-									screen[MOZ_PREFIX + UC_ORIENTATION_STRING] ||
-									screen[MS_PREFIX + UC_ORIENTATION_STRING];
-			if (screenOrientation) {
-				if (typeof screenOrientation == 'string') {
-					// is commented because zero is default
-					//if (screenOrientation == PORTRAIT_STRING + PRIMARY_APPENDIX)
-						//orientation = 0;
-					if (screenOrientation == LANDSCAPE_STRING + PRIMARY_APPENDIX)
-						orientation = 90;
-					if (screenOrientation == PORTRAIT_STRING + SECONDARY_APPENDIX)
-						orientation = 180;
-					if (screenOrientation == LANDSCAPE_STRING + SECONDARY_APPENDIX)
-						orientation = 270;
-				}
-				else if (screenOrientation.angle) {
-					orientation = screenOrientation.angle;
-				}		
-			}
-		}
-		if (orientation==-90)
-			orientation = 270;
-		return orientation;
-	}
-	
-	var ORIENTATION_STRING = 'orientation',
-		UC_ORIENTATION_STRING = ucFirst(ORIENTATION_STRING),
-		DEVICE_ORIENTATION_CLASS = 'device-orientation',
-		LANDSCAPE_APPENDIX = '-'+LANDSCAPE_STRING,
-		PORTRAIT_APPENDIX = '-'+PORTRAIT_STRING,
-		PRIMARY_APPENDIX = '-primary',
-		SECONDARY_APPENDIX = '-secondary',
-		ANGLE_0_APPENDIX = '-0',
-		ANGLE_90_APPENDIX = '-90',
-		ANGLE_180_APPENDIX = '-180',
-		ANGLE_270_APPENDIX = '-270';
-
-	// adds "device-orientation-portrait" or "device-orientation-landscape" class  and  "device-orientation-0", "device-orientation-90", "device-orientation-180" or "device-orientation-270" class
-	function detectDeviceOrientation() {
-		var angle = getDeviceOrientationAngle(),
-			retVal = FALSE;
-		if (angle==0 || angle==180) {			
-			if (hasClass(DEVICE_ORIENTATION_CLASS + LANDSCAPE_APPENDIX)) {
-				removeClass(DEVICE_ORIENTATION_CLASS + LANDSCAPE_APPENDIX);
-				removeClass(DEVICE_ORIENTATION_CLASS + ANGLE_90_APPENDIX);
-				removeClass(DEVICE_ORIENTATION_CLASS + ANGLE_270_APPENDIX);
-				retVal = TRUE;
-			}
-			// unnecessary to check if has already class, addClass adds it just once
-			//if (!hasClass(DEVICE_ORIENTATION_CLASS + PORTRAIT_APPENDIX))
-				addClass(DEVICE_ORIENTATION_CLASS + PORTRAIT_APPENDIX);
-			
-			if (angle==0 && hasClass(DEVICE_ORIENTATION_CLASS + ANGLE_180_APPENDIX)) {
-				removeClass(DEVICE_ORIENTATION_CLASS + ANGLE_180_APPENDIX);
-				retVal = TRUE;
-			}
-			if (angle==180 && hasClass(DEVICE_ORIENTATION_CLASS + ANGLE_0_APPENDIX)) {
-				removeClass(DEVICE_ORIENTATION_CLASS + ANGLE_0_APPENDIX);
-				retVal = TRUE;
-			}
-		}
-		if (angle==90 || angle==270) {			
-			if (hasClass(DEVICE_ORIENTATION_CLASS + PORTRAIT_APPENDIX)) {
-				removeClass(DEVICE_ORIENTATION_CLASS + PORTRAIT_APPENDIX);
-				removeClass(DEVICE_ORIENTATION_CLASS + ANGLE_0_APPENDIX);
-				removeClass(DEVICE_ORIENTATION_CLASS + ANGLE_180_APPENDIX);
-				retVal = TRUE;
-			}
-			
-			// unnecessary to check if has already class, addClass adds it just once
-			//if (!hasClass(DEVICE_ORIENTATION_CLASS + LANDSCAPE_APPENDIX))
-				addClass(DEVICE_ORIENTATION_CLASS + LANDSCAPE_APPENDIX);
-			
-			if (angle==90 && hasClass(DEVICE_ORIENTATION_CLASS + ANGLE_270_APPENDIX)) {
-				removeClass(DEVICE_ORIENTATION_CLASS + ANGLE_270_APPENDIX);
-				retVal = TRUE;
-			}
-			if (angle==270 && hasClass(DEVICE_ORIENTATION_CLASS + ANGLE_90_APPENDIX)) {
-				removeClass(DEVICE_ORIENTATION_CLASS + ANGLE_90_APPENDIX);
-				retVal = TRUE;
-			}
-		}
-		
-		addClass(DEVICE_ORIENTATION_CLASS+'-'+angle);
-		return retVal;
-	}
 
 	var timeBreakPointTimeout,
 		timeBreakPointCurrentName,
@@ -1432,9 +1310,6 @@
 			for (prop in $C.features) {
 				$C.features[prop].call($C);
 			}
-		
-		// adds "device-orientation-portrait" or "device-orientation-landscape" class  and  "device-orientation-0", "device-orientation-90", "device-orientation-180" or "device-orientation-270" class
-		detectDeviceOrientation();
 
 		// register onresizeHandler
 		bind(window, 'resize', solveChanges);

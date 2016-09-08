@@ -6,6 +6,7 @@ var fs = require('fs'),
         { file:'detectAgent', methods:['watchBrowserVersion', 'getPlatformInfo', 'getAgentTags'] },
         { file:'detectTouch', methods:'isTouch' },
         { file:'detectHiRes', methods:'isHiResDisplay' },
+        { file:'detectDeviceOrientation', methods:['getDeviceOrientation', 'getDeviceOrientationAngle']},
         { file:'detectOrientation', methods:['isLandscape', 'isPortrait']}
     ].map(function processList(feature) { // processing raw list
         return {
@@ -107,6 +108,8 @@ module.exports = function(cfg, buildName, callback){
 function fs_readFiles (paths, cb) {
     var result = [], errors = [], l = paths.length;
     paths.forEach(function (path, k) {
+
+        console.log('reading: ', path);
 
         fs.readFile( __dirname + path, 'utf8', function (err, data) {
             // decrease waiting files

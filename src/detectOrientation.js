@@ -7,7 +7,6 @@ $C.isLandscape = function() {
     return getWindowWidth() > getWindowHeight();
 };
 
-
 /**
  * Returns if current device has display portrait oriented (height is larger than width).
  * @returns {Boolean}
@@ -32,12 +31,12 @@ function detectOrientation() {
         newValue = landscape ? LANDSCAPE_STRING : PORTRAIT_STRING,
         oldValue = landscape ? PORTRAIT_STRING : LANDSCAPE_STRING;
 
-    $C.emit('changedOrientation', newValue, oldValue);
-
     if(!hasClass(newValue)){
         addClass(newValue);
         removeClass(oldValue);
     }
+
+    $C.emit('changedOrientation', newValue, oldValue);
 
     return newValue;
 }
