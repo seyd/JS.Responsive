@@ -136,11 +136,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	  *    getDocumentWidth()
 	  *    getDocumentHeight()
 	  *
-	  *
-	  * Backward compatibility:
-	  *
-	  *    isRetina()  - use new .isHiResDisplay()
-	  *
 	  */
 	
 		// -------------------------------------------------------------------------------------------------
@@ -1015,23 +1010,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	  */
 		$C.getDocumentHeight = getDocumentHeight;
 	
-		// -------------------------------------------------------------------------------------------------	
-		// --- BACKWARD COMPATIBILITY ----------------------------------------------------------------------
-		// -------------------------------------------------------------------------------------------------	
-	
-	
-		/**
-	  * Obsolete methods - name was changed. This method exists due to backward compatibility with version 1.0
-	  * $C.oldOneMethod = $C.newOneMethod;
-	  */
-		$C.isRetina = $C.isHiResDisplay;
-		$C.watchVersion = $C.watchBrowserVersion;
-	
-		// adds duplicate methods for all methods containing "BreakPoint" in name - to "SizePoint" due to backward compatibility with version 1.0
-		// creates: addHorizontalSizePoint, removeHorizontalSizePoint, getActualHorizontalSizePoint, disableHorizontalSizePoints, enableHorizontalSizePoints, isDisabledHorizontalSizePoints,
-		//          addVerticalSizePoint, removeVerticalSizePoint, getActualVerticalSizePoint, disableVerticalSizePoints, enableVerticalSizePoints, isDisabledVerticalSizePoints
-		for (var prop in $C) if (prop.indexOf('BreakPoint') > 0) $C[prop.replace('Break', 'Size')] = $C[prop];
-	
 		// -------------------------------------------------------------------------------------------------
 		// --- PRIVATE -------------------------------------------------------------------------------------
 		// -------------------------------------------------------------------------------------------------
@@ -1106,11 +1084,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 		function bind(el, eventType, handlerFn) {
 	
-			var $this = this,
-			    fn = function (e) {
-				handlerFn.call($this, e || event);
-			};
 			if (el.addEventListener) el.addEventListener(eventType, fn, FALSE);else if (el.attachEvent) el.attachEvent('on' + eventType, fn);
+	
+			function fn(e) {
+				handlerFn.call(NULL, e || event);
+			}
 		}
 	
 		function addClass(name) {
@@ -1276,19 +1254,10 @@ return /******/ (function(modules) { // webpackBootstrap
 				var e = {
 					changedWindowSize: changedWinSize,
 					changedDocumentSize: changedDocSize,
-	
 					changedBreakPointHorizontal: changedBreakPointHorizontal,
-					changedSizePointHorizontal: changedBreakPointHorizontal, // due to backward compatibility with v1.0
-	
 					actualBreakPointHorizontal: actualHorizontalBreakPoint,
-					actualSizePointHorizontal: actualHorizontalBreakPoint, // due to backward compatibility with v1.0
-	
 					changedBreakPointVertical: changedBreakPointVertical,
-					changedSizePointVertical: changedBreakPointVertical, // due to backward compatibility with v1.0
-	
 					actualBreakPointVertical: actualVerticalBreakPoint,
-					actualSizePointVertical: actualVerticalBreakPoint, // due to backward compatibility with v1.0
-	
 					changedDocumentState: changedDocumentState,
 					isDocumentUnloading: isUnloading,
 					changedWindowFocus: changedFocusedState,
