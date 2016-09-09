@@ -430,76 +430,6 @@
 	 */	
 	$C.getDocumentHeight = getDocumentHeight;
 
-
-	/**
-	 * Sets time brakepoints with classnames and start time value.
-	 * @param {Object[]} breakpoints - The employees who are responsible for the project.
-	 * @param {string} breakpoints[].name - The name of a breakpoint, this name will be used as className!
-	 * @param {Number} breakpoints[].time - The time after document load in [ms], breakpoint name will be applied.
-	 * @param {Number|Boolean} [breakpoints[].remains] - The time in [ms], breakpoint name will be removed (optional). Or TRUE value to prevent replacing with next breakpoint.
-	 * @example JS.Responsive.setTimeBreakPoints( config )
-	 */
-	$C.setTimeBreakPoints = function(breakpoints) {
-	    var sinceReady;
-		if (docReadyTime)
-            init();
-        else
-            timeBreakPointsInit = init;
-
-		return this;
-
-		// fn declarations
-        function init() {
-            var now = +(new Date());
-            sinceReady = now - docReadyTime;
-
-            // sort by time
-            breakpoints.sort(function (a, b) {
-                return +(a.time > b.time) || +(a.time === b.time) - 1;
-            });
-
-            // clear passed times
-            while(breakpoints[0].time < sinceReady)
-                breakpoints[0].shift();
-
-            // clear running timeout if any
-            if(timeBreakPointTimeout)
-                clearTimeout(timeBreakPointTimeout);
-
-            // set new timeout for first breakpoint
-            activateNext();
-        }
-
-		function activateNext() {
-		    if(!breakpoints[0]) // no more breakpoints
-		        return;
-
-			timeBreakPointTimeout = setTimeout(function () {
-
-				// remove current breakpoint name
-				removeClass(timeBreakPointCurrentName);
-				timeBreakPointCurrentName = UNDEFINED;
-
-				// apply new breakpoint
-				var bp = breakpoints.shift();
-				addClass(bp.name);
-
-				if(!bp.remains){
-					// next breakpoint will clear the current one
-					timeBreakPointCurrentName = bp.name;
-				}
-
-				if(bp.remains && bp.remains !== TRUE)
-					setTimeout(function () {
-						removeClass(bp.name);
-					}, bp.remains);
-
-				activateNext();
-
-			}, breakpoints[0].time - sinceReady);
-		}
-	};
-	
 	
 	// -------------------------------------------------------------------------------------------------	
 	// --- BACKWARD COMPATIBILITY ----------------------------------------------------------------------
@@ -796,11 +726,6 @@
 		lastDocHeight = dh;
 
 		lastDocumentState = actualState;
-
-        var changedDayTime = lastDayTimeCurrent != dayTimeCurrent;
-        var changedDayPeriod = lastDayTimePeriod != dayTimePeriod;
-        var changedYearPeriod = lastDayYearPeriod != dayYearPeriod;
-        change = change || changedDayTime || changedDayPeriod || changedYearPeriod;
 		
 		if (change) {
 			var e = {
@@ -822,11 +747,7 @@
 				changedDocumentState: changedDocumentState,
 				isDocumentUnloading: isUnloading,
 				changedWindowFocus: changedFocusedState,
-				changedScrolling: changedIsScrolling,
-
-                changedDayTime: changedDayTime,
-                changedDayPeriod: changedDayPeriod,
-                changedYearPeriod: changedYearPeriod
+				changedScrolling: changedIsScrolling
 			};
 			
 			if (changedBreakPoint && lastHorizontalBreakPoint != actualHorizontalBreakPoint)
@@ -919,8 +840,7 @@
 	function onloadHandler() {
 		isDocumentLoaded = TRUE;
 		docReadyTime = +(new Date());
-        if (timeBreakPointsInit)
-			timeBreakPointsInit();
+		$C.emit('documentReady', docReadyTime);
 		onreadyStateChangeHandler();
 	}
 
@@ -1147,105 +1067,6 @@
 		return TRUE;
 	}
 
-	var timeBreakPointTimeout,
-		timeBreakPointCurrentName,
-		timeBreakPointsInit,
-		//lastTimeBreakPoints = 0,
-		dayTimeCurrent,
-		dayTimePeriod,
-		dayYearPeriod,
-		lastDayTimeCurrent,
-		lastDayTimePeriod,
-		lastDayYearPeriod;
-
-	function handleTimeBasedClasses() {
-		setClasses();
-
-		// fn definitions
-		function setClasses(){
-            lastDayTimeCurrent = dayTimeCurrent;
-			lastDayTimePeriod = dayTimePeriod;
-            lastDayYearPeriod = dayYearPeriod;
-			removeClass(dayTimeCurrent);
-			removeClass(dayTimePeriod);
-			removeClass(dayYearPeriod);
-
-			var now = new Date(),
-				MORNING = 'morning',
-				AFTERNOON = 'afternoon',
-				EVENING = 'evening',
-				NIGHT = 'night',
-				DAYPERIODS = {
-					 0: NIGHT,
-					 1: NIGHT,
-					 2: NIGHT,
-					 3: NIGHT,
-					 4: NIGHT,
-					 5: NIGHT,
-					 6: MORNING,
-					 7: MORNING,
-					 8: MORNING,
-					 9: MORNING,
-					10: MORNING,
-					11: MORNING,
-					12: AFTERNOON,
-					13: AFTERNOON,
-					14: AFTERNOON,
-					15: AFTERNOON,
-					16: AFTERNOON,
-					17: EVENING,
-					18: EVENING,
-					19: EVENING,
-					20: NIGHT,
-					21: NIGHT,
-					22: NIGHT,
-					23: NIGHT,
-				},
-				classNameDayTime = 'day-time-' + now.getHours() + 'h',
-				classNameDayPeriod = DAYPERIODS[now.getHours()],
-				classNameYearPeriod = getYearPeriod(now);
-
-			// console.log('classNames', classNameDayTime, classNameDayPeriod, classNameYearPeriod);
-
-			addClass(classNameDayTime);
-			addClass(classNameDayPeriod);
-			addClass(classNameYearPeriod);
-
-			dayTimeCurrent = classNameDayTime;
-
-			setTimeout(function () {
-				setClasses();
-			}, 60*60*1000 - now.getMilliseconds());
-
-            solveChanges();
-		}
-
-		function getYearPeriod(date) {
-			var year = date.getFullYear(),
-				firstDates = [
-					{date: new Date(year, 2, 20), name: 'Spring'},
-					{date: new Date(year, 5, 21), name: 'Summer'},
-					{date: new Date(year, 8, 23), name: 'Autumn'},
-					{date: new Date(year, 11, 21), name: 'Winter'}
-				];
-
-			return testPeriod(0);
-
-			function testPeriod(index) {
-				if(date < firstDates[index].date)
-					if(!index) // index === 0
-						return firstDates[3].name;
-					else
-						return firstDates[index-1].name;
-				else
-					if(firstDates[++index])
-						return testPeriod(index);
-					else
-						return firstDates[0].name;
-			}
-		}
-	}
-
 	var listeners = [];
 
 	$C.on = function (type, fn) {
@@ -1331,9 +1152,6 @@
 			onfocusHandler();
 		else
 			onblurHandler();
-
-		// start handling time based classes
-		handleTimeBasedClasses();
 
 		setInterval(checkWindowOrDocumentResize, CHECK_DOCUMENT_SIZE_INTERVAL);
 

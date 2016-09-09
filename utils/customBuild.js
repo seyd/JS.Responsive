@@ -6,8 +6,9 @@ var fs = require('fs'),
         { file:'detectAgent', methods:['watchBrowserVersion', 'getPlatformInfo', 'getAgentTags'] },
         { file:'detectTouch', methods:'isTouch' },
         { file:'detectHiRes', methods:'isHiResDisplay' },
+        { file:'detectOrientation', methods:['isLandscape', 'isPortrait']},
         { file:'detectDeviceOrientation', methods:['getDeviceOrientation', 'getDeviceOrientationAngle']},
-        { file:'detectOrientation', methods:['isLandscape', 'isPortrait']}
+        { file:'timeBased', methods:['setTimeBreakPoints', 'getDayTimePeriod', 'getYearPeriod']}
     ].map(function processList(feature) { // processing raw list
         return {
             file:'/../src/' + feature.file + '.js',
