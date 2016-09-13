@@ -319,6 +319,108 @@ return /******/ (function(modules) { // webpackBootstrap
 	        removeClass(SCROLLING_CLASS);
 	        addClass(NO_SCROLLING_CLASS);
 	    }
+	
+	    var isDocumentUnloading = FALSE,
+	
+	
+	    // Opera does not support document.hasFocus()
+	    isWindowFocused = document.hasFocus ? document.hasFocus() : TRUE,
+	        WINDOW_FOCUSED_CLASS = 'window-focused',
+	        WINDOW_BLURED_CLASS = 'window-blured',
+	        lastDocumentState = 'uninitialized',
+	        onceLoaded = FALSE;
+	
+	    /**
+	     * Returns if document is in state that everything is loaded.
+	     * @returns {Boolean}
+	     */
+	    $C.isDocumentLoaded = function () {
+	
+	        return isDocumentLoaded;
+	    };
+	
+	    /**
+	     * Returns true if user is leaving current page.
+	     * @returns {Boolean}
+	     */
+	    $C.isDocumentUnloading = function () {
+	
+	        return isDocumentUnloading;
+	    };
+	
+	    /**
+	     * Returns true if window is focused/active.
+	     * @returns {Boolean}
+	     */
+	    $C.isFocused = function () {
+	
+	        return isWindowFocused;
+	    };
+	
+	    $C.features.loadFocusBlur = initLFB;
+	
+	    function initLFB() {
+	        bind(document, 'readystatechange', onreadyStateChangeHandler);
+	        bind(window, 'load', onreadyStateChangeHandler);
+	        bind(window, 'unload', onunloadHandler);
+	        bind(window, 'onbeforeunload', onunloadHandler);
+	        bind(window, 'blur', onblurHandler);
+	        bind(window, 'focus', onfocusHandler);
+	
+	        if (isWindowFocused) onfocusHandler();else onblurHandler();
+	    }
+	
+	    function getDocumentState() {
+	        return isDocumentLoaded ? 'loaded' : document.readyState;
+	    }
+	
+	    function onreadyStateChangeHandler() {
+	        if (!onceLoaded) {
+	            /*
+	             ---uncommnon states----------------------------------------------------------------
+	             uninitialized - Has not started loading yet
+	             loading - Is loading
+	             ---common states-------------------------------------------------------------------
+	             interactive - Has loaded enough and the user can interact with it
+	             complete - Fully loaded
+	             ---custom state--------------------------------------------------------------------
+	             loaded - when document is loaded (including all images)
+	             state-unloading - when document is unloading
+	             */
+	            removeClass('state-uninitialized');
+	            removeClass('state-loading');
+	            removeClass('state-interactive');
+	            // 'state-complete' sa nebude odstranovat
+	            var newState = getDocumentState();
+	            addClass('state-' + newState);
+	            if (newState == 'loaded') onceLoaded = TRUE;
+	
+	            if (newState != lastDocumentState) {
+	                $C.emit('documentState', newState, lastDocumentState);
+	                lastDocumentState = newState;
+	            }
+	        }
+	    }
+	
+	    function onunloadHandler() {
+	        addClass('state-unloading');
+	        isDocumentUnloading = TRUE;
+	        $C.emit('documentUnloading');
+	    }
+	
+	    function onblurHandler(e) {
+	        isWindowFocused = FALSE;
+	        removeClass(WINDOW_FOCUSED_CLASS);
+	        addClass(WINDOW_BLURED_CLASS);
+	        $C.emit('windowBlur');
+	    }
+	
+	    function onfocusHandler(e) {
+	        isWindowFocused = TRUE;
+	        removeClass(WINDOW_BLURED_CLASS);
+	        addClass(WINDOW_FOCUSED_CLASS);
+	        $C.emit('windowFocus');
+	    }
 	    /**
 	     * Set watching given browser and its version
 	     * @param {String} browser - browser name, see function getAgentData() attribute "identity"
@@ -1187,33 +1289,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	    };
 	
 	    /**
-	     * Returns if document is in state that everything is loaded.
-	     * @returns {Boolean}
-	     */
-	    $C.isDocumentLoaded = function () {
-	
-	        return isDocumentLoaded;
-	    };
-	
-	    /**
-	     * Returns true if user is leaving current page.
-	     * @returns {Boolean}
-	     */
-	    $C.isDocumentUnloading = function () {
-	
-	        return isDocumentUnloading;
-	    };
-	
-	    /**
-	     * Returns true if window is focused/active.
-	     * @returns {Boolean}
-	     */
-	    $C.isFocused = function () {
-	
-	        return isWindowFocused;
-	    };
-	
-	    /**
 	     * Tests if HTML element contains given class names.
 	     * @param {...String} - class names
 	     * @returns {Boolean}
@@ -1413,38 +1488,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	        return navigator.appName == 'Microsoft Internet Explorer';
 	    }
 	
-	    var lastDocumentState = 'uninitialized';
-	
-	    function getDocumentState() {
-	        return isDocumentLoaded ? 'loaded' : document.readyState;
-	    }
-	
-	    var onceLoaded = FALSE;
-	
-	    function onreadyStateChangeHandler() {
-	        if (!onceLoaded) {
-	            /*
-	             ---uncommnon states----------------------------------------------------------------
-	             uninitialized - Has not started loading yet
-	             loading - Is loading
-	             ---common states-------------------------------------------------------------------
-	             interactive - Has loaded enough and the user can interact with it
-	             complete - Fully loaded
-	             ---custom state--------------------------------------------------------------------
-	             loaded - when document is loaded (including all images)
-	             state-unloading - when document is unloading
-	             */
-	            removeClass('state-uninitialized');
-	            removeClass('state-loading');
-	            removeClass('state-interactive');
-	            // 'state-complete' sa nebude odstranovat
-	            var newState = getDocumentState();
-	            addClass('state-' + newState);
-	            if (newState == 'loaded') onceLoaded = TRUE;
-	            // solveChanges();
-	        }
-	    }
-	
 	    var isDocumentLoaded = FALSE,
 	        docReadyTime;
 	
@@ -1452,34 +1495,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	        isDocumentLoaded = TRUE;
 	        docReadyTime = +new Date();
 	        $C.emit('documentReady', docReadyTime);
-	        onreadyStateChangeHandler();
-	    }
-	
-	    var isDocumentUnloading = FALSE;
-	
-	    function onunloadHandler() {
-	        addClass('state-unloading');
-	        isDocumentUnloading = FALSE;
-	    }
-	
-	    // Opera does not support document.hasFocus()
-	    var isWindowFocused = document.hasFocus ? document.hasFocus() : TRUE;
-	
-	    var WINDOW_FOCUSED_CLASS = 'window-focused',
-	        WINDOW_BLURED_CLASS = 'window-blured';
-	
-	    function onblurHandler(e) {
-	        isWindowFocused = FALSE;
-	        removeClass(WINDOW_FOCUSED_CLASS);
-	        addClass(WINDOW_BLURED_CLASS);
-	        // solveChanges();
-	    }
-	
-	    function onfocusHandler(e) {
-	        isWindowFocused = TRUE;
-	        removeClass(WINDOW_BLURED_CLASS);
-	        addClass(WINDOW_FOCUSED_CLASS);
-	        // solveChanges();
 	    }
 	
 	    /**
@@ -1523,15 +1538,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                $C.features[prop].call($C);
 	            }
 	
-	        bind(document, 'readystatechange', onreadyStateChangeHandler);
 	        bind(window, 'load', onloadHandler);
-	        bind(window, 'unload', onunloadHandler);
-	        bind(window, 'onbeforeunload', onunloadHandler);
-	
-	        bind(window, 'blur', onblurHandler);
-	        bind(window, 'focus', onfocusHandler);
-	
-	        if (isWindowFocused) onfocusHandler();else onblurHandler();
 	    }
 	
 	    // -------------------------------------------------------------------------------------------------

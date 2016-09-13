@@ -4,6 +4,7 @@ var fs = require('fs'),
     featuresList = [
         { file:'isMobile', methods:'isMobile' },
         { file:'isScrolling', methods:'isScrolling' },
+        { file:'loadFocusBlur', methods:['isDocumentLoaded', 'isDocumentUnloading', 'isFocused'] },
         { file:'detectAgent', methods:['watchBrowserVersion', 'getPlatformInfo', 'getAgentTags'] },
         { file:'detectTouch', methods:'isTouch' },
         { file:'detectHiRes', methods:'isHiResDisplay' },
