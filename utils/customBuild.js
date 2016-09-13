@@ -8,7 +8,12 @@ var fs = require('fs'),
         { file:'detectHiRes', methods:'isHiResDisplay' },
         { file:'detectOrientation', methods:['isLandscape', 'isPortrait']},
         { file:'detectDeviceOrientation', methods:['getDeviceOrientation', 'getDeviceOrientationAngle']},
-        { file:'timeBased', methods:['setTimeBreakPoints', 'getDayTimePeriod', 'getYearPeriod']}
+        { file:'timeBased', methods:['setTimeBreakPoints', 'getDayTimePeriod', 'getYearPeriod']},
+        { file:'breakpoints', methods:['getDocumentHeight', 'getDocumentWidth', 'getWindowHeight', 'getWindowWidth',
+                                        'isDisabledVerticalBreakPoints', 'enableVerticalBreakPoints', 'disableVerticalBreakPoints',
+                                        'getActualVerticalBreakPoint', 'removeVerticalBreakPoint', 'addVerticalBreakPoint',
+                                        'isDisabledHorizontalBreakPoints', 'enableHorizontalBreakPoints', 'disableHorizontalBreakPoints',
+                                        'getActualHorizontalBreakPoint', 'removeHorizontalBreakPoint', 'addHorizontalBreakPoint']}
     ].map(function processList(feature) { // processing raw list
         return {
             file:'/../src/' + feature.file + '.js',
