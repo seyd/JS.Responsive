@@ -27,6 +27,10 @@ or npm
 npm install js-responsive
 ```
 
+or download release from [github page](https://github.com/seyd/JS.Responsive/releases)
+
+`!!! CAUTION !!!` Be careful to download directly source files, may consist of NOT-READY version (release candidade, etc..), risky for production environment!
+
 ## Documentation
 
 ### desktop or mobile

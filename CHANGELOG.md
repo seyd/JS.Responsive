@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## 3.0.0-BETA Early bird
+- **`!!! CAUTION !!!` TESTING NOT FINISHED, DO NOT USE FOR PRODUCTION**
+- library custom builds with missing method warnings
+- new build-in event system (.on, .off, .emit)
+- ! method `addOnChangeHandler` removed
+- ! method `removeOnChangeHandler` removed
+
 ## 2.4.0 Timeless
 
 - time breakpoints since document load
