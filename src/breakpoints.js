@@ -214,6 +214,8 @@ $C.features.breakpoints = initBreakpoints;
 function initBreakpoints(){
     setInterval(checkWindowOrDocumentResize, CHECK_DOCUMENT_SIZE_INTERVAL);
 
+    bind(window, 'resize', solveSizes);
+
     // for mobiles - on mobile devices is window size changing while scrolling content - because some panels are hiding
     bind(document, 'touchmove', checkWindowOrDocumentResize);
     bind(document, 'touchend', checkWindowOrDocumentResize);

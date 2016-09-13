@@ -3,6 +3,7 @@ var fs = require('fs'),
     webpackConfig = require("./../webpack.config"),
     featuresList = [
         { file:'isMobile', methods:'isMobile' },
+        { file:'isScrolling', methods:'isScrolling' },
         { file:'detectAgent', methods:['watchBrowserVersion', 'getPlatformInfo', 'getAgentTags'] },
         { file:'detectTouch', methods:'isTouch' },
         { file:'detectHiRes', methods:'isHiResDisplay' },

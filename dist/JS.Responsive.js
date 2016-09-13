@@ -143,11 +143,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	    // -------------------------------------------------------------------------------------------------
 	
 	    var
-	    // how many miliseconds stays class name 'scroll' after scrolling
-	    // (and than switch to 'no-scroll' class name)
-	    AFTER_SCROLL_TIMEOUT = 250,
-	
-	
 	    // substitution because minimalization (internal variables are shorten in minimizing process)
 	    win = window,
 	        document = win.document,
@@ -269,6 +264,60 @@ return /******/ (function(modules) { // webpackBootstrap
 	    function detectMobile() {
 	
 	        addClass(www_detectmobilebrowsers_com() ? 'mobile' : 'desktop');
+	    }
+	    var
+	    // how many miliseconds stays class name 'scroll' after scrolling
+	    // (and than switch to 'no-scroll' class name)
+	    AFTER_SCROLL_TIMEOUT = 250,
+	        isScrolling = FALSE,
+	        lastWasScrolling = isScrolling,
+	        SCROLLING_CLASS = 'scrolling',
+	        NO_SCROLLING_CLASS = 'no-' + SCROLLING_CLASS,
+	        timeoutedNoScrollProcess;
+	
+	    /**
+	     * Returns true if page is just scrolled or in scrolling.
+	     * @returns {Boolean}
+	     */
+	    $C.isScrolling = function () {
+	
+	        return isScrolling;
+	    };
+	
+	    $C.features.isScrolling = initIsScrolling;
+	
+	    function initIsScrolling() {
+	        bind(window, 'scroll', onscrollHandler);
+	        setNoScrollingClass();
+	    }
+	
+	    function onscrollHandler() {
+	        // -----------------------------------------------------TODO: if IE8 and less - return;  --- no support of "scroll | no-scroll" ----------------------------------
+	        //if (isIE() --- need version detection --------------
+	        checkWindowOrDocumentResize();
+	        clearTimeout(timeoutedNoScrollProcess);
+	        timeoutedNoScrollProcess = setTimeout(timeoutedNoScroll, AFTER_SCROLL_TIMEOUT);
+	
+	        if (!isScrolling) {
+	            removeClass(NO_SCROLLING_CLASS);
+	            addClass(SCROLLING_CLASS);
+	            $C.emit('scrollStart');
+	            isScrolling = TRUE;
+	        }
+	
+	        $C.emit('scrolling');
+	    }
+	
+	    function timeoutedNoScroll() {
+	        setNoScrollingClass();
+	        isScrolling = FALSE;
+	        checkWindowOrDocumentResize();
+	        $C.emit('scrollStop');
+	    }
+	
+	    function setNoScrollingClass() {
+	        removeClass(SCROLLING_CLASS);
+	        addClass(NO_SCROLLING_CLASS);
 	    }
 	    /**
 	     * Set watching given browser and its version
@@ -999,6 +1048,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	    function initBreakpoints() {
 	        setInterval(checkWindowOrDocumentResize, CHECK_DOCUMENT_SIZE_INTERVAL);
 	
+	        bind(window, 'resize', solveSizes);
+	
 	        // for mobiles - on mobile devices is window size changing while scrolling content - because some panels are hiding
 	        bind(document, 'touchmove', checkWindowOrDocumentResize);
 	        bind(document, 'touchend', checkWindowOrDocumentResize);
@@ -1151,15 +1202,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	    $C.isDocumentUnloading = function () {
 	
 	        return isDocumentUnloading;
-	    };
-	
-	    /**
-	     * Returns true if page is just scrolled or in scrolling.
-	     * @returns {Boolean}
-	     */
-	    $C.isScrolling = function () {
-	
-	        return isScrolling;
 	    };
 	
 	    /**
@@ -1371,35 +1413,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	        return navigator.appName == 'Microsoft Internet Explorer';
 	    }
 	
-	    var isScrolling = FALSE,
-	        lastWasScrolling = isScrolling,
-	        SCROLLING_CLASS = 'scrolling',
-	        NO_SCROLLING_CLASS = 'no-' + SCROLLING_CLASS,
-	        timeoutedNoScrollProcess;
-	
-	    function onscrollHandler() {
-	        // -----------------------------------------------------TODO: if IE8 and less - return;  --- no support of "scroll | no-scroll" ----------------------------------
-	        //if (isIE() --- need version detection --------------
-	        checkWindowOrDocumentResize();
-	        clearTimeout(timeoutedNoScrollProcess);
-	        removeClass(NO_SCROLLING_CLASS);
-	        addClass(SCROLLING_CLASS);
-	        timeoutedNoScrollProcess = setTimeout(timeoutedNoScroll, AFTER_SCROLL_TIMEOUT);
-	        isScrolling = TRUE;
-	        // solveChanges();
-	    }
-	
-	    function timeoutedNoScroll() {
-	        setNoScrollingClass();
-	        isScrolling = FALSE;
-	        // solveChanges();
-	    }
-	
-	    function setNoScrollingClass() {
-	        removeClass(SCROLLING_CLASS);
-	        addClass(NO_SCROLLING_CLASS);
-	    }
-	
 	    var lastDocumentState = 'uninitialized';
 	
 	    function getDocumentState() {
@@ -1510,10 +1523,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	                $C.features[prop].call($C);
 	            }
 	
-	        // register onresizeHandler
-	        // bind(window, 'resize', solveChanges);
-	        bind(window, 'scroll', onscrollHandler);
-	
 	        bind(document, 'readystatechange', onreadyStateChangeHandler);
 	        bind(window, 'load', onloadHandler);
 	        bind(window, 'unload', onunloadHandler);
@@ -1523,8 +1532,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	        bind(window, 'focus', onfocusHandler);
 	
 	        if (isWindowFocused) onfocusHandler();else onblurHandler();
-	
-	        setNoScrollingClass();
 	    }
 	
 	    // -------------------------------------------------------------------------------------------------
