@@ -55,7 +55,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
-	 * @license JS.Responsive v2.3.3
+	 * @license JS.Responsive v3.0.0
 	 * (c) 2015 WEZEO http://wezeo.com
 	 * License: MIT
 	 *
@@ -91,7 +91,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    /**
 	     * @version
 	     */
-	    $C.version = '2.4.0';
+	    $C.version = '3.0.0';
 	
 	    // -------------------------------------------------------------------------------------------------
 	    // --- OVERVIEW ------------------------------------------------------------------------------------
