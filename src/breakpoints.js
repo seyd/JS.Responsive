@@ -355,8 +355,8 @@ function solveSizes() {
     commitTransactionClass();
 
     if(lastHorizontalBreakPoint != actualHorizontalBreakPoint)
-        $C.emit('horizontalBreakpointChanged', actualHorizontalBreakPoint, lastHorizontalBreakPoint);
+        $C.emit('changedBreakPointHorizontal', actualHorizontalBreakPoint, lastHorizontalBreakPoint);
     if(lastVerticalBreakPoint != actualVerticalBreakPoint)
-        $C.emit('verticalBreakpointChanged', actualVerticalBreakPoint, lastVerticalBreakPoint);
+        $C.emit('changedBreakPointVertical', actualVerticalBreakPoint, lastVerticalBreakPoint);
 
 }

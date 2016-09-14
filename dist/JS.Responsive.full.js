@@ -396,7 +396,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            if (newState == 'loaded') onceLoaded = TRUE;
 	
 	            if (newState != lastDocumentState) {
-	                $C.emit('documentState', newState, lastDocumentState);
+	                $C.emit('changedDocumentState', newState, lastDocumentState);
 	                lastDocumentState = newState;
 	            }
 	        }
@@ -1274,8 +1274,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	        commitTransactionClass();
 	
-	        if (lastHorizontalBreakPoint != actualHorizontalBreakPoint) $C.emit('horizontalBreakpointChanged', actualHorizontalBreakPoint, lastHorizontalBreakPoint);
-	        if (lastVerticalBreakPoint != actualVerticalBreakPoint) $C.emit('verticalBreakpointChanged', actualVerticalBreakPoint, lastVerticalBreakPoint);
+	        if (lastHorizontalBreakPoint != actualHorizontalBreakPoint) $C.emit('changedBreakPointHorizontal', actualHorizontalBreakPoint, lastHorizontalBreakPoint);
+	        if (lastVerticalBreakPoint != actualVerticalBreakPoint) $C.emit('changedBreakPointVertical', actualVerticalBreakPoint, lastVerticalBreakPoint);
 	    }
 	
 	    /**

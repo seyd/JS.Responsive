@@ -82,7 +82,7 @@ function onreadyStateChangeHandler() {
             onceLoaded = TRUE;
 
         if (newState != lastDocumentState){
-            $C.emit('documentState', newState, lastDocumentState);
+            $C.emit('changedDocumentState', newState, lastDocumentState);
             lastDocumentState = newState;
         }
     }
