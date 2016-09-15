@@ -170,9 +170,9 @@
 		args.unshift(); // first argument is event type
 
 		if(listeners[type])
-			listeners[type].forEach(applyEach);
+			forEach(listeners[type], applyEach);
 		if(listeners['all']) // listeners to all event types
-			listeners['all'].forEach(applyEach);
+			forEach('all', applyEach);
 
 		if (errors.length) {
 			// if more errors, we want to print all to console
