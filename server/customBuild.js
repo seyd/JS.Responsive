@@ -1,22 +1,8 @@
 var fs = require('fs'),
     webpack = require("webpack"),
-    webpackConfig = require("./../webpack.config"),
-    featuresList = [
-        { file:'isMobile', methods:'isMobile' },
-        { file:'isScrolling', methods:'isScrolling' },
-        { file:'loadFocusBlur', methods:['isDocumentLoaded', 'isDocumentUnloading', 'isFocused'] },
-        { file:'detectAgent', methods:['watchBrowserVersion', 'getPlatformInfo', 'getAgentTags'] },
-        { file:'detectTouch', methods:'isTouch' },
-        { file:'detectHiRes', methods:'isHiResDisplay' },
-        { file:'detectOrientation', methods:['isLandscape', 'isPortrait']},
-        { file:'detectDeviceOrientation', methods:['getDeviceOrientation', 'getDeviceOrientationAngle']},
-        { file:'timeBased', methods:['setTimeBreakPoints', 'getDayTimePeriod', 'getYearPeriod']},
-        { file:'breakpoints', methods:['getDocumentHeight', 'getDocumentWidth', 'getWindowHeight', 'getWindowWidth',
-                                        'isDisabledVerticalBreakPoints', 'enableVerticalBreakPoints', 'disableVerticalBreakPoints',
-                                        'getActualVerticalBreakPoint', 'removeVerticalBreakPoint', 'addVerticalBreakPoint',
-                                        'isDisabledHorizontalBreakPoints', 'enableHorizontalBreakPoints', 'disableHorizontalBreakPoints',
-                                        'getActualHorizontalBreakPoint', 'removeHorizontalBreakPoint', 'addHorizontalBreakPoint']}
-    ].map(function processList(feature) { // processing raw list
+    webpackConfig = require("./../webpack.config.js"),
+    featuresList = require('./featuresList.json')
+        .map(function processList(feature) { // processing raw list
         return {
             file:'/../src/' + feature.file + '.js',
             methods: Array.isArray(feature.methods) ? feature.methods : [feature.methods]

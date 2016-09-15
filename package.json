@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "node server/server.js",
     "build": "webpack --progress --colors",
+    "custom": "node server/customBuildHelper.js",
     "test": "mocha --compilers js:babel-core/register --colors -w ./test/*.spec.js"
   },
   "devDependencies": {

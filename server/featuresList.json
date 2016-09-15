@@ -1,0 +1,16 @@
+[
+  { "file":"isMobile",                    "methods":"isMobile" },
+  { "file":"isScrolling",                 "methods":"isScrolling" },
+  { "file":"loadFocusBlur",               "methods":["isDocumentLoaded", "isDocumentUnloading", "isFocused"] },
+  { "file":"detectAgent",                 "methods":["watchBrowserVersion", "getPlatformInfo", "getAgentTags"] },
+  { "file":"detectTouch",                 "methods":"isTouch" },
+  { "file":"detectHiRes",                 "methods":"isHiResDisplay" },
+  { "file":"detectOrientation",           "methods":["isLandscape", "isPortrait"] },
+  { "file":"detectDeviceOrientation",     "methods":["getDeviceOrientation", "getDeviceOrientationAngle"] },
+  { "file":"timeBased",                   "methods":["setTimeBreakPoints", "getDayTimePeriod", "getYearPeriod"] },
+  { "file":"breakpoints",                 "methods":["getDocumentHeight", "getDocumentWidth", "getWindowHeight", "getWindowWidth",
+                                                    "isDisabledVerticalBreakPoints", "enableVerticalBreakPoints", "disableVerticalBreakPoints",
+                                                    "getActualVerticalBreakPoint", "removeVerticalBreakPoint", "addVerticalBreakPoint",
+                                                    "isDisabledHorizontalBreakPoints", "enableHorizontalBreakPoints", "disableHorizontalBreakPoints",
+                                                    "getActualHorizontalBreakPoint", "removeHorizontalBreakPoint", "addHorizontalBreakPoint"] }
+]

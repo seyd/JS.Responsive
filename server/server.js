@@ -1,11 +1,10 @@
-var purgeCache = require("./../utils/purgeCache"),
-    express = require("express"),
+var express = require("express"),
     app = express(),
     http = require("http"),
     path = require('path'),
     fs = require('fs'),
     server = http.Server(app),
-    customBuild = require('./../utils/customBuild');
+    customBuild = require('./customBuild');
 
 /* ************************************************************************************************** */
 /* SERVER INIT */

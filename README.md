@@ -346,3 +346,35 @@ HTML element class names:
 *   **year-period-summer** - 21st of June - 23rd of September
 *   **year-period-autumn** - 23rd of September - 21st of December
 *   **year-period-winter** - 21st of December - 20th of March
+
+## Building JS.Responsive
+
+JS.Responsive allows custom builds, so you can have in build only features you need. To build JS.Responsive you need [NodeJS](nodejs.org) installed, so follow instructions on [their webpage](https://nodejs.org/en/download/), if you do not have installed already.
+
+### Building procedure
+- download source files from ['github page'](https://github.com/seyd/JS.Responsive/archive/master.zip), or clone it via git.
+```
+git clone https://github.com/seyd/JS.Responsive.git
+```
+- run npm command to download dependencies
+```
+npm install
+```
+- to build default (JS.Responsive.js) and full build (JS.Responsive.full.js = all features included)
+```
+npm run build
+```
+- to build your custom build edit JSON config file in `server/customBuild.json`
+```
+["isScrolling", "detectTouch"]
+```
+- each string represent name of a feature, full list of available features is in `server/featuresList.json`
+- when customBuild.json is ready run custom build command
+```
+npm run custom
+```
+- build will finish with statement in console
+```
+Custom build DONE!
+```
+- built files are in `dist/` directory (`JS.Responsive.custom.js`, `JS.Responsive.custom.min.js`, etc..)
