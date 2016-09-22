@@ -18,8 +18,6 @@ var
     actualHorizontalBreakPoint = EMPTY_STRING,
     actualVerticalBreakPoint = EMPTY_STRING,
 
-    lastFocusedState = NULL,
-
     isDisabledHorizontalBreakPoints = FALSE,
     isDisabledVerticalBreakPoints = FALSE,
 

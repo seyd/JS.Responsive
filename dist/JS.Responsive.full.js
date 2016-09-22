@@ -94,51 +94,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	    $C.version = '3.0.0';
 	
 	    // -------------------------------------------------------------------------------------------------
-	    // --- OVERVIEW ------------------------------------------------------------------------------------
-	    // -------------------------------------------------------------------------------------------------
-	
-	    /**
-	     * Public functions (methods):
-	     *
-	     *    isMobile()
-	     *    isTouch()
-	     *    isHiResDisplay()
-	     *    isLandscape()
-	     *    isPortrait()
-	     *    isDocumentLoaded()
-	     *    isDocumentUnloading()
-	     *    isScrolling()
-	     *    isFocused()
-	     *
-	     *    addHorizontalBreakPoint( name, width )
-	     *    removeHorizontalBreakPoint( name )
-	     *    getActualHorizontalBreakPoint()
-	     *    disableHorizontalBreakPoints( _leaveActualClasses )
-	     *    enableHorizontalBreakPoints()
-	     *    isDisabledHorizontalBreakPoints()
-	     *
-	     *    addVerticalBreakPoint( name, height )
-	     *    removeVerticalBreakPoint( name )
-	     *    getActualVerticalBreakPoint()
-	     *    disableVerticalBreakPoints( _leaveActualClasses )
-	     *    enableVerticalBreakPoints()
-	     *    isDisabledVerticalBreakPoints()
-	     *
-	     *    is( someState[, orSomeState[, orSomeState, ...])
-	     *    watchBrowserVersion( browser, version )
-	     *    getPlatformInfo()
-	     *
-	     *    addOnChangeHadler( fn )
-	     *    removeOnChangeHadler( fn )
-	     *
-	     *    getWindowWidth()
-	     *    getWindowHeight()
-	     *    getDocumentWidth()
-	     *    getDocumentHeight()
-	     *
-	     */
-	
-	    // -------------------------------------------------------------------------------------------------
 	    // --- CONFIG --------------------------------------------------------------------------------------
 	    // -------------------------------------------------------------------------------------------------
 	
@@ -270,7 +225,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	    // (and than switch to 'no-scroll' class name)
 	    AFTER_SCROLL_TIMEOUT = 250,
 	        isScrolling = FALSE,
-	        lastWasScrolling = isScrolling,
 	        SCROLLING_CLASS = 'scrolling',
 	        NO_SCROLLING_CLASS = 'no-' + SCROLLING_CLASS,
 	        timeoutedNoScrollProcess;
@@ -975,7 +929,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	        lastVerticalBreakPoint = EMPTY_STRING,
 	        actualHorizontalBreakPoint = EMPTY_STRING,
 	        actualVerticalBreakPoint = EMPTY_STRING,
-	        lastFocusedState = NULL,
 	        isDisabledHorizontalBreakPoints = FALSE,
 	        isDisabledVerticalBreakPoints = FALSE,
 	        LESS_APPENDIX = '-less',

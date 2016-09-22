@@ -4,7 +4,6 @@ var
     AFTER_SCROLL_TIMEOUT = 250,
 
     isScrolling = FALSE,
-    lastWasScrolling = isScrolling,
 
     SCROLLING_CLASS = 'scrolling',
     NO_SCROLLING_CLASS = 'no-'+SCROLLING_CLASS,
