@@ -1,7 +1,14 @@
+/**
+ *
+ * @module detectTouch
+ *
+ * */
 
 /**
  * Detects if current device supports touch events.
  * @returns {Boolean} The return value is not changing in time.
+ * @memberof module:detectTouch
+ * @alias JS.Responsive.addHorizontalBreakPoint
  */
 $C.isTouch = function() {
 

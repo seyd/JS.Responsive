@@ -1,3 +1,9 @@
+/**
+ *
+ * @module breakpoints
+ *
+ * */
+
 
 var
     // (ms) how offen is checking the document size (not just window, but content size)
@@ -31,6 +37,8 @@ var
  * @param {Number} width - Width size in pixels.
  * @returns {Object} this - for chaining.
  * @example JS.Responsive.addHorizontalBreakPoint('medium', 960);
+ * @memberof module:breakpoints
+ * @alias JS.Responsive.addHorizontalBreakPoint
  */
 $C.addHorizontalBreakPoint = function( name, width ) {
     addBreakPoint(name, width, horizontalSizes, WIDTH_STRING);
@@ -43,6 +51,8 @@ $C.addHorizontalBreakPoint = function( name, width ) {
  * @param {String} name - Existing name of break point.
  * @returns {Object} this - for chaining.
  * @example JS.Responsive.removeHorizontalBreakPoint('medium');
+ * @memberof module:breakpoints
+ * @alias JS.Responsive.removeHorizontalBreakPoint
  */
 $C.removeHorizontalBreakPoint = function( name ) {
     removeBreakPoint(name, horizontalSizes);
@@ -53,6 +63,8 @@ $C.removeHorizontalBreakPoint = function( name ) {
 /**
  * Returns name of actual horizontal break point.
  * @returns {String|null} Name of actual horizontal break point or null if no horizontal break point is set.
+ * @memberof module:breakpoints
+ * @alias JS.Responsive.removeHorizontalBreakPoint
  */
 $C.getActualHorizontalBreakPoint = function() {
 
@@ -64,6 +76,8 @@ $C.getActualHorizontalBreakPoint = function() {
  * Disable horizontal break points checking and remove all class names from HTML element.
  * @param {Boolean} [_leaveActualClasses] - If true, leaves (freezes) actual class names in HTML element.
  * @returns {Object} this - for chaining.
+ * @memberof module:breakpoints
+ * @alias JS.Responsive.removeHorizontalBreakPoint
  */
 $C.disableHorizontalBreakPoints = function( _leaveActualClasses ) {
 
@@ -77,6 +91,8 @@ $C.disableHorizontalBreakPoints = function( _leaveActualClasses ) {
 /**
  * Enable horizontal break points checking (if was disabled before).
  * @returns {Object} this - for chaining.
+ * @memberof module:breakpoints
+ * @alias JS.Responsive.removeHorizontalBreakPoint
  */
 $C.enableHorizontalBreakPoints = function() {
 
@@ -89,6 +105,8 @@ $C.enableHorizontalBreakPoints = function() {
 /**
  * Returns if is horizontal break points checking disabled.
  * @returns {Boolean}
+ * @memberof module:breakpoints
+ * @alias JS.Responsive.removeHorizontalBreakPoint
  */
 $C.isDisabledHorizontalBreakPoints = function() {
 
@@ -102,6 +120,8 @@ $C.isDisabledHorizontalBreakPoints = function() {
  * @param {Number} height - Height size in pixels.
  * @returns {Object} this - for chaining.
  * @example JS.Responsive.addVerticalBreakPoint('vertical-medium', 960);
+ * @memberof module:breakpoints
+ * @alias JS.Responsive.removeHorizontalBreakPoint
  */
 $C.addVerticalBreakPoint = function( name, height ) {
 
@@ -115,6 +135,8 @@ $C.addVerticalBreakPoint = function( name, height ) {
  * @param {String} name - Existing name of break point.
  * @returns {Object} this - for chaining.
  * @example JS.Responsive.removeVerticalBreakPoint('vertical-medium');
+ * @memberof module:breakpoints
+ * @alias JS.Responsive.removeHorizontalBreakPoint
  */
 $C.removeVerticalBreakPoint = function( name ) {
 
@@ -126,6 +148,8 @@ $C.removeVerticalBreakPoint = function( name ) {
 /**
  * Returns name of actual vertical break point.
  * @returns {String|null} Name of actual vertical break point or null if no vertical break point is set.
+ * @memberof module:breakpoints
+ * @alias JS.Responsive.getActualVerticalBreakPoint
  */
 $C.getActualVerticalBreakPoint = function() {
 
@@ -137,6 +161,8 @@ $C.getActualVerticalBreakPoint = function() {
  * Disable vertical break points checking and remove all class names from HTML element.
  * @param {Boolean} [_leaveActualClasses] - If true, leaves (freezes) actual class names in HTML element.
  * @returns {Object} this - for chaining.
+ * @memberof module:breakpoints
+ * @alias JS.Responsive.disableVerticalBreakPoints
  */
 $C.disableVerticalBreakPoints = function( _leaveActualClasses ) {
 
@@ -150,6 +176,8 @@ $C.disableVerticalBreakPoints = function( _leaveActualClasses ) {
 /**
  * Enable vertical break points checking (if was disabled before).
  * @returns {Object} this - for chaining.
+ * @memberof module:breakpoints
+ * @alias JS.Responsive.enableVerticalBreakPoints
  */
 $C.enableVerticalBreakPoints = function() {
 
@@ -162,6 +190,8 @@ $C.enableVerticalBreakPoints = function() {
 /**
  * Returns if is vertical break points checking disabled.
  * @returns {Boolean}
+ * @memberof module:breakpoints
+ * @alias JS.Responsive.isDisabledVerticalBreakPoints
  */
 $C.isDisabledVerticalBreakPoints = function() {
 
@@ -174,6 +204,8 @@ $C.isDisabledVerticalBreakPoints = function() {
  * @function
  * @returns {Number}
  * @example if (JS.Responsive.getWindowWidth()>JS.Responsive.getWindowHeight()) ...
+ * @memberof module:breakpoints
+ * @alias JS.Responsive.getWindowWidth
  */
 $C.getWindowWidth = getWindowWidth;
 
@@ -184,6 +216,8 @@ $C.getWindowWidth = getWindowWidth;
  * @function
  * @returns {Number}
  * @example if (JS.Responsive.getWindowWidth()>JS.Responsive.getWindowHeight()) ...
+ * @memberof module:breakpoints
+ * @alias JS.Responsive.getWindowHeight
  */
 $C.getWindowHeight = getWindowHeight;
 
@@ -193,6 +227,8 @@ $C.getWindowHeight = getWindowHeight;
  * @function
  * @returns {Number}
  * @example if (JS.Responsive.getDocumentWidth()>JS.Responsive.getDocumentHeight()) ...
+ * @memberof module:breakpoints
+ * @alias JS.Responsive.getDocumentWidth
  */
 $C.getDocumentWidth = getDocumentWidth;
 
@@ -202,6 +238,8 @@ $C.getDocumentWidth = getDocumentWidth;
  * @function
  * @returns {Number}
  * @example if (JS.Responsive.getDocumentWidth()>JS.Responsive.getWindowHeight()) ...
+ * @memberof module:breakpoints
+ * @alias JS.Responsive.getDocumentHeight
  */
 $C.getDocumentHeight = getDocumentHeight;
 

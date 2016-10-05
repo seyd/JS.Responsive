@@ -1,7 +1,15 @@
 /**
+ *
+ * @module isMobile
+ *
+ * */
+
+/**
  * Detects mobile browser - if device is a mobile device.
  * @todo Find out if mobile is just a phone or tablet also...
  * @returns {Boolean} The return value is not changing in time.
+ * @memberof module:isMobile
+ * @alias JS.Responsive.addHorizontalBreakPoint
  */
 
 function www_detectmobilebrowsers_com() {
@@ -12,7 +20,7 @@ function www_detectmobilebrowsers_com() {
     })(navigator.userAgent || navigator.vendor || window.opera);
 }
 
-$C.features.mobile = detectMobile;
+$C.features.isMobile = detectMobile;
 
 // adds "mobile" or "desktop" class (once)
 function detectMobile() {

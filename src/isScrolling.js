@@ -1,3 +1,9 @@
+/**
+ *
+ * @module isScrolling
+ *
+ * */
+
 var
     // how many miliseconds stays class name 'scroll' after scrolling
     // (and than switch to 'no-scroll' class name)
@@ -14,6 +20,8 @@ var
 /**
  * Returns true if page is just scrolled or in scrolling.
  * @returns {Boolean}
+ * @memberof module:isScrolling
+ * @alias JS.Responsive.isScrolling
  */
 $C.isScrolling = function() {
 

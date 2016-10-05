@@ -1,0 +1,30 @@
+{
+  "opts":{
+    "destination": "./docs/",
+    "template": "./node_modules/ink-docstrap/template",
+    "recurse": true
+  },
+  "source": {
+    "include": "./src/",
+    "includePattern": ".+\\.js(doc|x)?$",
+    "excludePattern": "(^|\\/|\\\\)_"
+  },
+  "templates": {
+    " * JSON comment * "    : "About these settings http://docstrap.github.io/docstrap/",
+    "systemName"            : "JS.Responsive",
+    "footer"                : false,
+    "copyright"             : false,
+    "includeDate"           : true,
+    "navType"               : "vertical",
+    "theme"                 : "flatly",
+    "linenums"              : true,
+    "collapseSymbols"       : true,
+    "inverseNav"            : true,
+    "outputSourceFiles"     : true,
+    "outputSourcePath"      : true,
+    "dateFormat"            : "lll",
+    "syntaxTheme"           : "default",
+    "sort"                  : true,
+    "search"                : true
+  }
+}

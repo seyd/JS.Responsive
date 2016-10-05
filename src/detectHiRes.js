@@ -1,6 +1,14 @@
 /**
+ *
+ * @module detectHiRes
+ *
+ * */
+
+/**
  * Detects if current device has a high resolution display (such as retina).
  * @returns {Boolean} The return value is not changing in time.
+ * @memberof module:detectHiRes
+ * @alias JS.Responsive.isHiResDisplay
  */
 $C.isHiResDisplay = function() {
 

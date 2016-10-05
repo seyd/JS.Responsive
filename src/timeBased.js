@@ -1,3 +1,9 @@
+/**
+ *
+ * @module timeBased
+ *
+ * */
+
 var timeBreakPointTimeout,
     timeBreakPointCurrentName,
     timeBreakPointsInit,
@@ -11,6 +17,8 @@ var timeBreakPointTimeout,
 /**
  * Returns actual day time period. One of morning, afternoon, evening or night.
  * @returns {String} Name of actual day time period.
+ * @memberof module:timeBased
+ * @alias JS.Responsive.addHorizontalBreakPoint
  */
 $C.getDayTimePeriod = function() {
 
@@ -20,6 +28,8 @@ $C.getDayTimePeriod = function() {
 /**
  * Returns actual year period. One of Spring, Summer, Autumn or Winter.
  * @returns {String} Name of actual day time period.
+ * @memberof module:timeBased
+ * @alias JS.Responsive.addHorizontalBreakPoint
  */
 $C.getYearPeriod = function() {
 
@@ -33,6 +43,8 @@ $C.getYearPeriod = function() {
  * @param {Number} breakpoints[].time - The time after document load in [ms], breakpoint name will be applied.
  * @param {Number|Boolean} [breakpoints[].remains] - The time in [ms], breakpoint name will be removed (optional). Or TRUE value to prevent replacing with next breakpoint.
  * @example JS.Responsive.setTimeBreakPoints( config )
+ * @memberof module:timeBased
+ * @alias JS.Responsive.addHorizontalBreakPoint
  */
 $C.setTimeBreakPoints = function(breakpoints) {
     var sinceReady;

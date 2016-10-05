@@ -1,5 +1,6 @@
 var webpack = require('webpack'),
-  path = require('path');
+  path = require('path'),
+    JsDocPlugin = require('jsdoc-webpack-plugin');
 
 var entry = __dirname + '/tmp/JS.Responsive.entryDefault.js';
 
@@ -38,6 +39,9 @@ var config = {
     new webpack.optimize.UglifyJsPlugin({
       include: /\.min\.js$/,
       minimize: true
+    }),
+    new JsDocPlugin({
+      conf: './jsdoc.json'
     })
   ]
 };

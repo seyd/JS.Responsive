@@ -59,6 +59,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * (c) 2015 WEZEO http://wezeo.com
 	 * License: MIT
 	 *
+	 * @version 3.0.0
+	 *
 	 * @author Johnny Seyd <seyd@wezeo.com>, Ctibor Laky <laky@wezeo.com>
 	 *
 	 * @description JS.Responsive is a free tool for responsive styling and responsive javascript coding.
@@ -82,14 +84,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	    /**
 	     * Constructor is PRIVATE, client must use only class methods!!!!!
-	     * @class JS.Responsive
+	     * @constructor
+	     * @alias JS.Responsive
 	     */
 	    var $C = JS.Responsive = function () {
 	        throw new Error("JS.Responsive cannot have instances.");
 	    };
 	
 	    /**
-	     * @version
+	     * Library version
+	     * @const {String}
 	     */
 	    $C.version = '3.0.0';
 	
@@ -141,28 +145,33 @@ return /******/ (function(modules) { // webpackBootstrap
 	     * Register callback to referenced event type
 	     * @param {String} type - type of an event callback will be registered to
 	     * @param {Function} fn - callback function called after event occurred
+	     * @returns {Object} JS.Responsive - for chaining
 	     */
 	    $C.on = function (type, fn) {
 	        if (!listeners[type]) listeners[type] = [];
 	        listeners[type].push(fn);
+	        return $C;
 	    };
 	
 	    /**
 	     * Unregister callback of referenced event type
 	     * @param {String} type - type of an event callback where callback is registered
 	     * @param {Function} fn - callback function to be unregistered
+	     * @returns {Object} JS.Responsive - for chaining
 	     */
 	    $C.off = function (type, fn) {
 	        if (!listeners[type]) return;
 	        var typeListeners = listeners[type],
 	            index = typeListeners.indexOf(fn);
 	        if (index != -1) typeListeners.splice(index, 1);
+	        return $C;
 	    };
 	
 	    /**
 	     * Emit event, can be used for emitting custom events too, just register them via JS.Responsive.on method.
 	     * @param {String} type - type of an event callback will be registered to
 	     * @param {...*} arguments - used when calling callbacks
+	     * @returns {Object} JS.Responsive - for chaining
 	     */
 	    $C.emit = function (type) {
 	
@@ -189,6 +198,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	                errors.push(error);
 	            }
 	        }
+	
+	        return $C;
 	    };
 	
 	    /**
@@ -199,10 +210,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	    $C.features = {};
 	
 	    /**
-	    * Detects mobile browser - if device is a mobile device.
-	    * @todo Find out if mobile is just a phone or tablet also...
-	    * @returns {Boolean} The return value is not changing in time.
-	    */
+	    *
+	    * @module isMobile
+	    *
+	    * */
+	
+	    /**
+	     * Detects mobile browser - if device is a mobile device.
+	     * @todo Find out if mobile is just a phone or tablet also...
+	     * @returns {Boolean} The return value is not changing in time.
+	     * @memberof module:isMobile
+	     * @alias JS.Responsive.addHorizontalBreakPoint
+	     */
 	
 	    function www_detectmobilebrowsers_com() {
 	        // from http://detectmobilebrowsers.com/
@@ -213,13 +232,19 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }(navigator.userAgent || navigator.vendor || window.opera);
 	    }
 	
-	    $C.features.mobile = detectMobile;
+	    $C.features.isMobile = detectMobile;
 	
 	    // adds "mobile" or "desktop" class (once)
 	    function detectMobile() {
 	
 	        addClass(www_detectmobilebrowsers_com() ? 'mobile' : 'desktop');
 	    }
+	    /**
+	     *
+	     * @module isScrolling
+	     *
+	     * */
+	
 	    var
 	    // how many miliseconds stays class name 'scroll' after scrolling
 	    // (and than switch to 'no-scroll' class name)
@@ -232,6 +257,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	    /**
 	     * Returns true if page is just scrolled or in scrolling.
 	     * @returns {Boolean}
+	     * @memberof module:isScrolling
+	     * @alias JS.Responsive.isScrolling
 	     */
 	    $C.isScrolling = function () {
 	
@@ -273,6 +300,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	        removeClass(SCROLLING_CLASS);
 	        addClass(NO_SCROLLING_CLASS);
 	    }
+	    /**
+	     *
+	     * @module loadFocusBlur
+	     *
+	     * */
 	
 	    var isDocumentUnloading = FALSE,
 	
@@ -287,6 +319,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	    /**
 	     * Returns if document is in state that everything is loaded.
 	     * @returns {Boolean}
+	     * @memberof module:loadFocusBlur
+	     * @alias JS.Responsive.addHorizontalBreakPoint
 	     */
 	    $C.isDocumentLoaded = function () {
 	
@@ -296,6 +330,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	    /**
 	     * Returns true if user is leaving current page.
 	     * @returns {Boolean}
+	     * @memberof module:loadFocusBlur
+	     * @alias JS.Responsive.addHorizontalBreakPoint
 	     */
 	    $C.isDocumentUnloading = function () {
 	
@@ -305,6 +341,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	    /**
 	     * Returns true if window is focused/active.
 	     * @returns {Boolean}
+	     * @memberof module:loadFocusBlur
+	     * @alias JS.Responsive.addHorizontalBreakPoint
 	     */
 	    $C.isFocused = function () {
 	
@@ -376,7 +414,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	        $C.emit('windowFocus');
 	    }
 	    /**
-	     * Set watching given browser and its version
+	     *
+	     * @module detectAgent
+	     *
+	     */
+	
+	    /** Set watching given browser and its version
 	     * @param {String} browser - browser name, see function getAgentData() attribute "identity"
 	     * @param {Number} version - browser version number
 	     * @returns {Object} this - for chaining.
@@ -384,6 +427,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	     * @example JS.Responsive.watchBrowserVersion('Chrome', 47);
 	     * @example JS.Responsive.watchBrowserVersion('MSIE', 10);
 	     * @example JS.Responsive.watchBrowserVersion('Edge', 12);
+	     * @memberof module:detectAgent
+	     * @alias JS.Responsive.watchBrowserVersion
 	     */
 	    $C.watchBrowserVersion = function (browser, version) {
 	
@@ -405,6 +450,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	    	 *		browser: "chrome",
 	    	 *		version: 43.5
 	    	 *   }
+	     * @memberof module:detectAgent
+	     * @alias JS.Responsive.getPlatformInfo
 	     */
 	    $C.getPlatformInfo = function () {
 	
@@ -413,6 +460,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	    /**
 	     * Returns browser tags
 	     * @returns {Array} all browser tags strings in Array.
+	     * @method
+	     * @memberof module:detectAgent
+	     * @alias JS.Responsive.getAgentTags
 	     **/
 	
 	    $C.getAgentTags = getAgentTags;
@@ -560,8 +610,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 	
 	    /**
+	     *
+	     * @module detectTouch
+	     *
+	     * */
+	
+	    /**
 	     * Detects if current device supports touch events.
 	     * @returns {Boolean} The return value is not changing in time.
+	     * @memberof module:detectTouch
+	     * @alias JS.Responsive.addHorizontalBreakPoint
 	     */
 	    $C.isTouch = function () {
 	
@@ -575,8 +633,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	        addClass($C.isTouch() ? 'touch' : 'no-touch');
 	    }
 	    /**
+	     *
+	     * @module detectHiRes
+	     *
+	     * */
+	
+	    /**
 	     * Detects if current device has a high resolution display (such as retina).
 	     * @returns {Boolean} The return value is not changing in time.
+	     * @memberof module:detectHiRes
+	     * @alias JS.Responsive.isHiResDisplay
 	     */
 	    $C.isHiResDisplay = function () {
 	
@@ -592,8 +658,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	        addClass('display-pixel-ratio-' + ratio);
 	    }
 	    /**
+	     *
+	     * @module detectOrientation
+	     *
+	     * */
+	
+	    /**
 	     * Returns if current device has display landscape oriented (width is larger than height).
 	     * @returns {Boolean}
+	     * @memberof module:detectOrientation
+	     * @alias JS.Responsive.addHorizontalBreakPoint
 	     */
 	    $C.isLandscape = function () {
 	
@@ -603,6 +677,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	    /**
 	     * Returns if current device has display portrait oriented (height is larger than width).
 	     * @returns {Boolean}
+	     * @memberof module:detectOrientation
+	     * @alias JS.Responsive.addHorizontalBreakPoint
 	     */
 	    $C.isPortrait = function () {
 	
@@ -632,6 +708,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	        return newValue;
 	    }
+	    /**
+	     *
+	     * @module detectDeviceOrientation
+	     *
+	     * */
+	
 	    var ORIENTATION_STRING = 'orientation',
 	        UC_ORIENTATION_STRING = ucFirst(ORIENTATION_STRING),
 	        DEVICE_ORIENTATION_CLASS = 'device-' + ORIENTATION_STRING,
@@ -655,6 +737,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	    /**
 	     * Returns device orientation "portrait" or "landscape".
 	     * @returns {String} "portrait" or "landscape"
+	     * @memberof module:detectDeviceOrientation
+	     * @alias JS.Responsive.getDeviceOrientation
 	     */
 	    $C.getDeviceOrientation = function () {
 	
@@ -665,6 +749,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	    /**
 	     * Returns angle of device orientation 0, 90, 180, 270 in degrees cross clock wise.
 	     * @returns {Number} 0, 90, 180, 270
+	     * @memberof module:detectDeviceOrientation
+	     * @alias JS.Responsive.getDeviceOrientationAngle
 	     */
 	    $C.getDeviceOrientationAngle = function () {
 	
@@ -737,11 +823,19 @@ return /******/ (function(modules) { // webpackBootstrap
 	        return orientation;
 	    }
 	
+	    /**
+	     *
+	     * @module timeBased
+	     *
+	     * */
+	
 	    var timeBreakPointTimeout, timeBreakPointCurrentName, timeBreakPointsInit, dayTimeCurrent, dayTimePeriod, yearPeriod, lastDayTime, lastDayTimePeriod, lastYearPeriod;
 	
 	    /**
 	     * Returns actual day time period. One of morning, afternoon, evening or night.
 	     * @returns {String} Name of actual day time period.
+	     * @memberof module:timeBased
+	     * @alias JS.Responsive.addHorizontalBreakPoint
 	     */
 	    $C.getDayTimePeriod = function () {
 	
@@ -751,6 +845,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	    /**
 	     * Returns actual year period. One of Spring, Summer, Autumn or Winter.
 	     * @returns {String} Name of actual day time period.
+	     * @memberof module:timeBased
+	     * @alias JS.Responsive.addHorizontalBreakPoint
 	     */
 	    $C.getYearPeriod = function () {
 	
@@ -764,6 +860,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	     * @param {Number} breakpoints[].time - The time after document load in [ms], breakpoint name will be applied.
 	     * @param {Number|Boolean} [breakpoints[].remains] - The time in [ms], breakpoint name will be removed (optional). Or TRUE value to prevent replacing with next breakpoint.
 	     * @example JS.Responsive.setTimeBreakPoints( config )
+	     * @memberof module:timeBased
+	     * @alias JS.Responsive.addHorizontalBreakPoint
 	     */
 	    $C.setTimeBreakPoints = function (breakpoints) {
 	        var sinceReady;
@@ -915,6 +1013,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	            } else if (firstDates[++index]) return testPeriod(index);else return firstDates[0].name;
 	        }
 	    }
+	    /**
+	     *
+	     * @module breakpoints
+	     *
+	     * */
 	
 	    var
 	    // (ms) how offen is checking the document size (not just window, but content size)
@@ -940,6 +1043,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	     * @param {Number} width - Width size in pixels.
 	     * @returns {Object} this - for chaining.
 	     * @example JS.Responsive.addHorizontalBreakPoint('medium', 960);
+	     * @memberof module:breakpoints
+	     * @alias JS.Responsive.addHorizontalBreakPoint
 	     */
 	    $C.addHorizontalBreakPoint = function (name, width) {
 	        addBreakPoint(name, width, horizontalSizes, WIDTH_STRING);
@@ -951,6 +1056,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	     * @param {String} name - Existing name of break point.
 	     * @returns {Object} this - for chaining.
 	     * @example JS.Responsive.removeHorizontalBreakPoint('medium');
+	     * @memberof module:breakpoints
+	     * @alias JS.Responsive.removeHorizontalBreakPoint
 	     */
 	    $C.removeHorizontalBreakPoint = function (name) {
 	        removeBreakPoint(name, horizontalSizes);
@@ -960,6 +1067,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	    /**
 	     * Returns name of actual horizontal break point.
 	     * @returns {String|null} Name of actual horizontal break point or null if no horizontal break point is set.
+	     * @memberof module:breakpoints
+	     * @alias JS.Responsive.removeHorizontalBreakPoint
 	     */
 	    $C.getActualHorizontalBreakPoint = function () {
 	
@@ -970,6 +1079,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	     * Disable horizontal break points checking and remove all class names from HTML element.
 	     * @param {Boolean} [_leaveActualClasses] - If true, leaves (freezes) actual class names in HTML element.
 	     * @returns {Object} this - for chaining.
+	     * @memberof module:breakpoints
+	     * @alias JS.Responsive.removeHorizontalBreakPoint
 	     */
 	    $C.disableHorizontalBreakPoints = function (_leaveActualClasses) {
 	
@@ -981,6 +1092,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	    /**
 	     * Enable horizontal break points checking (if was disabled before).
 	     * @returns {Object} this - for chaining.
+	     * @memberof module:breakpoints
+	     * @alias JS.Responsive.removeHorizontalBreakPoint
 	     */
 	    $C.enableHorizontalBreakPoints = function () {
 	
@@ -992,6 +1105,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	    /**
 	     * Returns if is horizontal break points checking disabled.
 	     * @returns {Boolean}
+	     * @memberof module:breakpoints
+	     * @alias JS.Responsive.removeHorizontalBreakPoint
 	     */
 	    $C.isDisabledHorizontalBreakPoints = function () {
 	
@@ -1004,6 +1119,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	     * @param {Number} height - Height size in pixels.
 	     * @returns {Object} this - for chaining.
 	     * @example JS.Responsive.addVerticalBreakPoint('vertical-medium', 960);
+	     * @memberof module:breakpoints
+	     * @alias JS.Responsive.removeHorizontalBreakPoint
 	     */
 	    $C.addVerticalBreakPoint = function (name, height) {
 	
@@ -1016,6 +1133,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	     * @param {String} name - Existing name of break point.
 	     * @returns {Object} this - for chaining.
 	     * @example JS.Responsive.removeVerticalBreakPoint('vertical-medium');
+	     * @memberof module:breakpoints
+	     * @alias JS.Responsive.removeHorizontalBreakPoint
 	     */
 	    $C.removeVerticalBreakPoint = function (name) {
 	
@@ -1026,6 +1145,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	    /**
 	     * Returns name of actual vertical break point.
 	     * @returns {String|null} Name of actual vertical break point or null if no vertical break point is set.
+	     * @memberof module:breakpoints
+	     * @alias JS.Responsive.getActualVerticalBreakPoint
 	     */
 	    $C.getActualVerticalBreakPoint = function () {
 	
@@ -1036,6 +1157,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	     * Disable vertical break points checking and remove all class names from HTML element.
 	     * @param {Boolean} [_leaveActualClasses] - If true, leaves (freezes) actual class names in HTML element.
 	     * @returns {Object} this - for chaining.
+	     * @memberof module:breakpoints
+	     * @alias JS.Responsive.disableVerticalBreakPoints
 	     */
 	    $C.disableVerticalBreakPoints = function (_leaveActualClasses) {
 	
@@ -1047,6 +1170,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	    /**
 	     * Enable vertical break points checking (if was disabled before).
 	     * @returns {Object} this - for chaining.
+	     * @memberof module:breakpoints
+	     * @alias JS.Responsive.enableVerticalBreakPoints
 	     */
 	    $C.enableVerticalBreakPoints = function () {
 	
@@ -1058,6 +1183,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	    /**
 	     * Returns if is vertical break points checking disabled.
 	     * @returns {Boolean}
+	     * @memberof module:breakpoints
+	     * @alias JS.Responsive.isDisabledVerticalBreakPoints
 	     */
 	    $C.isDisabledVerticalBreakPoints = function () {
 	
@@ -1069,6 +1196,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	     * @function
 	     * @returns {Number}
 	     * @example if (JS.Responsive.getWindowWidth()>JS.Responsive.getWindowHeight()) ...
+	     * @memberof module:breakpoints
+	     * @alias JS.Responsive.getWindowWidth
 	     */
 	    $C.getWindowWidth = getWindowWidth;
 	
@@ -1077,6 +1206,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	     * @function
 	     * @returns {Number}
 	     * @example if (JS.Responsive.getWindowWidth()>JS.Responsive.getWindowHeight()) ...
+	     * @memberof module:breakpoints
+	     * @alias JS.Responsive.getWindowHeight
 	     */
 	    $C.getWindowHeight = getWindowHeight;
 	
@@ -1085,6 +1216,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	     * @function
 	     * @returns {Number}
 	     * @example if (JS.Responsive.getDocumentWidth()>JS.Responsive.getDocumentHeight()) ...
+	     * @memberof module:breakpoints
+	     * @alias JS.Responsive.getDocumentWidth
 	     */
 	    $C.getDocumentWidth = getDocumentWidth;
 	
@@ -1093,6 +1226,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	     * @function
 	     * @returns {Number}
 	     * @example if (JS.Responsive.getDocumentWidth()>JS.Responsive.getWindowHeight()) ...
+	     * @memberof module:breakpoints
+	     * @alias JS.Responsive.getDocumentHeight
 	     */
 	    $C.getDocumentHeight = getDocumentHeight;
 	
@@ -1498,7 +1633,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    // --- INITIALIZATION ------------------------------------------------------------------------------
 	    // -------------------------------------------------------------------------------------------------
 	
-	    if (true) module.exports = window.JS.Responsive;
+	    if (true) module.exports = $C;
 	})();
 
 /***/ }

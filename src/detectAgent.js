@@ -1,5 +1,10 @@
 /**
- * Set watching given browser and its version
+ *
+ * @module detectAgent
+ *
+ */
+
+/** Set watching given browser and its version
  * @param {String} browser - browser name, see function getAgentData() attribute "identity"
  * @param {Number} version - browser version number
  * @returns {Object} this - for chaining.
@@ -7,6 +12,8 @@
  * @example JS.Responsive.watchBrowserVersion('Chrome', 47);
  * @example JS.Responsive.watchBrowserVersion('MSIE', 10);
  * @example JS.Responsive.watchBrowserVersion('Edge', 12);
+ * @memberof module:detectAgent
+ * @alias JS.Responsive.watchBrowserVersion
  */
 $C.watchBrowserVersion = function( browser, version ) {
 
@@ -32,6 +39,8 @@ $C.watchBrowserVersion = function( browser, version ) {
 	 *		browser: "chrome",
 	 *		version: 43.5
 	 *   }
+ * @memberof module:detectAgent
+ * @alias JS.Responsive.getPlatformInfo
  */
 $C.getPlatformInfo = function() {
 
@@ -40,6 +49,9 @@ $C.getPlatformInfo = function() {
 /**
  * Returns browser tags
  * @returns {Array} all browser tags strings in Array.
+ * @method
+ * @memberof module:detectAgent
+ * @alias JS.Responsive.getAgentTags
  **/
 
 $C.getAgentTags = getAgentTags;

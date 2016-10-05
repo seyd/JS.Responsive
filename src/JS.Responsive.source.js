@@ -3,6 +3,8 @@
  * (c) 2015 WEZEO http://wezeo.com
  * License: MIT
  *
+ * @version 3.0.0
+ *
  * @author Johnny Seyd <seyd@wezeo.com>, Ctibor Laky <laky@wezeo.com>
  *
  * @description JS.Responsive is a free tool for responsive styling and responsive javascript coding.
@@ -28,14 +30,16 @@
 	
 	/**
 	 * Constructor is PRIVATE, client must use only class methods!!!!!
-	 * @class JS.Responsive
+	 * @constructor
+	 * @alias JS.Responsive
 	 */
 	var $C = JS.Responsive = function() {
 		throw new Error("JS.Responsive cannot have instances.");
 	};
 
 	/**
-	 * @version
+	 * Library version
+	 * @const {String}
 	 */
 	$C.version = '3.0.0';
 
@@ -88,17 +92,20 @@
 	 * Register callback to referenced event type
 	 * @param {String} type - type of an event callback will be registered to
 	 * @param {Function} fn - callback function called after event occurred
+	 * @returns {Object} JS.Responsive - for chaining
 	 */
 	$C.on = function (type, fn) {
 		if(!listeners[type])
 			listeners[type] = [];
 		listeners[type].push(fn);
+		return $C;
 	};
 
 	/**
 	 * Unregister callback of referenced event type
 	 * @param {String} type - type of an event callback where callback is registered
 	 * @param {Function} fn - callback function to be unregistered
+	 * @returns {Object} JS.Responsive - for chaining
 	 */
 	$C.off = function (type, fn) {
 		if(!listeners[type])
@@ -107,6 +114,7 @@
 			index = typeListeners.indexOf(fn);
 		if(index != -1)
 			typeListeners.splice(index,1);
+		return $C;
 	};
 
 
@@ -114,6 +122,7 @@
 	 * Emit event, can be used for emitting custom events too, just register them via JS.Responsive.on method.
 	 * @param {String} type - type of an event callback will be registered to
 	 * @param {...*} arguments - used when calling callbacks
+	 * @returns {Object} JS.Responsive - for chaining
 	 */
 	$C.emit = function (type) {
 
@@ -144,6 +153,7 @@
 			}
 		}
 
+		return $C;
 	};
 
 	/**
@@ -465,6 +475,6 @@
 	// -------------------------------------------------------------------------------------------------
 
     if(typeof module != 'undefined')
-        module.exports = window.JS.Responsive;
+        module.exports = $C;
 
 })();

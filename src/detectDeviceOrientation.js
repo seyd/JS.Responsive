@@ -1,3 +1,9 @@
+/**
+ *
+ * @module detectDeviceOrientation
+ *
+ * */
+
 var ORIENTATION_STRING = 'orientation',
     UC_ORIENTATION_STRING = ucFirst(ORIENTATION_STRING),
     DEVICE_ORIENTATION_CLASS = 'device-'+ORIENTATION_STRING,
@@ -21,6 +27,8 @@ var ORIENTATION_STRING = 'orientation',
 /**
  * Returns device orientation "portrait" or "landscape".
  * @returns {String} "portrait" or "landscape"
+ * @memberof module:detectDeviceOrientation
+ * @alias JS.Responsive.getDeviceOrientation
  */
 $C.getDeviceOrientation = function() {
 
@@ -31,6 +39,8 @@ $C.getDeviceOrientation = function() {
 /**
  * Returns angle of device orientation 0, 90, 180, 270 in degrees cross clock wise.
  * @returns {Number} 0, 90, 180, 270
+ * @memberof module:detectDeviceOrientation
+ * @alias JS.Responsive.getDeviceOrientationAngle
  */
 $C.getDeviceOrientationAngle = function() {
 
