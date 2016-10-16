@@ -1,7 +1,8 @@
 var fs = require('fs'),
     webpack = require("webpack"),
-    webpackConfig = require("./../webpack.config.js"),
-    featuresList = require('./featuresList.json')
+    JsDocPlugin = require('jsdoc-webpack-plugin'),
+    webpackConfig = require(__dirname + '/../webpack.config.js'),
+    featuresList = require(__dirname + '/featuresList.json')
         .map(function processList(feature) { // processing raw list
         return {
             file:'/../src/' + feature.file + '.js',
@@ -9,6 +10,10 @@ var fs = require('fs'),
         }
     }),
     running = {};
+
+if (!fs.existsSync(__dirname + '/../tmp')){
+    fs.mkdirSync(__dirname + '/../tmp');
+}
 
 module.exports = function(cfg, buildName, callback){
     "use strict";
@@ -72,6 +77,11 @@ module.exports = function(cfg, buildName, callback){
 
                 webpackConfig.entry = entry;
                 webpackConfig.output.filename = '[name].js';
+
+                if(buildName === 'full')
+                    webpackConfig.plugins.push(new JsDocPlugin({
+                        conf: __dirname + '/../jsdoc.json'
+                    }));
 
                 var compiler = webpack(webpackConfig);
                 compiler.run(function (err, stats) {

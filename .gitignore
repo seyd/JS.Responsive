@@ -51,3 +51,7 @@ tmp
 /dist/JS.Responsive.custom.min.js.map
 /dist/JS.Responsive.custom.min.js
 /dist/JS.Responsive.custom.js.map
+
+
+# Mac system files
+*.DS_Store

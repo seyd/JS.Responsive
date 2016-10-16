@@ -4,7 +4,7 @@ var express = require("express"),
     path = require('path'),
     fs = require('fs'),
     server = http.Server(app),
-    customBuild = require('./customBuild');
+    customBuild = require(__dirname + '/customBuild');
 
 /* ************************************************************************************************** */
 /* SERVER INIT */
