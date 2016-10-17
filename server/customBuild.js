@@ -15,8 +15,10 @@ if (!fs.existsSync(__dirname + '/../tmp')){
     fs.mkdirSync(__dirname + '/../tmp');
 }
 
-module.exports = function(cfg, buildName, callback){
+module.exports = function(cfg, buildName, callback, version){
     "use strict";
+
+    console.log('CUSTOM BUILD INPUT w/o cb: ', cfg, buildName, version);
 
     if(running[buildName]) // do start same build twice in a time
         return;
@@ -27,10 +29,11 @@ module.exports = function(cfg, buildName, callback){
         skippedFilesList = [];
 
     if(cfg){
-        cfg = cfg.substr(1); // first place is always 1 as protection of loosing leading zeros
+        var bcfg = (+cfg).toString(2); // convert decimal string to binary string
+        bcfg = bcfg.substr(1); // first place is always 1 as protection of loosing leading zeros
 
         featuresList.forEach(function (feature, i) {
-            if(parseInt(cfg[i])) // get 0 or 1 from binary string
+            if(parseInt(bcfg[i])) // get 0 or 1 from binary string
                 selectedFilesList.push(feature.file);
             else
                 skippedFilesList.push(feature.methods);
@@ -63,8 +66,8 @@ module.exports = function(cfg, buildName, callback){
 
         function writeResult(concat) {
             var result = JSRSource.replace(/\/\* Optional files content goes here! \*\//g, concat),
-                entryName = __dirname + '/../tmp/JS.Responsive.entry' + capitalizeFirstLetter(buildName) + '.js',
-                outputName = 'JS.Responsive' + (buildName === 'default' ? '' : '.' + buildName);
+                entryName = '/../tmp/JS.Responsive.entry' + capitalizeFirstLetter(buildName) + '.js',
+                outputName = 'JS.Responsive';
 
             fs.writeFile( entryName, result, 'utf8', function (err) {
                 if (err) return console.log(err);
@@ -76,7 +79,32 @@ module.exports = function(cfg, buildName, callback){
                 entry[outputName + '.min'] = entryName;
 
                 webpackConfig.entry = entry;
-                webpackConfig.output.filename = '[name].js';
+                // webpackConfig.debug = true;
+                webpackConfig.context = __dirname;
+
+                var path = '',
+                    fileName = '[name]';
+
+                if(version){
+                    path += '/tmp/' + version;
+                    if(!fs.existsSync(__dirname + '/..' + path)){
+                        fs.mkdirSync(__dirname + '/..' + path);
+                    }
+                }
+
+                if(buildName !== 'default'){
+                    path += '/' + buildName + cfg;
+                    if(!fs.existsSync(__dirname + '/..' + path)){
+                        fs.mkdirSync(__dirname + '/..' + path);
+                    }
+                    fileName += '.' + buildName;
+                }
+
+                webpackConfig.output.filename = fileName + '.js';
+                webpackConfig.output.path = __dirname + '/..' + (path || '/dist');
+
+                console.log('webpackConfig.output.filename', webpackConfig.output.filename);
+                console.log('webpackConfig.output.path', webpackConfig.output.path);
 
                 if(buildName === 'full')
                     webpackConfig.plugins.push(new JsDocPlugin({
@@ -87,9 +115,14 @@ module.exports = function(cfg, buildName, callback){
                 compiler.run(function (err, stats) {
                     if(err) return console.log(err);
 
-                    console.log('Build end: ', buildName);
+                    if(version){
+                        // create zip file for whole folder
+                        zipFolder(version, buildName + cfg, callback);
+                    }
+
+                    console.log('Build end: ', buildName + cfg);
                     // console.log("webpack stats", stats);
-                    if(callback)
+                    if(!version && callback)
                         callback();
 
                     running[buildName] = false;
@@ -130,4 +163,41 @@ function fs_readFiles (paths, cb) {
 
 function capitalizeFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
+function zipFolder(version, name, callback) {
+    if(name === 'default')
+        name = '';
+
+    var dotName = name ? '.' + name : '';
+    var fs = require('fs');
+    var path = __dirname + '/../tmp/' + version + (name ? '/' + name : '');
+    var output = fs.createWriteStream(path + '/JS.Responsive' + dotName + '.zip');
+    var archiver =  require('archiver');
+    var zipArchive = archiver('zip');
+
+    zipArchive.on('error', function(err) {
+        throw err;
+    });
+
+    output.on('close', function(err) {
+        if (err)
+            throw err;
+
+        console.log('ZIP done:', 'JS.Responsive' + dotName + '.zip');
+
+        if(callback)
+            callback();
+    });
+
+    zipArchive.pipe(output);
+    zipArchive.bulk([
+        {
+            expand: true,
+            cwd: path,
+            src: ['*.js', '*.map'],
+            dest: '/JS.Responsive' + dotName
+        }
+    ]);
+    zipArchive.finalize();
 }

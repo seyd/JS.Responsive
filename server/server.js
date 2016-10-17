@@ -23,8 +23,7 @@ app.use(express.static(path.resolve( __dirname + '/../demo')));
 
 // /download?cfg=1234
 app.get('/download', function (req, res) {
-    var cfg = req.query.cfg && (+req.query.cfg).toString(2); // convert decimal string to binary string
-    console.log('cfg: ', cfg);
+    var cfg = req.query.cfg;
     if(cfg)
         customBuild(cfg, 'custom', function callback() {
             res.sendFile(path.resolve(__dirname + '/../dist/JS.Responsive.custom.js'));
