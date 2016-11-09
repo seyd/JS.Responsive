@@ -1374,6 +1374,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	    $C.init = function (config) {
 	        init(config);
+	        return this;
 	    };
 	
 	    /**

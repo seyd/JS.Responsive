@@ -173,6 +173,7 @@
 
 	$C.init = function(config) {
 		init(config);
+		return this;
 	};
 
 	
