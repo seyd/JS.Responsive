@@ -925,7 +925,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            realInitTimeBased();
 	        } else {
 	            $C.on('documentReady', function () {
-	                timeBreakPointsInit();
+	                if (timeBreakPointsInit) timeBreakPointsInit();
 	                realInitTimeBased();
 	            });
 	        }
