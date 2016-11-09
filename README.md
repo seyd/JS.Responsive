@@ -1,6 +1,6 @@
 # JS.Responsive
 
-JS.Responsive is a tool for responsive styling and javascript coding. It generates many usefull class names to HTML element which can be used in styling. **It is replacement of media queries.** In compare to media queries, you can use same tests in javascript and thus improve responsivness of your website.
+JS.Responsive is a tool for responsive styling and javascript coding. It generates many usefull class names to HTML element which can be used in styling. **It is the replacement of media queries.** In compare to media queries, you can use same tests in javascript and thus improve responsivness of your website.
 
 ## Installation
 
