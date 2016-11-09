@@ -1640,4 +1640,4 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ ])
 });
 ;
-//# sourceMappingURL=JS.Responsive.js.map
+//# sourceMappingURL=JS.Responsive.full.js.map

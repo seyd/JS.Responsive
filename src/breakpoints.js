@@ -64,7 +64,7 @@ $C.removeHorizontalBreakPoint = function( name ) {
  * Returns name of actual horizontal break point.
  * @returns {String|null} Name of actual horizontal break point or null if no horizontal break point is set.
  * @memberof module:breakpoints
- * @alias JS.Responsive.removeHorizontalBreakPoint
+ * @alias JS.Responsive.getActualHorizontalBreakPoint
  */
 $C.getActualHorizontalBreakPoint = function() {
 
@@ -77,7 +77,7 @@ $C.getActualHorizontalBreakPoint = function() {
  * @param {Boolean} [_leaveActualClasses] - If true, leaves (freezes) actual class names in HTML element.
  * @returns {Object} this - for chaining.
  * @memberof module:breakpoints
- * @alias JS.Responsive.removeHorizontalBreakPoint
+ * @alias JS.Responsive.disableHorizontalBreakPoints
  */
 $C.disableHorizontalBreakPoints = function( _leaveActualClasses ) {
 
@@ -92,7 +92,7 @@ $C.disableHorizontalBreakPoints = function( _leaveActualClasses ) {
  * Enable horizontal break points checking (if was disabled before).
  * @returns {Object} this - for chaining.
  * @memberof module:breakpoints
- * @alias JS.Responsive.removeHorizontalBreakPoint
+ * @alias JS.Responsive.enableHorizontalBreakPoints
  */
 $C.enableHorizontalBreakPoints = function() {
 
@@ -106,7 +106,7 @@ $C.enableHorizontalBreakPoints = function() {
  * Returns if is horizontal break points checking disabled.
  * @returns {Boolean}
  * @memberof module:breakpoints
- * @alias JS.Responsive.removeHorizontalBreakPoint
+ * @alias JS.Responsive.isDisabledHorizontalBreakPoints
  */
 $C.isDisabledHorizontalBreakPoints = function() {
 
@@ -121,7 +121,7 @@ $C.isDisabledHorizontalBreakPoints = function() {
  * @returns {Object} this - for chaining.
  * @example JS.Responsive.addVerticalBreakPoint('vertical-medium', 960);
  * @memberof module:breakpoints
- * @alias JS.Responsive.removeHorizontalBreakPoint
+ * @alias JS.Responsive.addVerticalBreakPoint
  */
 $C.addVerticalBreakPoint = function( name, height ) {
 
@@ -136,7 +136,7 @@ $C.addVerticalBreakPoint = function( name, height ) {
  * @returns {Object} this - for chaining.
  * @example JS.Responsive.removeVerticalBreakPoint('vertical-medium');
  * @memberof module:breakpoints
- * @alias JS.Responsive.removeHorizontalBreakPoint
+ * @alias JS.Responsive.removeVerticalBreakPoint
  */
 $C.removeVerticalBreakPoint = function( name ) {
 
