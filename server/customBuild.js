@@ -28,6 +28,8 @@ module.exports = function(cfg, buildName, callback, version){
     var selectedFilesList = [],
         skippedFilesList = [];
 
+    cfg = cfg || '';
+
     if(cfg){
         var bcfg = (+cfg).toString(2); // convert decimal string to binary string
         bcfg = bcfg.substr(1); // first place is always 1 as protection of loosing leading zeros
@@ -90,6 +92,8 @@ module.exports = function(cfg, buildName, callback, version){
                     if(!fs.existsSync(__dirname + '/..' + path)){
                         fs.mkdirSync(__dirname + '/..' + path);
                     }
+                }else{
+                    path += '/dist';
                 }
 
                 if(buildName !== 'default'){
@@ -101,12 +105,12 @@ module.exports = function(cfg, buildName, callback, version){
                 }
 
                 webpackConfig.output.filename = fileName + '.js';
-                webpackConfig.output.path = __dirname + '/..' + (path || '/dist');
+                webpackConfig.output.path = __dirname + '/..' + path;
 
                 console.log('webpackConfig.output.filename', webpackConfig.output.filename);
                 console.log('webpackConfig.output.path', webpackConfig.output.path);
 
-                if(buildName === 'full')
+                if(buildName === 'full' && !version) // build docs if full is rebuilded
                     webpackConfig.plugins.push(new JsDocPlugin({
                         conf: __dirname + '/../jsdoc.json'
                     }));
