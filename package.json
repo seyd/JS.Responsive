@@ -44,10 +44,10 @@
     "commonjs",
     "bower"
   ],
-  "author": "Krasimir Tsonev",
+  "author": "Jan Seyd",
   "license": "GPL-2.0",
   "bugs": {
-    "url": "https://github.com/krasimir/webpack-library-starter/issues"
+    "url": "https://github.com/seyd/JS.Responsive/issues"
   },
-  "homepage": "http://responsive.lab.wezeo.com/"
+  "homepage": "http://jsresponsive.wezeo.com/"
 }
