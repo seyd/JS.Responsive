@@ -130,7 +130,7 @@
 		var args = (arguments.length === 1 ? [arguments[0]] : Array.apply(null, arguments)),
 			errors = [];
 
-		args.unshift(); // first argument is event type
+		args.shift(); // first argument is event type
 
 		if(listeners[type])
 			forEach(listeners[type], applyEach);
