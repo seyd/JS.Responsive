@@ -69,7 +69,7 @@ module.exports = function(cfg, buildName, callback, version){
         function writeResult(concat) {
             var result = JSRSource.replace(/\/\* Optional files content goes here! \*\//g, concat),
                 entryName = '/../tmp/JS.Responsive.entry' + capitalizeFirstLetter(buildName) + '.js',
-                outputName = 'JS.Responsive';
+                outputName = 'JS.Responsive' + (buildName !== 'default' ? '.' + buildName : '');
 
             fs.writeFile( entryName, result, 'utf8', function (err) {
                 if (err) return console.log(err);
@@ -84,8 +84,7 @@ module.exports = function(cfg, buildName, callback, version){
                 // webpackConfig.debug = true;
                 webpackConfig.context = __dirname;
 
-                var path = '',
-                    fileName = '[name]';
+                var path = '';
 
                 if(version){
                     path += '/tmp/' + version;
@@ -101,13 +100,11 @@ module.exports = function(cfg, buildName, callback, version){
                     if(!fs.existsSync(__dirname + '/..' + path)){
                         fs.mkdirSync(__dirname + '/..' + path);
                     }
-                    fileName += '.' + buildName;
                 }
 
-                webpackConfig.output.filename = fileName + '.js';
                 webpackConfig.output.path = __dirname + '/..' + path;
 
-                console.log('webpackConfig.output.filename', webpackConfig.output.filename);
+                console.log('webpackConfig.output.filename', webpackConfig.output.filename, outputName);
                 console.log('webpackConfig.output.path', webpackConfig.output.path);
 
                 if(buildName === 'full' && !version) // build docs if full is rebuilded
