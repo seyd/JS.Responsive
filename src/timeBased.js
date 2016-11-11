@@ -12,7 +12,37 @@ var timeBreakPointTimeout,
     yearPeriod,
     lastDayTime,
     lastDayTimePeriod,
-    lastYearPeriod;
+    lastYearPeriod,
+    MORNING = 'morning',
+    AFTERNOON = 'afternoon',
+    EVENING = 'evening',
+    NIGHT = 'night',
+    DAYPERIODS = {
+        0: NIGHT,
+        1: NIGHT,
+        2: NIGHT,
+        3: NIGHT,
+        4: NIGHT,
+        5: NIGHT,
+        6: MORNING,
+        7: MORNING,
+        8: MORNING,
+        9: MORNING,
+        10: MORNING,
+        11: MORNING,
+        12: AFTERNOON,
+        13: AFTERNOON,
+        14: AFTERNOON,
+        15: AFTERNOON,
+        16: AFTERNOON,
+        17: EVENING,
+        18: EVENING,
+        19: EVENING,
+        20: NIGHT,
+        21: NIGHT,
+        22: NIGHT,
+        23: NIGHT,
+    };
 
 /**
  * Returns actual day time period. One of morning, afternoon, evening or night.
@@ -110,6 +140,11 @@ $C.features.timeBased = initTimeBased;
 // DECLARATIONS:
 
 function initTimeBased() {
+    var now = new Date();
+    dayTimeCurrent = 'day-time-' + now.getHours() + 'h';
+    dayTimePeriod = DAYPERIODS[now.getHours()];
+    yearPeriod = getYearPeriod(now);
+
     if (docReadyTime){
         timeBreakPointsInit();
         realInitTimeBased();
@@ -135,43 +170,6 @@ function realInitTimeBased(){
 
 // fn definitions
 function setClasses(){
-
-    var now = new Date(),
-        MORNING = 'morning',
-        AFTERNOON = 'afternoon',
-        EVENING = 'evening',
-        NIGHT = 'night',
-        DAYPERIODS = {
-            0: NIGHT,
-            1: NIGHT,
-            2: NIGHT,
-            3: NIGHT,
-            4: NIGHT,
-            5: NIGHT,
-            6: MORNING,
-            7: MORNING,
-            8: MORNING,
-            9: MORNING,
-            10: MORNING,
-            11: MORNING,
-            12: AFTERNOON,
-            13: AFTERNOON,
-            14: AFTERNOON,
-            15: AFTERNOON,
-            16: AFTERNOON,
-            17: EVENING,
-            18: EVENING,
-            19: EVENING,
-            20: NIGHT,
-            21: NIGHT,
-            22: NIGHT,
-            23: NIGHT,
-        };
-
-    dayTimeCurrent = 'day-time-' + now.getHours() + 'h';
-    dayTimePeriod = DAYPERIODS[now.getHours()];
-    yearPeriod = getYearPeriod(now);
-
     if(lastDayTime != dayTimeCurrent){
         removeClass(lastDayTime);
         addClass(dayTimeCurrent);
