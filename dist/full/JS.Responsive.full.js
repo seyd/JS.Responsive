@@ -224,7 +224,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	     */
 	
 	    $C.isMobile = function () {
-	        if (isMobileInitialised) return isMobileCachedInfo;else return www_detectmobilebrowsers_com();
+	        if (isMobileInitialised) return isMobile;else return www_detectmobilebrowsers_com();
 	    };
 	
 	    var isMobile = FALSE,
