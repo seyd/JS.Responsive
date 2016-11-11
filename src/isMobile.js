@@ -15,7 +15,7 @@
 
 $C.isMobile = function() {
     if(isMobileInitialised)
-        return isMobileCachedInfo;
+        return isMobile;
     else
         return www_detectmobilebrowsers_com();
 };
