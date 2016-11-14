@@ -4,6 +4,7 @@
   { "file":"loadFocusBlur",               "methods":["isDocumentLoaded", "isDocumentUnloading", "isFocused"] },
   { "file":"detectAgent",                 "methods":["watchBrowserVersion", "getPlatformInfo", "getAgentTags"] },
   { "file":"detectTouch",                 "methods":["isTouch"] },
+  { "file":"touchVsMouse",                 "methods":["touchVsMouseUsingTouch"] },
   { "file":"detectHiRes",                 "methods":["isHiResDisplay"] },
   { "file":"detectOrientation",           "methods":["isLandscape", "isPortrait"] },
   { "file":"detectDeviceOrientation",     "methods":["getDeviceOrientation", "getDeviceOrientationAngle"] },
