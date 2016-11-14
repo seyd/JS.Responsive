@@ -667,7 +667,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    });
 	
 	    bind(document, 'mousedown mousemove', function () {
-	        if (touchVsMouseUsingTouch == FALSE || Date.now() - touchVsMouseLastTime < 250) return;
+	        if (touchVsMouseUsingTouch === FALSE || Date.now() - touchVsMouseLastTime < 250) return;
 	
 	        touchVsMouseUsingTouch = FALSE;
 	        addClass('user-is-using-mouse');
