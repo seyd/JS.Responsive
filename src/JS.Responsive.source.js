@@ -135,7 +135,7 @@
 		if(listeners[type])
 			forEach(listeners[type], applyEach);
 		if(listeners['all']) // listeners to all event types
-			forEach('all', applyEach);
+			forEach(listeners['all'], applyEach);
 
 		if (errors.length) {
 			// if more errors, we want to print all to console
