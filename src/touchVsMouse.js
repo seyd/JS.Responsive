@@ -26,7 +26,7 @@ bind(document, 'touchstart', function(){
 });
 
 bind(document, 'mousedown mousemove', function(){
-    if (!touchVsMouseUsingTouch || Date.now() - touchVsMouseLastTime < 250)
+    if (touchVsMouseUsingTouch == FALSE || Date.now() - touchVsMouseLastTime < 250)
         return;
 
     touchVsMouseUsingTouch = FALSE;
