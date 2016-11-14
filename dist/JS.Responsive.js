@@ -666,14 +666,17 @@ return /******/ (function(modules) { // webpackBootstrap
 	        $C.emit('changedUsingTouch', TRUE, FALSE);
 	    });
 	
-	    bind(document, 'mousedown mousemove', function () {
+	    bind(document, 'mousemove', mouseHandler);
+	    bind(document, 'mousedown', mouseHandler);
+	
+	    function mouseHandler() {
 	        if (touchVsMouseUsingTouch === FALSE || Date.now() - touchVsMouseLastTime < 250) return;
 	
 	        touchVsMouseUsingTouch = FALSE;
 	        addClass('user-is-using-mouse');
 	        removeClass('user-is-using-touch');
 	        $C.emit('changedUsingTouch', FALSE, TRUE);
-	    });
+	    }
 	    /**
 	     *
 	     * @module detectHiRes
