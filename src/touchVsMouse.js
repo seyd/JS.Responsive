@@ -16,7 +16,8 @@ $C.isUsingTouches = function() {
     return touchVsMouseUsingTouch;
 };
 
-var touchVsMouseUsingTouch;
+var touchVsMouseLastTime = 0,
+    touchVsMouseUsingTouch;
 
 bind(document, 'touchstart', function(){
     if(touchVsMouseUsingTouch)
@@ -25,6 +26,7 @@ bind(document, 'touchstart', function(){
     touchVsMouseUsingTouch = TRUE;
     addClass('user-is-using-touch');
     removeClass('user-is-using-mouse');
+    touchVsMouseLastTime = Date.now();
     $C.emit('changedUsingTouch', TRUE, FALSE);
 });
 
@@ -32,7 +34,7 @@ bind(document, 'mousemove', mouseHandler);
 bind(document, 'mousedown', mouseHandler);
 
 function mouseHandler() {
-    if (touchVsMouseUsingTouch === FALSE)
+    if (touchVsMouseUsingTouch === FALSE || Date.now() - touchVsMouseLastTime < 250)
         return;
 
     touchVsMouseUsingTouch = FALSE;
