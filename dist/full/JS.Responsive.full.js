@@ -676,8 +676,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    bind(document, 'mousedown', mouseHandler);
 	
 	    function mouseHandler() {
-	        console.log('Date.now() - touchVsMouseLastTime < 250', Date.now() - touchVsMouseLastTime);
-	        if (touchVsMouseUsingTouch === FALSE || Date.now() - touchVsMouseLastTime < 250) return;
+	        if (touchVsMouseUsingTouch === FALSE || Date.now() - touchVsMouseLastTime < 1000) return;
 	
 	        touchVsMouseUsingTouch = FALSE;
 	        addClass('user-is-using-mouse');
