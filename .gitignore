@@ -39,19 +39,15 @@ jspm_packages
 .node_repl_history
 
 # Webstorm project files
-.idea
+.idea/
 
 # not ready for publicity
-demo
-docs
+demo/
+docs/
 
 # temporary files
-tmp
-/dist/JS.Responsive.custom.js
-/dist/JS.Responsive.custom.min.js.map
-/dist/JS.Responsive.custom.min.js
-/dist/JS.Responsive.custom.js.map
-
+tmp/
+*.tmp
 
 # Mac system files
 *.DS_Store
