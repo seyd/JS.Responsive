@@ -641,6 +641,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	    function detectTouch() {
 	        addClass($C.isTouch() ? 'touch' : 'no-touch');
 	    }
+	    /**
+	    *
+	    * @module touchVsMouse
+	    *
+	    **/
 	
 	    /**
 	     * Returns information if is actually using touches.

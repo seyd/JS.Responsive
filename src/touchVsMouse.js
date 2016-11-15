@@ -1,3 +1,8 @@
+/**
+*
+* @module touchVsMouse
+*
+**/
 
 /**
  * Returns information if is actually using touches.
