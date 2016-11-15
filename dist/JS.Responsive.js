@@ -658,8 +658,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        return touchVsMouseUsingTouch;
 	    };
 	
-	    var touchVsMouseLastTime = 0,
-	        touchVsMouseUsingTouch;
+	    var touchVsMouseUsingTouch;
 	
 	    bind(document, 'touchstart', function () {
 	        if (touchVsMouseUsingTouch) return;
@@ -667,7 +666,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	        touchVsMouseUsingTouch = TRUE;
 	        addClass('user-is-using-touch');
 	        removeClass('user-is-using-mouse');
-	        touchVsMouseLastTime = Date.now();
 	        $C.emit('changedUsingTouch', TRUE, FALSE);
 	    });
 	
@@ -675,7 +673,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    bind(document, 'mousedown', mouseHandler);
 	
 	    function mouseHandler() {
-	        if (touchVsMouseUsingTouch === FALSE || Date.now() - touchVsMouseLastTime < 250) return;
+	        if (touchVsMouseUsingTouch === FALSE) return;
 	
 	        touchVsMouseUsingTouch = FALSE;
 	        addClass('user-is-using-mouse');
