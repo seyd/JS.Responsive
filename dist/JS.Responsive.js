@@ -179,9 +179,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	        var args = arguments.length === 1 ? [arguments[0]] : Array.apply(null, arguments),
 	            errors = [];
 	
-	        args.shift(); // first argument is event type
-	
+	        args.shift(); // first argument is event type, we temporary remove it
 	        if (listeners[type]) forEach(listeners[type], applyEach);
+	
+	        args.unshift(type); // type added back
 	        if (listeners['all']) // listeners to all event types
 	            forEach(listeners['all'], applyEach);
 	
