@@ -68,13 +68,13 @@ module.exports = function(cfg, buildName, callback, version){
 
         function writeResult(concat) {
             var result = JSRSource.replace(/\/\* Optional files content goes here! \*\//g, concat),
-                entryName = '/../tmp/JS.Responsive.entry' + capitalizeFirstLetter(buildName) + '.js',
+                entryName = __dirname + '/../tmp/JS.Responsive.entry' + capitalizeFirstLetter(buildName) + '.js',
                 outputName = 'JS.Responsive' + (buildName !== 'default' ? '.' + buildName : '');
 
             fs.writeFile( entryName, result, 'utf8', function (err) {
                 if (err) return console.log(err);
 
-                console.log('Build start: ', buildName);
+                console.log('Build start: ', buildName, version);
 
                 var entry = {};
                 entry[outputName] = entryName;
@@ -120,6 +120,9 @@ module.exports = function(cfg, buildName, callback, version){
                         // create zip file for whole folder
                         zipFolder(version, buildName + cfg, callback);
                     }
+
+                    if(buildName === 'full' && !version) // build docs if full is rebuilded
+                        webpackConfig.plugins.pop(); // pop JsDocPlugin
 
                     console.log('Build end: ', buildName + cfg);
                     // console.log("webpack stats", stats);
