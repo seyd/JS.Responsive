@@ -46,8 +46,8 @@ buildFullAndDefault();
 // DECLARATIONS:
 
 function buildFullAndDefault() {
-    customBuild(false, 'full', function () {
-        customBuild(false, 'default'); // temporary default is same as full
+    customBuild(false, 'default', function () {
+        customBuild(false, 'full');
     });
 }
 
