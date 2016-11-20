@@ -14,8 +14,13 @@ fs.readFile(filePath, 'utf-8', function(err, contents){
     if(!contents)
         return;
 
+    if(contents.match("jsdoc = spawn(__dirname + '/node_modules/.bin/jsdoc', files.concat('-c', jsDocConfTmp)); // flag"))
+        return;
+    else if(!contents.match("jsdoc = spawn('./node_modules/.bin/jsdoc', files.concat('-c', jsDocConfTmp));"))
+        console.log('Fix may not be needed, please let me know -> laky@wezeo.com');
+
     contents = contents.replace("jsdoc = spawn('./node_modules/.bin/jsdoc', files.concat('-c', jsDocConfTmp));",
-                                "jsdoc = spawn(__dirname + '/node_modules/.bin/jsdoc', files.concat('-c', jsDocConfTmp));");
+                                "jsdoc = spawn(__dirname + '/node_modules/.bin/jsdoc', files.concat('-c', jsDocConfTmp)); // flag");
 
     fs.writeFile(filePath, contents, function(err){
         if(err) console.error(err);
