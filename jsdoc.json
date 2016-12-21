@@ -9,6 +9,10 @@
     "includePattern": ".+\\.js(doc|x)?$",
     "excludePattern": "(^|\\/|\\\\)_"
   },
+  "tags": {
+    "allowUnknownTags": true
+  },
+  "plugins": [ "server/jsdocCustomTags.js" ],
   "templates": {
     " * JSON comment * "    : "About these settings http://docstrap.github.io/docstrap/",
     "systemName"            : "JS.Responsive",
