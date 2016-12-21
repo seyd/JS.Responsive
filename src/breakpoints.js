@@ -6,6 +6,10 @@
  * @custom-class $breakpointName$-more - applied when display size is higher or equal to provided size for the name DEMO: http://codepen.io/WEZEO/pen/PbZMmq
  * @custom-class $breakpointName$-less - applied when display size is smaller than provided size for the name DEMO: http://codepen.io/WEZEO/pen/PbZMmq
  * @custom-class $breakpointName$ - applied when display size is higher or equal to provided size and less then next breakpoint size if any DEMO: http://codepen.io/WEZEO/pen/PbZMmq
+ *
+ * @emits changedBreakPointHorizontal - fires when new horizontal breakpoint is reached
+ * @emits changedBreakPointVertical - fires when new vertical breakpoint is reached
+ *
  * @example <caption>Example usage of module</caption>
  *
  * // JS:

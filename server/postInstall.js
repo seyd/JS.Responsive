@@ -7,7 +7,17 @@ var fs = require('fs'),
                 '<dd class="tag-default"> ' +
                     '<ul class="dummy"> ' +
                         '<?js data.customclass.forEach(function(c) { ?> ' +
-                            '<li><?js= c.name ?> - <?js= c.description ?><?js if (c.demo) {?>(<a href="<?js= c.demo ?>">DEMO</a>)<?js } ?></li> ' +
+                            '<li><?js= c.name ?> - <?js= c.description ?><?js if (c.demo) {?>(<a href="<?js= c.demo ?>">DEMO</a>)<?js } ?></li>' +
+                        '<?js }); ?> ' +
+                    '</ul> ' +
+                '</dd> ' +
+            '<?js } ?>' +
+            '<?js if (data.fires && data.fires.length) {?> ' +
+                '<dt class="tag-default method-doc-label method-doc-details-label">Events:</dt> ' +
+                '<dd class="tag-default"> ' +
+                    '<ul class="dummy"> ' +
+                        '<?js data.fires.forEach(function(f) { ?> ' +
+                            '<li><?js= f.replace(/^event:/,"") ?></li>' +
                         '<?js }); ?> ' +
                     '</ul> ' +
                 '</dd> ' +
