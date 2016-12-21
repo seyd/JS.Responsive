@@ -1,6 +1,17 @@
 /**
  *
+ * Detection of device orientation
  * @module detectDeviceOrientation
+ *
+ * @custom-class device-orientation-portrait
+ * @custom-class device-orientation-landscape
+ * @custom-class device-orientation-0
+ * @custom-class device-orientation-90
+ * @custom-class device-orientation-180
+ * @custom-class device-orientation-270
+ *
+ * @emits changedDeviceOrientationAngle
+ * @emits changedDeviceOrientation
  *
  * */
 
@@ -49,6 +60,8 @@ $C.getDeviceOrientationAngle = function() {
 
 $C.features.detectDeviceOrientation = initDetectDeviceOrientation;
 
+
+// Function definitions: ######################### ######################### ######################### ######################### ######################### ######################### #########################
 
 // init detection
 function initDetectDeviceOrientation() {

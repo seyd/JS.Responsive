@@ -1,6 +1,6 @@
 /**
  *
- * Detection of high resolution display
+ * User agent detection for precise fixes.
  * @module detectAgent
  *
  * @custom-class $browserName$-v$version$-le - applied when browser is lower or equal version

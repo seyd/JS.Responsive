@@ -1,6 +1,6 @@
 /**
  *
- * Detection of high resolution display
+ * Adding horizontal and vertical breakpoints, similar use case to media queries, but with js API.
  * @module breakpoints
  *
  * @custom-class $breakpointName$-more - applied when display size is higher or equal to provided size for the name DEMO: http://codepen.io/WEZEO/pen/PbZMmq
