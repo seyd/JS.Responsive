@@ -1,7 +1,39 @@
 /**
  *
+ * Detection of high resolution display
  * @module breakpoints
  *
+ * @custom-class $breakpointName$-more - applied when display size is higher or equal to provided size for the name DEMO: http://codepen.io/WEZEO/pen/PbZMmq
+ * @custom-class $breakpointName$-less - applied when display size is smaller than provided size for the name DEMO: http://codepen.io/WEZEO/pen/PbZMmq
+ * @custom-class $breakpointName$ - applied when display size is higher or equal to provided size and less then next breakpoint size if any DEMO: http://codepen.io/WEZEO/pen/PbZMmq
+ * @example <caption>Example usage of module</caption>
+ *
+ * // JS:
+ * JS.Responsive
+ *     .init()
+ *     .addHorizontalBreakPoint('micro', 420)
+ *     .addHorizontalBreakPoint('tiny', 478)
+ *     .addHorizontalBreakPoint('small', 768)
+ *     .addHorizontalBreakPoint('medium', 992)
+ *     .addHorizontalBreakPoint('large', 1230);
+ *
+ * // CSS:
+ * #github-ribbon {
+ *	    position: absolute;
+ *	    top: -(5/$font-size)+rem;
+ *      ...
+ *
+ *      html.medium-less & {
+ *		    height: (88/$font-size)+rem;
+ *		    padding: 0;
+ *		    border: 0;
+ *		    background-color: transparent;
+ *	    }
+ *
+ *      html.small-less & {
+ *		    display: none;
+ *	    }
+ * }
  * */
 
 
@@ -39,6 +71,7 @@ var
  * @example JS.Responsive.addHorizontalBreakPoint('medium', 960);
  * @memberof module:breakpoints
  * @alias JS.Responsive.addHorizontalBreakPoint
+ * @since 3.0.0
  */
 $C.addHorizontalBreakPoint = function( name, width ) {
     addBreakPoint(name, width, horizontalSizes, WIDTH_STRING);
@@ -53,6 +86,7 @@ $C.addHorizontalBreakPoint = function( name, width ) {
  * @example JS.Responsive.removeHorizontalBreakPoint('medium');
  * @memberof module:breakpoints
  * @alias JS.Responsive.removeHorizontalBreakPoint
+ * @since 3.0.0
  */
 $C.removeHorizontalBreakPoint = function( name ) {
     removeBreakPoint(name, horizontalSizes);
@@ -65,6 +99,7 @@ $C.removeHorizontalBreakPoint = function( name ) {
  * @returns {String|null} Name of actual horizontal break point or null if no horizontal break point is set.
  * @memberof module:breakpoints
  * @alias JS.Responsive.getActualHorizontalBreakPoint
+ * @since 3.0.0
  */
 $C.getActualHorizontalBreakPoint = function() {
 
@@ -78,6 +113,7 @@ $C.getActualHorizontalBreakPoint = function() {
  * @returns {Object} this - for chaining.
  * @memberof module:breakpoints
  * @alias JS.Responsive.disableHorizontalBreakPoints
+ * @since 3.0.0
  */
 $C.disableHorizontalBreakPoints = function( _leaveActualClasses ) {
 
@@ -93,6 +129,7 @@ $C.disableHorizontalBreakPoints = function( _leaveActualClasses ) {
  * @returns {Object} this - for chaining.
  * @memberof module:breakpoints
  * @alias JS.Responsive.enableHorizontalBreakPoints
+ * @since 3.0.0
  */
 $C.enableHorizontalBreakPoints = function() {
 
@@ -107,6 +144,7 @@ $C.enableHorizontalBreakPoints = function() {
  * @returns {Boolean}
  * @memberof module:breakpoints
  * @alias JS.Responsive.isDisabledHorizontalBreakPoints
+ * @since 3.0.0
  */
 $C.isDisabledHorizontalBreakPoints = function() {
 
@@ -122,6 +160,7 @@ $C.isDisabledHorizontalBreakPoints = function() {
  * @example JS.Responsive.addVerticalBreakPoint('vertical-medium', 960);
  * @memberof module:breakpoints
  * @alias JS.Responsive.addVerticalBreakPoint
+ * @since 3.0.0
  */
 $C.addVerticalBreakPoint = function( name, height ) {
 
@@ -137,6 +176,7 @@ $C.addVerticalBreakPoint = function( name, height ) {
  * @example JS.Responsive.removeVerticalBreakPoint('vertical-medium');
  * @memberof module:breakpoints
  * @alias JS.Responsive.removeVerticalBreakPoint
+ * @since 3.0.0
  */
 $C.removeVerticalBreakPoint = function( name ) {
 
@@ -150,6 +190,7 @@ $C.removeVerticalBreakPoint = function( name ) {
  * @returns {String|null} Name of actual vertical break point or null if no vertical break point is set.
  * @memberof module:breakpoints
  * @alias JS.Responsive.getActualVerticalBreakPoint
+ * @since 3.0.0
  */
 $C.getActualVerticalBreakPoint = function() {
 
@@ -163,6 +204,7 @@ $C.getActualVerticalBreakPoint = function() {
  * @returns {Object} this - for chaining.
  * @memberof module:breakpoints
  * @alias JS.Responsive.disableVerticalBreakPoints
+ * @since 3.0.0
  */
 $C.disableVerticalBreakPoints = function( _leaveActualClasses ) {
 
@@ -178,6 +220,7 @@ $C.disableVerticalBreakPoints = function( _leaveActualClasses ) {
  * @returns {Object} this - for chaining.
  * @memberof module:breakpoints
  * @alias JS.Responsive.enableVerticalBreakPoints
+ * @since 3.0.0
  */
 $C.enableVerticalBreakPoints = function() {
 
@@ -192,6 +235,7 @@ $C.enableVerticalBreakPoints = function() {
  * @returns {Boolean}
  * @memberof module:breakpoints
  * @alias JS.Responsive.isDisabledVerticalBreakPoints
+ * @since 3.0.0
  */
 $C.isDisabledVerticalBreakPoints = function() {
 
@@ -206,6 +250,7 @@ $C.isDisabledVerticalBreakPoints = function() {
  * @example if (JS.Responsive.getWindowWidth()>JS.Responsive.getWindowHeight()) ...
  * @memberof module:breakpoints
  * @alias JS.Responsive.getWindowWidth
+ * @since 3.0.0
  */
 $C.getWindowWidth = getWindowWidth;
 
@@ -218,6 +263,7 @@ $C.getWindowWidth = getWindowWidth;
  * @example if (JS.Responsive.getWindowWidth()>JS.Responsive.getWindowHeight()) ...
  * @memberof module:breakpoints
  * @alias JS.Responsive.getWindowHeight
+ * @since 3.0.0
  */
 $C.getWindowHeight = getWindowHeight;
 
@@ -229,6 +275,7 @@ $C.getWindowHeight = getWindowHeight;
  * @example if (JS.Responsive.getDocumentWidth()>JS.Responsive.getDocumentHeight()) ...
  * @memberof module:breakpoints
  * @alias JS.Responsive.getDocumentWidth
+ * @since 3.0.0
  */
 $C.getDocumentWidth = getDocumentWidth;
 
@@ -240,12 +287,13 @@ $C.getDocumentWidth = getDocumentWidth;
  * @example if (JS.Responsive.getDocumentWidth()>JS.Responsive.getWindowHeight()) ...
  * @memberof module:breakpoints
  * @alias JS.Responsive.getDocumentHeight
+ * @since 3.0.0
  */
 $C.getDocumentHeight = getDocumentHeight;
 
 $C.features.breakpoints = initBreakpoints;
 
-// Function definitions:
+// Function definitions: ######################### ######################### ######################### ######################### ######################### ######################### #########################
 
 function initBreakpoints(){
     setInterval(checkWindowOrDocumentResize, CHECK_DOCUMENT_SIZE_INTERVAL);
