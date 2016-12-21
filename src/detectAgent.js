@@ -1,8 +1,14 @@
 /**
  *
+ * Detection of high resolution display
  * @module detectAgent
  *
- */
+ * @custom-class $browserName$-v$version$-le - applied when browser is lower or equal version
+ * @custom-class $browserName$-v$version$-ge - applied when browser is higher or equal version
+ * @custom-class $browserName$-v$version$-l - applied when browser is lower version
+ * @custom-class $browserName$-v$version$-g - applied when browser is higher version
+ *
+ * */
 
 /** Set watching given browser and its version
  * @param {String} browser - browser name, see function getAgentData() attribute "identity"
@@ -58,7 +64,7 @@ $C.getAgentTags = getAgentTags;
 
 $C.features.detectAgent = detectAgentPlatform;
 
-// Declarations:
+// Function definitions: ######################### ######################### ######################### ######################### ######################### ######################### #########################
 
 function findAgentDataByBrowserName( browser ) {
 
