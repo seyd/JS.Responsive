@@ -7,7 +7,7 @@
  * @custom-class user-is-using-touch
  * @custom-class user-is-using-mouse
  *
- * @emits changedUsingTouch
+ * @emits changedUsingTouch - Arguments: {Boolean} isUsingTouch
  *
  **/
 
@@ -34,7 +34,7 @@ bind(document, 'touchstart', function(){
     touchVsMouseUsingTouch = TRUE;
     addClass('user-is-using-touch');
     removeClass('user-is-using-mouse');
-    $C.emit('changedUsingTouch', TRUE, FALSE);
+    $C.emit('changedUsingTouch', TRUE);
 });
 
 bind(document, 'mousemove', mouseHandler);
@@ -47,5 +47,5 @@ function mouseHandler() {
     touchVsMouseUsingTouch = FALSE;
     addClass('user-is-using-mouse');
     removeClass('user-is-using-touch');
-    $C.emit('changedUsingTouch', FALSE, TRUE);
+    $C.emit('changedUsingTouch', FALSE);
 }

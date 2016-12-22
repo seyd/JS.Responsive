@@ -10,9 +10,14 @@
     "methods":["isScrolling"]
   },
   {
-    "file":"loadFocusBlur",
+    "file":"focusBlur",
     "teaser":"window is focused or not",
-    "methods":["isDocumentLoaded", "isDocumentUnloading", "isFocused"]
+    "methods":["isFocused"]
+  },
+  {
+    "file":"documentState",
+    "teaser":"document is loading state",
+    "methods":["isDocumentLoaded", "isDocumentUnloading"]
   },
   {
     "file":"detectAgent",

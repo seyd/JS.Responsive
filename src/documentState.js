@@ -1,16 +1,20 @@
 /**
  *
- * @module loadFocusBlur
+ * Detection of document loading state.
+ * @module documentState
  *
- * */
+ * @custom-class state-uninitialized - has not started loading yet
+ * @custom-class state-loading - is loading
+ * @custom-class state-interactive - Has loaded enough and the user can interact with it
+ * @custom-class state-complete - fully loaded
+ * @custom-class state-loaded - when document is loaded (including all images)
+ * @custom-class state-unloading - when document is unloading
+ *
+ * @emits changedDocumentState - Arguments: {String} - new-state, {String} - old-state, both are states strings like classes but without "state-" prefix
+ *
+ **/
 
 var isDocumentUnloading = FALSE,
-
-    // Opera does not support document.hasFocus()
-    isWindowFocused = document.hasFocus ? document.hasFocus() : TRUE,
-
-    WINDOW_FOCUSED_CLASS = 'window-focused',
-    WINDOW_BLURED_CLASS = 'window-blured',
 
     lastDocumentState = 'uninitialized',
     onceLoaded = FALSE;
@@ -18,7 +22,7 @@ var isDocumentUnloading = FALSE,
 /**
  * Returns if document is in state that everything is loaded.
  * @returns {Boolean}
- * @memberof module:loadFocusBlur
+ * @memberof module:documentState
  * @alias JS.Responsive.isDocumentLoaded
  */
 $C.isDocumentLoaded = function() {
@@ -30,7 +34,7 @@ $C.isDocumentLoaded = function() {
 /**
  * Returns true if user is leaving current page.
  * @returns {Boolean}
- * @memberof module:loadFocusBlur
+ * @memberof module:documentState
  * @alias JS.Responsive.isDocumentUnloading
  */
 $C.isDocumentUnloading = function() {
@@ -38,32 +42,13 @@ $C.isDocumentUnloading = function() {
     return isDocumentUnloading;
 };
 
+$C.features.documentState = initDocState;
 
-/**
- * Returns true if window is focused/active.
- * @returns {Boolean}
- * @memberof module:loadFocusBlur
- * @alias JS.Responsive.isFocused
- */
-$C.isFocused = function() {
-
-    return isWindowFocused;
-};
-
-$C.features.loadFocusBlur = initLFB;
-
-function initLFB() {
+function initDocState() {
     bind(document, 'readystatechange', onreadyStateChangeHandler);
     bind(window, 'load', onreadyStateChangeHandler);
     bind(window, 'unload', onunloadHandler);
     bind(window, 'onbeforeunload', onunloadHandler);
-    bind(window, 'blur', onblurHandler);
-    bind(window, 'focus', onfocusHandler);
-
-    if (isWindowFocused)
-        onfocusHandler();
-    else
-        onblurHandler();
 }
 
 function getDocumentState() {
@@ -81,7 +66,7 @@ function onreadyStateChangeHandler() {
          complete - Fully loaded
          ---custom state--------------------------------------------------------------------
          loaded - when document is loaded (including all images)
-         state-unloading - when document is unloading
+         unloading - when document is unloading
          */
         removeClass('state-uninitialized');
         removeClass('state-loading');
@@ -103,18 +88,4 @@ function onunloadHandler() {
     addClass('state-unloading');
     isDocumentUnloading = TRUE;
     $C.emit('documentUnloading');
-}
-
-function onblurHandler( e ) {
-    isWindowFocused = FALSE;
-    removeClass(WINDOW_FOCUSED_CLASS);
-    addClass(WINDOW_BLURED_CLASS);
-    $C.emit('windowBlur');
-}
-
-function onfocusHandler( e ) {
-    isWindowFocused = TRUE;
-    removeClass(WINDOW_BLURED_CLASS);
-    addClass(WINDOW_FOCUSED_CLASS);
-    $C.emit('windowFocus');
 }

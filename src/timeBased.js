@@ -1,8 +1,19 @@
 /**
  *
+ * Detection of document loading state.
  * @module timeBased
  *
- * */
+ * @custom-class day-time-$$h - day time class where $$ is actual hour (non zero-padded)
+ * @custom-class day-period-$periodName$ - day pariod class where name can be one of morning, afternoon, evening or night
+ * @custom-class year-period-$periodName$ - year pariod class where name can be one of spring, summer, autumn or winter
+ * @custom-class $timeBreakpointName$ - where name is custom name provided via setTimeBreakPoints
+ *
+ * @emits changedDayTime - Arguments: {String} dayTimeCurrent, {String} lastDayTime, both have same syntax as classes (day-time-$$h)
+ * @emits changedDayPeriod - Arguments: {String} dayTimePeriod, {String} lastDayTimePeriod, both have same syntax as classes (day-period-$periodName$)
+ * @emits changedYearPeriod - Arguments: {String} yearPeriod, {String} lastYearPeriod, both have same syntax as classes (year-period-$periodName$)
+ * @emits timeBreakpointReached - Arguments: {String} timeBreakPointReached - name provided via setTimeBreakPoints, {String|Undefined} timeBreakPointPrevious - if any
+ *
+ **/
 
 var timeBreakPointTimeout,
     timeBreakPointCurrentName,
@@ -113,21 +124,21 @@ $C.setTimeBreakPoints = function(breakpoints) {
 
             // remove current breakpoint name
             removeClass(timeBreakPointCurrentName);
-            timeBreakPointCurrentName = UNDEFINED;
 
             // apply new breakpoint
             var bp = breakpoints.shift();
             addClass(bp.name);
 
+            $C.emit('timeBreakpointReached', bp.name, timeBreakPointCurrentName);
+            timeBreakPointCurrentName = UNDEFINED;
+
             if(!bp.remains){
-                // next breakpoint will clear the current one
+                // next breakpoint will clear this one
                 timeBreakPointCurrentName = bp.name;
             }
 
             if(bp.remains && bp.remains !== TRUE)
-                setTimeout(function () {
-                    removeClass(bp.name);
-                }, bp.remains);
+                setTimeout(thenRemoveClass(bp.name), bp.remains);
 
             activateNext();
 
@@ -215,5 +226,11 @@ function getYearPeriod(date) {
             return testPeriod(index);
         else
             return firstDates[0].name;
+    }
+}
+
+function thenRemoveClass(className) {
+    return function () {
+        removeClass(className);
     }
 }
