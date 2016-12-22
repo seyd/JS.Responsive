@@ -1,14 +1,14 @@
 /**
  *
- * Detection of device orientation
+ * Detection of device orientation (not orientation of viewport aka width/height ration)
  * @module detectDeviceOrientation
  *
  * @custom-class device-orientation-portrait
  * @custom-class device-orientation-landscape
- * @custom-class device-orientation-0
- * @custom-class device-orientation-90
- * @custom-class device-orientation-180
- * @custom-class device-orientation-270
+ * @custom-class device-orientation-0 - most common state (default for device)
+ * @custom-class device-orientation-90 - device is left side down
+ * @custom-class device-orientation-180 - upside down
+ * @custom-class device-orientation-270 - device is right side down
  *
  * @emits changedDeviceOrientationAngle
  * @emits changedDeviceOrientation

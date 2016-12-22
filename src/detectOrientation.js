@@ -1,6 +1,12 @@
 /**
  *
+ * Detection of viewport orientation (not device physical orientation)
  * @module detectOrientation
+ *
+ * @custom-class portrait
+ * @custom-class landscape
+ *
+ * @emits changedOrientation
  *
  * */
 
