@@ -1,8 +1,15 @@
 /**
-*
-* @module touchVsMouse
-*
-**/
+ *
+ * Detection of touch usage, because some devices are capable of touches even they are equipped with mouse,
+ * so user can change usage of both inputs unexpectedly in time.
+ * @module touchVsMouse
+ *
+ * @custom-class user-is-using-touch
+ * @custom-class user-is-using-mouse
+ *
+ * @emits changedUsingTouch
+ *
+ **/
 
 /**
  * Returns information if is actually using touches.

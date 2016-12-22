@@ -1,8 +1,12 @@
 /**
  *
+ * Detection of mobile vs desktop devices
  * @module isMobile
  *
- * */
+ * @custom-class mobile
+ * @custom-class desktop
+ *
+ **/
 
 /**
  * Returns information if device is a mobile device.

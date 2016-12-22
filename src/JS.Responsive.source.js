@@ -32,6 +32,9 @@
 	 * Constructor is PRIVATE, client must use only class methods!!!!!
 	 * @constructor
 	 * @alias JS.Responsive
+	 *
+	 * @emit documentReady - when document becomes ready
+	 *
 	 */
 	var $C = JS.Responsive = function() {
 		throw new Error("JS.Responsive cannot have instances.");

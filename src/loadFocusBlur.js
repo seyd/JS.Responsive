@@ -19,7 +19,7 @@ var isDocumentUnloading = FALSE,
  * Returns if document is in state that everything is loaded.
  * @returns {Boolean}
  * @memberof module:loadFocusBlur
- * @alias JS.Responsive.addHorizontalBreakPoint
+ * @alias JS.Responsive.isDocumentLoaded
  */
 $C.isDocumentLoaded = function() {
 
@@ -31,7 +31,7 @@ $C.isDocumentLoaded = function() {
  * Returns true if user is leaving current page.
  * @returns {Boolean}
  * @memberof module:loadFocusBlur
- * @alias JS.Responsive.addHorizontalBreakPoint
+ * @alias JS.Responsive.isDocumentUnloading
  */
 $C.isDocumentUnloading = function() {
 
@@ -43,7 +43,7 @@ $C.isDocumentUnloading = function() {
  * Returns true if window is focused/active.
  * @returns {Boolean}
  * @memberof module:loadFocusBlur
- * @alias JS.Responsive.addHorizontalBreakPoint
+ * @alias JS.Responsive.isFocused
  */
 $C.isFocused = function() {
 

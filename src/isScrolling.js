@@ -1,8 +1,16 @@
 /**
  *
+ * Detection of scroll usage
  * @module isScrolling
  *
- * */
+ * @custom-class scrolling
+ * @custom-class no-scrolling
+ *
+ * @emits scrollStart
+ * @emits scrolling
+ * @emits scrollStop
+ *
+ **/
 
 var
     // how many miliseconds stays class name 'scroll' after scrolling
