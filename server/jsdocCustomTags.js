@@ -4,7 +4,7 @@ exports.defineTags = function(dictionary) {
         canHaveType: false,
         canHaveName: true,
         onTagged: function(doclet, tag) {
-            console.log('dingdong', tag);
+            // console.log('dingdong', tag);
             if(!doclet.customclass)
                 doclet.customclass = [];
 

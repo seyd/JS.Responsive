@@ -86,6 +86,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	     * Constructor is PRIVATE, client must use only class methods!!!!!
 	     * @constructor
 	     * @alias JS.Responsive
+	     *
+	     * @emit documentReady - when document becomes ready
+	     *
 	     */
 	    var $C = JS.Responsive = function () {
 	        throw new Error("JS.Responsive cannot have instances.");
@@ -212,9 +215,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	    /**
 	    *
+	    * Detection of mobile vs desktop devices
 	    * @module isMobile
 	    *
-	    * */
+	    * @custom-class mobile
+	    * @custom-class desktop
+	    *
+	    **/
 	
 	    /**
 	     * Returns information if device is a mobile device.
@@ -251,9 +258,17 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 	    /**
 	     *
+	     * Detection of scroll usage
 	     * @module isScrolling
 	     *
-	     * */
+	     * @custom-class scrolling
+	     * @custom-class no-scrolling
+	     *
+	     * @emits scrollStart
+	     * @emits scrolling
+	     * @emits scrollStop
+	     *
+	     **/
 	
 	    var
 	    // how many miliseconds stays class name 'scroll' after scrolling
@@ -312,25 +327,28 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 	    /**
 	     *
-	     * @module loadFocusBlur
+	     * Detection of touch usage, because some devices are capable of touches even they are equipped with mouse,
+	     * so user can change usage of both inputs unexpectedly in time.
+	     * @module focusBlur
 	     *
-	     * */
+	     * @custom-class window-focused
+	     * @custom-class window-blured
+	     *
+	     * @emits windowFocused - Arguments: {Boolean} isFocused
+	     *
+	     **/
 	
-	    var isDocumentUnloading = FALSE,
-	
-	
+	    var
 	    // Opera does not support document.hasFocus()
 	    isWindowFocused = document.hasFocus ? document.hasFocus() : TRUE,
 	        WINDOW_FOCUSED_CLASS = 'window-focused',
-	        WINDOW_BLURED_CLASS = 'window-blured',
-	        lastDocumentState = 'uninitialized',
-	        onceLoaded = FALSE;
+	        WINDOW_BLURED_CLASS = 'window-blured';
 	
 	    /**
 	     * Returns if document is in state that everything is loaded.
 	     * @returns {Boolean}
-	     * @memberof module:loadFocusBlur
-	     * @alias JS.Responsive.addHorizontalBreakPoint
+	     * @memberof module:focusBlur
+	     * @alias JS.Responsive.isDocumentLoaded
 	     */
 	    $C.isDocumentLoaded = function () {
 	
@@ -340,8 +358,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	    /**
 	     * Returns true if user is leaving current page.
 	     * @returns {Boolean}
-	     * @memberof module:loadFocusBlur
-	     * @alias JS.Responsive.addHorizontalBreakPoint
+	     * @memberof module:focusBlur
+	     * @alias JS.Responsive.isDocumentUnloading
 	     */
 	    $C.isDocumentUnloading = function () {
 	
@@ -351,25 +369,85 @@ return /******/ (function(modules) { // webpackBootstrap
 	    /**
 	     * Returns true if window is focused/active.
 	     * @returns {Boolean}
-	     * @memberof module:loadFocusBlur
-	     * @alias JS.Responsive.addHorizontalBreakPoint
+	     * @memberof module:focusBlur
+	     * @alias JS.Responsive.isFocused
 	     */
 	    $C.isFocused = function () {
 	
 	        return isWindowFocused;
 	    };
 	
-	    $C.features.loadFocusBlur = initLFB;
+	    $C.features.focusBlur = initFB;
 	
-	    function initLFB() {
-	        bind(document, 'readystatechange', onreadyStateChangeHandler);
-	        bind(window, 'load', onreadyStateChangeHandler);
-	        bind(window, 'unload', onunloadHandler);
-	        bind(window, 'onbeforeunload', onunloadHandler);
+	    function initFB() {
 	        bind(window, 'blur', onblurHandler);
 	        bind(window, 'focus', onfocusHandler);
 	
 	        if (isWindowFocused) onfocusHandler();else onblurHandler();
+	    }
+	
+	    function onblurHandler(e) {
+	        isWindowFocused = FALSE;
+	        removeClass(WINDOW_FOCUSED_CLASS);
+	        addClass(WINDOW_BLURED_CLASS);
+	        $C.emit('windowFocused', FALSE);
+	    }
+	
+	    function onfocusHandler(e) {
+	        isWindowFocused = TRUE;
+	        removeClass(WINDOW_BLURED_CLASS);
+	        addClass(WINDOW_FOCUSED_CLASS);
+	        $C.emit('windowFocused', TRUE);
+	    }
+	    /**
+	     *
+	     * Detection of document loading state.
+	     * @module documentState
+	     *
+	     * @custom-class state-uninitialized - has not started loading yet
+	     * @custom-class state-loading - is loading
+	     * @custom-class state-interactive - Has loaded enough and the user can interact with it
+	     * @custom-class state-complete - fully loaded
+	     * @custom-class state-loaded - when document is loaded (including all images)
+	     * @custom-class state-unloading - when document is unloading
+	     *
+	     * @emits changedDocumentState - Arguments: {String} - new-state, {String} - old-state, both are states strings like classes but without "state-" prefix
+	     *
+	     **/
+	
+	    var isDocumentUnloading = FALSE,
+	        lastDocumentState = 'uninitialized',
+	        onceLoaded = FALSE;
+	
+	    /**
+	     * Returns if document is in state that everything is loaded.
+	     * @returns {Boolean}
+	     * @memberof module:documentState
+	     * @alias JS.Responsive.isDocumentLoaded
+	     */
+	    $C.isDocumentLoaded = function () {
+	
+	        return isDocumentLoaded;
+	    };
+	
+	    /**
+	     * Returns true if user is leaving current page.
+	     * @returns {Boolean}
+	     * @memberof module:documentState
+	     * @alias JS.Responsive.isDocumentUnloading
+	     */
+	    $C.isDocumentUnloading = function () {
+	
+	        return isDocumentUnloading;
+	    };
+	
+	    $C.features.documentState = initDocState;
+	
+	    function initDocState() {
+	        bind(document, 'readystatechange', onreadyStateChangeHandler);
+	        bind(window, 'load', onreadyStateChangeHandler);
+	        bind(window, 'unload', onunloadHandler);
+	        bind(window, 'onbeforeunload', onunloadHandler);
 	    }
 	
 	    function getDocumentState() {
@@ -387,7 +465,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	             complete - Fully loaded
 	             ---custom state--------------------------------------------------------------------
 	             loaded - when document is loaded (including all images)
-	             state-unloading - when document is unloading
+	             unloading - when document is unloading
 	             */
 	            removeClass('state-uninitialized');
 	            removeClass('state-loading');
@@ -410,24 +488,17 @@ return /******/ (function(modules) { // webpackBootstrap
 	        $C.emit('documentUnloading');
 	    }
 	
-	    function onblurHandler(e) {
-	        isWindowFocused = FALSE;
-	        removeClass(WINDOW_FOCUSED_CLASS);
-	        addClass(WINDOW_BLURED_CLASS);
-	        $C.emit('windowBlur');
-	    }
-	
-	    function onfocusHandler(e) {
-	        isWindowFocused = TRUE;
-	        removeClass(WINDOW_BLURED_CLASS);
-	        addClass(WINDOW_FOCUSED_CLASS);
-	        $C.emit('windowFocus');
-	    }
 	    /**
 	     *
+	     * User agent detection for precise fixes.
 	     * @module detectAgent
 	     *
-	     */
+	     * @custom-class $browserName$-v$version$-le - applied when browser is lower or equal version
+	     * @custom-class $browserName$-v$version$-ge - applied when browser is higher or equal version
+	     * @custom-class $browserName$-v$version$-l - applied when browser is lower version
+	     * @custom-class $browserName$-v$version$-g - applied when browser is higher version
+	     *
+	     * */
 	
 	    /** Set watching given browser and its version
 	     * @param {String} browser - browser name, see function getAgentData() attribute "identity"
@@ -479,7 +550,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	    $C.features.detectAgent = detectAgentPlatform;
 	
-	    // Declarations:
+	    // Function definitions: ######################### ######################### ######################### ######################### ######################### ######################### #########################
 	
 	    function findAgentDataByBrowserName(browser) {
 	
@@ -621,7 +692,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	    /**
 	     *
+	     * Detection whether device is touch capable
 	     * @module detectTouch
+	     *
+	     * @custom-class touch - is touch capable
+	     * @custom-class no-touch - is not
 	     *
 	     * */
 	
@@ -629,7 +704,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	     * Detects if current device supports touch events.
 	     * @returns {Boolean} The return value is not changing in time.
 	     * @memberof module:detectTouch
-	     * @alias JS.Responsive.addHorizontalBreakPoint
+	     * @alias JS.Responsive.isTouch
 	     */
 	    $C.isTouch = function () {
 	
@@ -643,10 +718,17 @@ return /******/ (function(modules) { // webpackBootstrap
 	        addClass($C.isTouch() ? 'touch' : 'no-touch');
 	    }
 	    /**
-	    *
-	    * @module touchVsMouse
-	    *
-	    **/
+	     *
+	     * Detection of touch usage, because some devices are capable of touches even they are equipped with mouse,
+	     * so user can change usage of both inputs unexpectedly in time.
+	     * @module touchVsMouse
+	     *
+	     * @custom-class user-is-using-touch
+	     * @custom-class user-is-using-mouse
+	     *
+	     * @emits changedUsingTouch - Arguments: {Boolean} isUsingTouch
+	     *
+	     **/
 	
 	    /**
 	     * Returns information if is actually using touches.
@@ -669,7 +751,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        touchVsMouseUsingTouch = TRUE;
 	        addClass('user-is-using-touch');
 	        removeClass('user-is-using-mouse');
-	        $C.emit('changedUsingTouch', TRUE, FALSE);
+	        $C.emit('changedUsingTouch', TRUE);
 	    });
 	
 	    bind(document, 'mousemove', mouseHandler);
@@ -681,11 +763,25 @@ return /******/ (function(modules) { // webpackBootstrap
 	        touchVsMouseUsingTouch = FALSE;
 	        addClass('user-is-using-mouse');
 	        removeClass('user-is-using-touch');
-	        $C.emit('changedUsingTouch', FALSE, TRUE);
+	        $C.emit('changedUsingTouch', FALSE);
 	    }
 	    /**
 	     *
+	     * Detection of high resolution display
 	     * @module detectHiRes
+	     *
+	     * @custom-class hires-display - applied when display is high resolution DEMO: http://codepen.io/WEZEO/pen/gLEgar
+	     * @custom-class normal-display - applied when display is lower resolution DEMO: http://codepen.io/WEZEO/pen/gLEgar
+	     * @custom-class display-pixel-ratio-$-more - current display pixel ratio is higher then $ value
+	     * @custom-class display-pixel-ratio-$-less - current display pixel ratio is lower or equal then $ value
+	     * @example <caption>Example usage of module</caption>
+	     * #logo {
+	     *      background-image: url('wezeologo.jpg');
+	     *
+	     *      html.hires-display & {
+	     *        background-image: url('wezeologo-hires.jpg');
+	     *      }
+	     *    }
 	     *
 	     * */
 	
@@ -694,23 +790,62 @@ return /******/ (function(modules) { // webpackBootstrap
 	     * @returns {Boolean} The return value is not changing in time.
 	     * @memberof module:detectHiRes
 	     * @alias JS.Responsive.isHiResDisplay
+	     * @since 3.0.0
 	     */
+	
+	    // do detectHiRes.js pridat aj classy
+	    // pre ratio = 2.3
+	    // display-pixel-ratio-1-more   (>1)
+	    // display-pixel-ratio-2-more   (>2)
+	    // az po floor(actual_ratio) = 2
+	    // display-pixel-ratio-3-less   (<=3)
+	    // az po ceil(actual_ratio) = 3
+	    //
+	
 	    $C.isHiResDisplay = function () {
 	
 	        return win.devicePixelRatio > 1;
 	    };
 	
-	    $C.features.detectHiRes = detectHiResDisplay;
+	    $C.features.detectHiRes = initHiResDisplayDetection;
+	
+	    // Function definitions: ######################### ######################### ######################### ######################### ######################### ######################### #########################
 	
 	    // adds "hires-display" or "normal-display" class (once)
+	    function initHiResDisplayDetection() {
+	        detectHiResDisplay();
+	        bind(window, 'resize', detectHiResDisplay); // also zoom and moving to another display triggers this
+	    }
+	
 	    function detectHiResDisplay() {
-	        var ratio = win.devicePixelRatio;
+	        // clear previous state
+	        removeClass('display-pixel-ratio-', TRUE); // remove all classes starting with display-pixel-ratio-
+	        removeClass('normal-display');
+	        removeClass('hires-display');
+	
+	        var ratio = win.devicePixelRatio,
+	            ratioCeil,
+	            i;
+	
 	        addClass(ratio > 1 ? 'hires-display' : 'normal-display');
-	        addClass('display-pixel-ratio-' + ratio);
+	
+	        if (typeof ratio != 'undefined') {
+	            ratioCeil = Math.ceil(ratio);
+	
+	            for (i = 0; i <= ratioCeil; i++) {
+	                if (ratio > i) addClass('display-pixel-ratio-' + i + '-more');else if (ratio <= i) addClass('display-pixel-ratio-' + i + '-less');
+	            }
+	        }
 	    }
 	    /**
 	     *
+	     * Detection of viewport orientation (not device physical orientation)
 	     * @module detectOrientation
+	     *
+	     * @custom-class portrait
+	     * @custom-class landscape
+	     *
+	     * @emits changedOrientation
 	     *
 	     * */
 	
@@ -718,7 +853,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	     * Returns if current device has display landscape oriented (width is larger than height).
 	     * @returns {Boolean}
 	     * @memberof module:detectOrientation
-	     * @alias JS.Responsive.addHorizontalBreakPoint
+	     * @alias JS.Responsive.isLandscape
 	     */
 	    $C.isLandscape = function () {
 	
@@ -729,7 +864,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	     * Returns if current device has display portrait oriented (height is larger than width).
 	     * @returns {Boolean}
 	     * @memberof module:detectOrientation
-	     * @alias JS.Responsive.addHorizontalBreakPoint
+	     * @alias JS.Responsive.isPortrait
 	     */
 	    $C.isPortrait = function () {
 	
@@ -761,7 +896,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 	    /**
 	     *
+	     * Detection of device orientation (not orientation of viewport aka width/height ration)
 	     * @module detectDeviceOrientation
+	     *
+	     * @custom-class device-orientation-portrait
+	     * @custom-class device-orientation-landscape
+	     * @custom-class device-orientation-0 - most common state (default for device)
+	     * @custom-class device-orientation-90 - device is left side down
+	     * @custom-class device-orientation-180 - upside down
+	     * @custom-class device-orientation-270 - device is right side down
+	     *
+	     * @emits changedDeviceOrientationAngle
+	     * @emits changedDeviceOrientation
 	     *
 	     * */
 	
@@ -809,6 +955,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	    };
 	
 	    $C.features.detectDeviceOrientation = initDetectDeviceOrientation;
+	
+	    // Function definitions: ######################### ######################### ######################### ######################### ######################### ######################### #########################
 	
 	    // init detection
 	    function initDetectDeviceOrientation() {
@@ -876,9 +1024,20 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	    /**
 	     *
+	     * Detection of document loading state.
 	     * @module timeBased
 	     *
-	     * */
+	     * @custom-class day-time-$h - day time class where $ is actual hour (non zero-padded)
+	     * @custom-class day-period-$periodName$ - day pariod class where name can be one of morning, afternoon, evening or night
+	     * @custom-class year-period-$periodName$ - year pariod class where name can be one of spring, summer, autumn or winter
+	     * @custom-class $timeBreakpointName$ - where name is custom name provided via setTimeBreakPoints
+	     *
+	     * @emits changedDayTime - Arguments: {String} dayTimeCurrent, {String} lastDayTime, both have same syntax as classes (day-time-$h)
+	     * @emits changedDayPeriod - Arguments: {String} dayTimePeriod, {String} lastDayTimePeriod, both have same syntax as classes (day-period-$periodName$)
+	     * @emits changedYearPeriod - Arguments: {String} yearPeriod, {String} lastYearPeriod, both have same syntax as classes (year-period-$periodName$)
+	     * @emits timeBreakpointReached - Arguments: {String} timeBreakPointReached - name provided via setTimeBreakPoints, {String|Undefined} timeBreakPointPrevious - if any
+	     *
+	     **/
 	
 	    var timeBreakPointTimeout,
 	        timeBreakPointCurrentName,
@@ -924,7 +1083,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	     * Returns actual day time period. One of morning, afternoon, evening or night.
 	     * @returns {String} Name of actual day time period.
 	     * @memberof module:timeBased
-	     * @alias JS.Responsive.addHorizontalBreakPoint
+	     * @alias JS.Responsive.getDayTimePeriod
 	     */
 	    $C.getDayTimePeriod = function () {
 	
@@ -935,7 +1094,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	     * Returns actual year period. One of Spring, Summer, Autumn or Winter.
 	     * @returns {String} Name of actual day time period.
 	     * @memberof module:timeBased
-	     * @alias JS.Responsive.addHorizontalBreakPoint
+	     * @alias JS.Responsive.getYearPeriod
 	     */
 	    $C.getYearPeriod = function () {
 	
@@ -950,7 +1109,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	     * @param {Number|Boolean} [breakpoints[].remains] - The time in [ms], breakpoint name will be removed (optional). Or TRUE value to prevent replacing with next breakpoint.
 	     * @example JS.Responsive.setTimeBreakPoints( config )
 	     * @memberof module:timeBased
-	     * @alias JS.Responsive.addHorizontalBreakPoint
+	     * @alias JS.Responsive.setTimeBreakPoints
 	     */
 	    $C.setTimeBreakPoints = function (breakpoints) {
 	        var sinceReady;
@@ -984,20 +1143,20 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	                // remove current breakpoint name
 	                removeClass(timeBreakPointCurrentName);
-	                timeBreakPointCurrentName = UNDEFINED;
 	
 	                // apply new breakpoint
 	                var bp = breakpoints.shift();
 	                addClass(bp.name);
 	
+	                $C.emit('timeBreakpointReached', bp.name, timeBreakPointCurrentName);
+	                timeBreakPointCurrentName = UNDEFINED;
+	
 	                if (!bp.remains) {
-	                    // next breakpoint will clear the current one
+	                    // next breakpoint will clear this one
 	                    timeBreakPointCurrentName = bp.name;
 	                }
 	
-	                if (bp.remains && bp.remains !== TRUE) setTimeout(function () {
-	                    removeClass(bp.name);
-	                }, bp.remains);
+	                if (bp.remains && bp.remains !== TRUE) setTimeout(thenRemoveClass(bp.name), bp.remains);
 	
 	                activateNext();
 	            }, breakpoints[0].time - sinceReady);
@@ -1070,10 +1229,52 @@ return /******/ (function(modules) { // webpackBootstrap
 	            } else if (firstDates[++index]) return testPeriod(index);else return firstDates[0].name;
 	        }
 	    }
+	
+	    function thenRemoveClass(className) {
+	        return function () {
+	            removeClass(className);
+	        };
+	    }
 	    /**
 	     *
+	     * Adding horizontal and vertical breakpoints, similar use case to media queries, but with js API.
 	     * @module breakpoints
 	     *
+	     * @custom-class $breakpointName$-more - applied when display size is higher or equal to provided size for the name DEMO: http://codepen.io/WEZEO/pen/PbZMmq
+	     * @custom-class $breakpointName$-less - applied when display size is smaller than provided size for the name DEMO: http://codepen.io/WEZEO/pen/PbZMmq
+	     * @custom-class $breakpointName$ - applied when display size is higher or equal to provided size and less then next breakpoint size if any DEMO: http://codepen.io/WEZEO/pen/PbZMmq
+	     *
+	     * @emits changedBreakPointHorizontal - fires when new horizontal breakpoint is reached
+	     * @emits changedBreakPointVertical - fires when new vertical breakpoint is reached
+	     *
+	     * @example <caption>Example usage of module</caption>
+	     *
+	     * // JS:
+	     * JS.Responsive
+	     *     .init()
+	     *     .addHorizontalBreakPoint('micro', 420)
+	     *     .addHorizontalBreakPoint('tiny', 478)
+	     *     .addHorizontalBreakPoint('small', 768)
+	     *     .addHorizontalBreakPoint('medium', 992)
+	     *     .addHorizontalBreakPoint('large', 1230);
+	     *
+	     * // CSS:
+	     * #github-ribbon {
+	     *	    position: absolute;
+	     *	    top: -(5/$font-size)+rem;
+	     *      ...
+	     *
+	     *      html.medium-less & {
+	     *		    height: (88/$font-size)+rem;
+	     *		    padding: 0;
+	     *		    border: 0;
+	     *		    background-color: transparent;
+	     *	    }
+	     *
+	     *      html.small-less & {
+	     *		    display: none;
+	     *	    }
+	     * }
 	     * */
 	
 	    var
@@ -1102,6 +1303,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	     * @example JS.Responsive.addHorizontalBreakPoint('medium', 960);
 	     * @memberof module:breakpoints
 	     * @alias JS.Responsive.addHorizontalBreakPoint
+	     * @since 3.0.0
 	     */
 	    $C.addHorizontalBreakPoint = function (name, width) {
 	        addBreakPoint(name, width, horizontalSizes, WIDTH_STRING);
@@ -1115,6 +1317,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	     * @example JS.Responsive.removeHorizontalBreakPoint('medium');
 	     * @memberof module:breakpoints
 	     * @alias JS.Responsive.removeHorizontalBreakPoint
+	     * @since 3.0.0
 	     */
 	    $C.removeHorizontalBreakPoint = function (name) {
 	        removeBreakPoint(name, horizontalSizes);
@@ -1126,6 +1329,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	     * @returns {String|null} Name of actual horizontal break point or null if no horizontal break point is set.
 	     * @memberof module:breakpoints
 	     * @alias JS.Responsive.getActualHorizontalBreakPoint
+	     * @since 3.0.0
 	     */
 	    $C.getActualHorizontalBreakPoint = function () {
 	
@@ -1138,6 +1342,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	     * @returns {Object} this - for chaining.
 	     * @memberof module:breakpoints
 	     * @alias JS.Responsive.disableHorizontalBreakPoints
+	     * @since 3.0.0
 	     */
 	    $C.disableHorizontalBreakPoints = function (_leaveActualClasses) {
 	
@@ -1151,6 +1356,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	     * @returns {Object} this - for chaining.
 	     * @memberof module:breakpoints
 	     * @alias JS.Responsive.enableHorizontalBreakPoints
+	     * @since 3.0.0
 	     */
 	    $C.enableHorizontalBreakPoints = function () {
 	
@@ -1164,6 +1370,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	     * @returns {Boolean}
 	     * @memberof module:breakpoints
 	     * @alias JS.Responsive.isDisabledHorizontalBreakPoints
+	     * @since 3.0.0
 	     */
 	    $C.isDisabledHorizontalBreakPoints = function () {
 	
@@ -1178,6 +1385,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	     * @example JS.Responsive.addVerticalBreakPoint('vertical-medium', 960);
 	     * @memberof module:breakpoints
 	     * @alias JS.Responsive.addVerticalBreakPoint
+	     * @since 3.0.0
 	     */
 	    $C.addVerticalBreakPoint = function (name, height) {
 	
@@ -1192,6 +1400,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	     * @example JS.Responsive.removeVerticalBreakPoint('vertical-medium');
 	     * @memberof module:breakpoints
 	     * @alias JS.Responsive.removeVerticalBreakPoint
+	     * @since 3.0.0
 	     */
 	    $C.removeVerticalBreakPoint = function (name) {
 	
@@ -1204,6 +1413,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	     * @returns {String|null} Name of actual vertical break point or null if no vertical break point is set.
 	     * @memberof module:breakpoints
 	     * @alias JS.Responsive.getActualVerticalBreakPoint
+	     * @since 3.0.0
 	     */
 	    $C.getActualVerticalBreakPoint = function () {
 	
@@ -1216,6 +1426,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	     * @returns {Object} this - for chaining.
 	     * @memberof module:breakpoints
 	     * @alias JS.Responsive.disableVerticalBreakPoints
+	     * @since 3.0.0
 	     */
 	    $C.disableVerticalBreakPoints = function (_leaveActualClasses) {
 	
@@ -1229,6 +1440,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	     * @returns {Object} this - for chaining.
 	     * @memberof module:breakpoints
 	     * @alias JS.Responsive.enableVerticalBreakPoints
+	     * @since 3.0.0
 	     */
 	    $C.enableVerticalBreakPoints = function () {
 	
@@ -1242,6 +1454,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	     * @returns {Boolean}
 	     * @memberof module:breakpoints
 	     * @alias JS.Responsive.isDisabledVerticalBreakPoints
+	     * @since 3.0.0
 	     */
 	    $C.isDisabledVerticalBreakPoints = function () {
 	
@@ -1255,6 +1468,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	     * @example if (JS.Responsive.getWindowWidth()>JS.Responsive.getWindowHeight()) ...
 	     * @memberof module:breakpoints
 	     * @alias JS.Responsive.getWindowWidth
+	     * @since 3.0.0
 	     */
 	    $C.getWindowWidth = getWindowWidth;
 	
@@ -1265,6 +1479,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	     * @example if (JS.Responsive.getWindowWidth()>JS.Responsive.getWindowHeight()) ...
 	     * @memberof module:breakpoints
 	     * @alias JS.Responsive.getWindowHeight
+	     * @since 3.0.0
 	     */
 	    $C.getWindowHeight = getWindowHeight;
 	
@@ -1275,6 +1490,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	     * @example if (JS.Responsive.getDocumentWidth()>JS.Responsive.getDocumentHeight()) ...
 	     * @memberof module:breakpoints
 	     * @alias JS.Responsive.getDocumentWidth
+	     * @since 3.0.0
 	     */
 	    $C.getDocumentWidth = getDocumentWidth;
 	
@@ -1285,12 +1501,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	     * @example if (JS.Responsive.getDocumentWidth()>JS.Responsive.getWindowHeight()) ...
 	     * @memberof module:breakpoints
 	     * @alias JS.Responsive.getDocumentHeight
+	     * @since 3.0.0
 	     */
 	    $C.getDocumentHeight = getDocumentHeight;
 	
 	    $C.features.breakpoints = initBreakpoints;
 	
-	    // Function definitions:
+	    // Function definitions: ######################### ######################### ######################### ######################### ######################### ######################### #########################
 	
 	    function initBreakpoints() {
 	        setInterval(checkWindowOrDocumentResize, CHECK_DOCUMENT_SIZE_INTERVAL);
@@ -1535,6 +1752,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	        return arrayIndex(array, item, _exactMatch) >= 0;
 	    }
 	
+	    function arrayRemoveItemsStartingWith(array, startingWith) {
+	        var reg = new RegExp('^' + startingWith);
+	        for (var i = 0; i < array.length; i++) if (array[i].match(reg)) {
+	            array.splice(i, 1);
+	            i--; // because of splice
+	        }
+	    }
+	
 	    function bind(el, eventType, handlerFn) {
 	
 	        if (el.addEventListener) el.addEventListener(eventType, fn, FALSE);else if (el.attachEvent) el.attachEvent('on' + eventType, fn);
@@ -1560,13 +1785,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }
 	    }
 	
-	    function removeClass(name) {
+	    function removeClass(name, startsWith) {
 	        var html = getHtmlElement();
 	        if (html && name) {
 	            if (!isInTransactionClassMode) {
-	                var className = html.className;
-	                var classes = className == EMPTY_STRING ? [] : className.split(SPACE_CHAR);
-	                if (arrayContains(classes, name)) {
+	                var className = html.className,
+	                    classes = className == EMPTY_STRING ? [] : className.split(SPACE_CHAR);
+	
+	                if (startsWith) {
+	                    if (className.indexOf(name) == -1) return;
+	                    arrayRemoveItemsStartingWith(classes, name);
+	                    html.className = classes.join(SPACE_CHAR);
+	                } else if (arrayContains(classes, name)) {
 	                    classes.splice(arrayIndex(classes, name), 1);
 	                    html.className = classes.join(SPACE_CHAR);
 	                }

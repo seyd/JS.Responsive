@@ -296,6 +296,16 @@
 	}
 
 
+	function arrayRemoveItemsStartingWith(array, startingWith) {
+		var reg = new RegExp('^' + startingWith);
+        for (var i = 0; i < array.length; i++)
+            if (array[i].match(reg)){
+                array.splice(i, 1);
+                i--; // because of splice
+        	}
+    }
+
+
 	function bind(el, eventType, handlerFn) {
 
 		if (el.addEventListener)
@@ -332,13 +342,19 @@
 		}
 	}
 
-	function removeClass(name) {
+	function removeClass(name, startsWith) {
 		var html = getHtmlElement();
 		if (html && name) {
 			if (!isInTransactionClassMode) {
-				var className = html.className;
-				var classes = className == EMPTY_STRING ? [] : className.split(SPACE_CHAR);
-				if (arrayContains(classes, name)) {
+				var className = html.className,
+					classes = className == EMPTY_STRING ? [] : className.split(SPACE_CHAR);
+
+                if(startsWith){
+                	if(className.indexOf(name) == -1)
+                		return;
+                    arrayRemoveItemsStartingWith(classes, name);
+                    html.className = classes.join(SPACE_CHAR);
+                }else if(arrayContains(classes, name)) {
 					classes.splice(arrayIndex(classes, name), 1);
 					html.className = classes.join(SPACE_CHAR);
 				}

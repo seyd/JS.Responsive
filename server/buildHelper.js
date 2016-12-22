@@ -1,7 +1,7 @@
 var customBuild = require(__dirname + '/customBuild.js');
 
-customBuild(false, 'default', function () {
-    customBuild(false, 'full', function () { // temporary default is same as full
+customBuild('6257', 'default', function () {
+    customBuild(false, 'full', function () {
         console.log('BUILD IS DONE!');
     });
 });

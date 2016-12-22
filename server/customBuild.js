@@ -74,7 +74,7 @@ module.exports = function(cfg, buildName, callback, version){
             fs.writeFile( entryName, result, 'utf8', function (err) {
                 if (err) return console.log(err);
 
-                console.log('Build start: ', buildName, version);
+                console.log('Build start: ', buildName, version || '');
 
                 var entry = {};
                 entry[outputName] = entryName;
@@ -121,12 +121,12 @@ module.exports = function(cfg, buildName, callback, version){
                         zipFolder(version, buildName + cfg, callback);
                     }
 
-                    if(buildName === 'full' && !version) // build docs if full is rebuilded
+                    if(buildName === 'full' && !version) // build docs if full latest is rebuilded
                         webpackConfig.plugins.pop(); // pop JsDocPlugin
 
                     console.log('Build end: ', buildName + cfg);
                     // console.log("webpack stats", stats);
-                    if(!version && callback)
+                    if(callback)
                         callback();
 
                     running[buildName] = false;
