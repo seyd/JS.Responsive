@@ -50,7 +50,7 @@ fs.readFile(__dirname + '/../node_modules/ink-docstrap/template/tmpl/details.tmp
  * More info: https://github.com/tfiwm/jsdoc-webpack-plugin/commit/d12eadd7c3e24d1a0bb7b55e1ee08c6369ae8f2d#commitcomment-19893998
  */
 
-var filePath = __dirname + '/node_modules/jsdoc-webpack-plugin/index.js';
+var filePath = __dirname + '/../node_modules/jsdoc-webpack-plugin/index.js';
 
 fs.readFile(filePath, 'utf-8', function(err, contents){
     if(err)
