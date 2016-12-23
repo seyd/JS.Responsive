@@ -2,6 +2,8 @@
  *
  * Detection of viewport orientation (not device physical orientation)
  * @module detectOrientation
+ * @pretty-name Viewport orientation
+ * @teaser Viewport orientation detection.
  *
  * @custom-class portrait
  * @custom-class landscape

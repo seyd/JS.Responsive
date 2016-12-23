@@ -1,8 +1,9 @@
 /**
  *
- * Detection of touch usage, because some devices are capable of touches even they are equipped with mouse,
- * so user can change usage of both inputs unexpectedly in time.
+ * Detection of window focus
  * @module focusBlur
+ * @pretty-name Window focus detection
+ * @teaser Is window focused or not?
  *
  * @custom-class window-focused
  * @custom-class window-blured

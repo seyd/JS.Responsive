@@ -2,6 +2,8 @@
  *
  * Detection of document loading state.
  * @module documentState
+ * @pretty-name Document loading
+ * @teaser Document loading states detection.
  *
  * @custom-class state-uninitialized - has not started loading yet
  * @custom-class state-loading - is loading

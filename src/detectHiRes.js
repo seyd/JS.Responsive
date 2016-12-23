@@ -2,6 +2,8 @@
  *
  * Detection of high resolution display
  * @module detectHiRes
+ * @pretty-name Display resolution
+ * @teaser Display resolution detection.
  *
  * @custom-class hires-display - applied when display is high resolution DEMO: http://codepen.io/WEZEO/pen/gLEgar
  * @custom-class normal-display - applied when display is lower resolution DEMO: http://codepen.io/WEZEO/pen/gLEgar

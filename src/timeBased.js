@@ -1,7 +1,9 @@
 /**
  *
- * Detection of document loading state.
+ * Time related classes and custom time breakpoints from document loaded event.
  * @module timeBased
+ * @pretty-name Time breakpoints and time related classes
+ * @teaser Time related classes, day period, year seasson.
  *
  * @custom-class day-time-$$h - day time class where $$ is actual hour (non zero-padded)
  * @custom-class day-period-$periodName$ - day pariod class where name can be one of morning, afternoon, evening or night

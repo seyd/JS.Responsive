@@ -2,6 +2,8 @@
  *
  * User agent detection for precise fixes.
  * @module detectAgent
+ * @pretty-name User agent detection
+ * @teaser User agent detection for precise fixes.
  *
  * @custom-class $browserName$-v$version$-le - applied when browser is lower or equal version
  * @custom-class $browserName$-v$version$-ge - applied when browser is higher or equal version

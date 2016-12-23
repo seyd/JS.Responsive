@@ -2,6 +2,8 @@
  *
  * Detection of device orientation (not orientation of viewport aka width/height ration)
  * @module detectDeviceOrientation
+ * @pretty-name Device orientation
+ * @teaser Mobile devices detection.
  *
  * @custom-class device-orientation-portrait
  * @custom-class device-orientation-landscape

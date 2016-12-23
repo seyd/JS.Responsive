@@ -2,6 +2,8 @@
  *
  * Adding horizontal and vertical breakpoints, similar use case to media queries, but with js API.
  * @module breakpoints
+ * @pretty-name Size breakpoints
+ * @teaser Similar to media queries (width, height).
  *
  * @custom-class $breakpointName$-more - applied when display size is higher or equal to provided size for the name DEMO: http://codepen.io/WEZEO/pen/PbZMmq
  * @custom-class $breakpointName$-less - applied when display size is smaller than provided size for the name DEMO: http://codepen.io/WEZEO/pen/PbZMmq
