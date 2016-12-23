@@ -16,6 +16,7 @@
  * @returns {Boolean|undefined} Returns true if using touches, false if using mouse, undefined if no use detected yet
  * @memberof module:touchVsMouse
  * @alias JS.Responsive.isUsingTouches
+ * @since 3.0.0
  */
 
 
@@ -26,19 +27,25 @@ $C.isUsingTouches = function() {
 var touchVsMouseLastTime = 0,
     touchVsMouseUsingTouch;
 
-bind(document, 'touchstart', function(){
-    touchVsMouseLastTime = Date.now();
-    if(touchVsMouseUsingTouch)
-        return;
+$C.features.isScrolling = initTouchVsMouse;
 
-    touchVsMouseUsingTouch = TRUE;
-    addClass('user-is-using-touch');
-    removeClass('user-is-using-mouse');
-    $C.emit('changedUsingTouch', TRUE);
-});
+// Function declarations: ######################### ######################### ######################### ######################### ######################### ######################### #########################
 
-bind(document, 'mousemove', mouseHandler);
-bind(document, 'mousedown', mouseHandler);
+function initTouchVsMouse() {
+    bind(document, 'touchstart', function(){
+        touchVsMouseLastTime = Date.now();
+        if(touchVsMouseUsingTouch)
+            return;
+
+        touchVsMouseUsingTouch = TRUE;
+        addClass('user-is-using-touch');
+        removeClass('user-is-using-mouse');
+        $C.emit('changedUsingTouch', TRUE);
+    });
+
+    bind(document, 'mousemove', mouseHandler);
+    bind(document, 'mousedown', mouseHandler);
+}
 
 function mouseHandler() {
     if (touchVsMouseUsingTouch === FALSE || Date.now() - touchVsMouseLastTime < 1000)

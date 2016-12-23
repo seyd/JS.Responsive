@@ -26,15 +26,6 @@
  * @since 3.0.0
  */
 
-// do detectHiRes.js pridat aj classy
-// pre ratio = 2.3
-// display-pixel-ratio-1-more   (>1)
-// display-pixel-ratio-2-more   (>2)
-// az po floor(actual_ratio) = 2
-// display-pixel-ratio-3-less   (<=3)
-// az po ceil(actual_ratio) = 3
-//
-
 $C.isHiResDisplay = function() {
 
     return win.devicePixelRatio > 1;
@@ -42,7 +33,7 @@ $C.isHiResDisplay = function() {
 
 $C.features.detectHiRes = initHiResDisplayDetection;
 
-// Function definitions: ######################### ######################### ######################### ######################### ######################### ######################### #########################
+// Function declarations: ######################### ######################### ######################### ######################### ######################### ######################### #########################
 
 // adds "hires-display" or "normal-display" class (once)
 function initHiResDisplayDetection() {

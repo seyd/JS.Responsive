@@ -13,6 +13,7 @@
  * @returns {Boolean} The return value is not changing in time.
  * @memberof module:detectTouch
  * @alias JS.Responsive.isTouch
+ * @since 3.0.0
  */
 $C.isTouch = function() {
 
@@ -20,6 +21,8 @@ $C.isTouch = function() {
 };
 
 $C.features.detectTouch = detectTouch;
+
+// Function declarations: ######################### ######################### ######################### ######################### ######################### ######################### #########################
 
 // adds "touch" or "no-touch" class (once)
 function detectTouch() {

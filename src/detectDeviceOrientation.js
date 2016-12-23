@@ -40,6 +40,7 @@ var ORIENTATION_STRING = 'orientation',
  * @returns {String} "portrait" or "landscape"
  * @memberof module:detectDeviceOrientation
  * @alias JS.Responsive.getDeviceOrientation
+ * @since 3.0.0
  */
 $C.getDeviceOrientation = function() {
 
@@ -52,6 +53,7 @@ $C.getDeviceOrientation = function() {
  * @returns {Number} 0, 90, 180, 270
  * @memberof module:detectDeviceOrientation
  * @alias JS.Responsive.getDeviceOrientationAngle
+ * @since 3.0.0
  */
 $C.getDeviceOrientationAngle = function() {
 
@@ -61,7 +63,7 @@ $C.getDeviceOrientationAngle = function() {
 $C.features.detectDeviceOrientation = initDetectDeviceOrientation;
 
 
-// Function definitions: ######################### ######################### ######################### ######################### ######################### ######################### #########################
+// Function declarations: ######################### ######################### ######################### ######################### ######################### ######################### #########################
 
 // init detection
 function initDetectDeviceOrientation() {

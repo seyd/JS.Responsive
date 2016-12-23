@@ -14,6 +14,7 @@
  * @returns {Boolean} The return value is not changing in time.
  * @memberof module:isMobile
  * @alias JS.Responsive.isMobile
+ * @since 3.0.0
  */
 
 
@@ -39,6 +40,8 @@ function www_detectmobilebrowsers_com() {
 }
 
 $C.features.isMobile = detectMobileInit;
+
+// Function declarations: ######################### ######################### ######################### ######################### ######################### ######################### #########################
 
 // adds "mobile" or "desktop" class (once)
 function detectMobileInit() {

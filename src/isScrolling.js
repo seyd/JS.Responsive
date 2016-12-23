@@ -30,6 +30,7 @@ var
  * @returns {Boolean}
  * @memberof module:isScrolling
  * @alias JS.Responsive.isScrolling
+ * @since 3.0.0
  */
 $C.isScrolling = function() {
 
@@ -38,6 +39,8 @@ $C.isScrolling = function() {
 
 
 $C.features.isScrolling = initIsScrolling;
+
+// Function declarations: ######################### ######################### ######################### ######################### ######################### ######################### #########################
 
 function initIsScrolling() {
     bind(window, 'scroll', onscrollHandler);

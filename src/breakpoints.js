@@ -297,7 +297,7 @@ $C.getDocumentHeight = getDocumentHeight;
 
 $C.features.breakpoints = initBreakpoints;
 
-// Function definitions: ######################### ######################### ######################### ######################### ######################### ######################### #########################
+// Function declarations: ######################### ######################### ######################### ######################### ######################### ######################### #########################
 
 function initBreakpoints(){
     setInterval(checkWindowOrDocumentResize, CHECK_DOCUMENT_SIZE_INTERVAL);

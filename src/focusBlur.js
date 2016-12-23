@@ -23,6 +23,7 @@ var
  * @returns {Boolean}
  * @memberof module:focusBlur
  * @alias JS.Responsive.isDocumentLoaded
+ * @since 3.0.0
  */
 $C.isDocumentLoaded = function() {
 
@@ -35,6 +36,7 @@ $C.isDocumentLoaded = function() {
  * @returns {Boolean}
  * @memberof module:focusBlur
  * @alias JS.Responsive.isDocumentUnloading
+ * @since 3.0.0
  */
 $C.isDocumentUnloading = function() {
 
@@ -47,6 +49,7 @@ $C.isDocumentUnloading = function() {
  * @returns {Boolean}
  * @memberof module:focusBlur
  * @alias JS.Responsive.isFocused
+ * @since 3.0.0
  */
 $C.isFocused = function() {
 
@@ -54,6 +57,8 @@ $C.isFocused = function() {
 };
 
 $C.features.focusBlur = initFB;
+
+// Function declarations: ######################### ######################### ######################### ######################### ######################### ######################### #########################
 
 function initFB() {
     bind(window, 'blur', onblurHandler);

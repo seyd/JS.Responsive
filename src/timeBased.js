@@ -60,6 +60,7 @@ var timeBreakPointTimeout,
  * @returns {String} Name of actual day time period.
  * @memberof module:timeBased
  * @alias JS.Responsive.getDayTimePeriod
+ * @since 3.0.0
  */
 $C.getDayTimePeriod = function() {
 
@@ -71,6 +72,7 @@ $C.getDayTimePeriod = function() {
  * @returns {String} Name of actual day time period.
  * @memberof module:timeBased
  * @alias JS.Responsive.getYearPeriod
+ * @since 3.0.0
  */
 $C.getYearPeriod = function() {
 
@@ -86,6 +88,7 @@ $C.getYearPeriod = function() {
  * @example JS.Responsive.setTimeBreakPoints( config )
  * @memberof module:timeBased
  * @alias JS.Responsive.setTimeBreakPoints
+ * @since 3.0.0
  */
 $C.setTimeBreakPoints = function(breakpoints) {
     var sinceReady;
@@ -148,7 +151,7 @@ $C.setTimeBreakPoints = function(breakpoints) {
 
 $C.features.timeBased = initTimeBased;
 
-// DECLARATIONS:
+// Function declarations: ######################### ######################### ######################### ######################### ######################### ######################### #########################
 
 function initTimeBased() {
     var now = new Date();

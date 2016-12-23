@@ -20,6 +20,7 @@
  * @example JS.Responsive.watchBrowserVersion('Edge', 12);
  * @memberof module:detectAgent
  * @alias JS.Responsive.watchBrowserVersion
+ * @since 3.0.0
  */
 $C.watchBrowserVersion = function( browser, version ) {
 
@@ -47,6 +48,7 @@ $C.watchBrowserVersion = function( browser, version ) {
 	 *   }
  * @memberof module:detectAgent
  * @alias JS.Responsive.getPlatformInfo
+ * @since 3.0.0
  */
 $C.getPlatformInfo = function() {
 
@@ -58,13 +60,14 @@ $C.getPlatformInfo = function() {
  * @method
  * @memberof module:detectAgent
  * @alias JS.Responsive.getAgentTags
+ * @since 3.0.0
  **/
 
 $C.getAgentTags = getAgentTags;
 
 $C.features.detectAgent = detectAgentPlatform;
 
-// Function definitions: ######################### ######################### ######################### ######################### ######################### ######################### #########################
+// Function declarations: ######################### ######################### ######################### ######################### ######################### ######################### #########################
 
 function findAgentDataByBrowserName( browser ) {
 

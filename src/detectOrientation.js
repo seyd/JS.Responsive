@@ -15,6 +15,7 @@
  * @returns {Boolean}
  * @memberof module:detectOrientation
  * @alias JS.Responsive.isLandscape
+ * @since 3.0.0
  */
 $C.isLandscape = function() {
 
@@ -26,6 +27,7 @@ $C.isLandscape = function() {
  * @returns {Boolean}
  * @memberof module:detectOrientation
  * @alias JS.Responsive.isPortrait
+ * @since 3.0.0
  */
 $C.isPortrait = function() {
 
@@ -34,6 +36,7 @@ $C.isPortrait = function() {
 
 $C.features.detectOrientation = initDetectOrientation;
 
+// Function declarations: ######################### ######################### ######################### ######################### ######################### ######################### #########################
 
 // init detection
 function initDetectOrientation() {

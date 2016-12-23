@@ -24,6 +24,7 @@ var isDocumentUnloading = FALSE,
  * @returns {Boolean}
  * @memberof module:documentState
  * @alias JS.Responsive.isDocumentLoaded
+ * @since 3.0.0
  */
 $C.isDocumentLoaded = function() {
 
@@ -36,6 +37,7 @@ $C.isDocumentLoaded = function() {
  * @returns {Boolean}
  * @memberof module:documentState
  * @alias JS.Responsive.isDocumentUnloading
+ * @since 3.0.0
  */
 $C.isDocumentUnloading = function() {
 
@@ -43,6 +45,8 @@ $C.isDocumentUnloading = function() {
 };
 
 $C.features.documentState = initDocState;
+
+// Function declarations: ######################### ######################### ######################### ######################### ######################### ######################### #########################
 
 function initDocState() {
     bind(document, 'readystatechange', onreadyStateChangeHandler);

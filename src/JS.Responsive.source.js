@@ -32,6 +32,7 @@
 	 * Constructor is PRIVATE, client must use only class methods!!!!!
 	 * @constructor
 	 * @alias JS.Responsive
+     * @since 3.0.0
 	 *
 	 * @emit documentReady - when document becomes ready
 	 *

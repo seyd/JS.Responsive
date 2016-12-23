@@ -86,6 +86,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	     * Constructor is PRIVATE, client must use only class methods!!!!!
 	     * @constructor
 	     * @alias JS.Responsive
+	        * @since 3.0.0
 	     *
 	     * @emit documentReady - when document becomes ready
 	     *
@@ -229,6 +230,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	     * @returns {Boolean} The return value is not changing in time.
 	     * @memberof module:isMobile
 	     * @alias JS.Responsive.isMobile
+	     * @since 3.0.0
 	     */
 	
 	    $C.isMobile = function () {
@@ -251,6 +253,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 	
 	    $C.features.isMobile = detectMobileInit;
+	
+	    // Function declarations: ######################### ######################### ######################### ######################### ######################### ######################### #########################
 	
 	    // adds "mobile" or "desktop" class (once)
 	    function detectMobileInit() {
@@ -284,6 +288,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	     * @returns {Boolean}
 	     * @memberof module:isScrolling
 	     * @alias JS.Responsive.isScrolling
+	     * @since 3.0.0
 	     */
 	    $C.isScrolling = function () {
 	
@@ -291,6 +296,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	    };
 	
 	    $C.features.isScrolling = initIsScrolling;
+	
+	    // Function declarations: ######################### ######################### ######################### ######################### ######################### ######################### #########################
 	
 	    function initIsScrolling() {
 	        bind(window, 'scroll', onscrollHandler);
@@ -349,6 +356,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	     * @returns {Boolean}
 	     * @memberof module:focusBlur
 	     * @alias JS.Responsive.isDocumentLoaded
+	     * @since 3.0.0
 	     */
 	    $C.isDocumentLoaded = function () {
 	
@@ -360,6 +368,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	     * @returns {Boolean}
 	     * @memberof module:focusBlur
 	     * @alias JS.Responsive.isDocumentUnloading
+	     * @since 3.0.0
 	     */
 	    $C.isDocumentUnloading = function () {
 	
@@ -371,6 +380,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	     * @returns {Boolean}
 	     * @memberof module:focusBlur
 	     * @alias JS.Responsive.isFocused
+	     * @since 3.0.0
 	     */
 	    $C.isFocused = function () {
 	
@@ -378,6 +388,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	    };
 	
 	    $C.features.focusBlur = initFB;
+	
+	    // Function declarations: ######################### ######################### ######################### ######################### ######################### ######################### #########################
 	
 	    function initFB() {
 	        bind(window, 'blur', onblurHandler);
@@ -424,6 +436,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	     * @returns {Boolean}
 	     * @memberof module:documentState
 	     * @alias JS.Responsive.isDocumentLoaded
+	     * @since 3.0.0
 	     */
 	    $C.isDocumentLoaded = function () {
 	
@@ -435,6 +448,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	     * @returns {Boolean}
 	     * @memberof module:documentState
 	     * @alias JS.Responsive.isDocumentUnloading
+	     * @since 3.0.0
 	     */
 	    $C.isDocumentUnloading = function () {
 	
@@ -442,6 +456,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	    };
 	
 	    $C.features.documentState = initDocState;
+	
+	    // Function declarations: ######################### ######################### ######################### ######################### ######################### ######################### #########################
 	
 	    function initDocState() {
 	        bind(document, 'readystatechange', onreadyStateChangeHandler);
@@ -510,6 +526,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	     * @example JS.Responsive.watchBrowserVersion('Edge', 12);
 	     * @memberof module:detectAgent
 	     * @alias JS.Responsive.watchBrowserVersion
+	     * @since 3.0.0
 	     */
 	    $C.watchBrowserVersion = function (browser, version) {
 	
@@ -533,6 +550,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    	 *   }
 	     * @memberof module:detectAgent
 	     * @alias JS.Responsive.getPlatformInfo
+	     * @since 3.0.0
 	     */
 	    $C.getPlatformInfo = function () {
 	
@@ -544,13 +562,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	     * @method
 	     * @memberof module:detectAgent
 	     * @alias JS.Responsive.getAgentTags
+	     * @since 3.0.0
 	     **/
 	
 	    $C.getAgentTags = getAgentTags;
 	
 	    $C.features.detectAgent = detectAgentPlatform;
 	
-	    // Function definitions: ######################### ######################### ######################### ######################### ######################### ######################### #########################
+	    // Function declarations: ######################### ######################### ######################### ######################### ######################### ######################### #########################
 	
 	    function findAgentDataByBrowserName(browser) {
 	
@@ -705,6 +724,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	     * @returns {Boolean} The return value is not changing in time.
 	     * @memberof module:detectTouch
 	     * @alias JS.Responsive.isTouch
+	     * @since 3.0.0
 	     */
 	    $C.isTouch = function () {
 	
@@ -712,6 +732,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	    };
 	
 	    $C.features.detectTouch = detectTouch;
+	
+	    // Function declarations: ######################### ######################### ######################### ######################### ######################### ######################### #########################
 	
 	    // adds "touch" or "no-touch" class (once)
 	    function detectTouch() {
@@ -735,6 +757,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	     * @returns {Boolean|undefined} Returns true if using touches, false if using mouse, undefined if no use detected yet
 	     * @memberof module:touchVsMouse
 	     * @alias JS.Responsive.isUsingTouches
+	     * @since 3.0.0
 	     */
 	
 	    $C.isUsingTouches = function () {
@@ -744,18 +767,24 @@ return /******/ (function(modules) { // webpackBootstrap
 	    var touchVsMouseLastTime = 0,
 	        touchVsMouseUsingTouch;
 	
-	    bind(document, 'touchstart', function () {
-	        touchVsMouseLastTime = Date.now();
-	        if (touchVsMouseUsingTouch) return;
+	    $C.features.isScrolling = initTouchVsMouse;
 	
-	        touchVsMouseUsingTouch = TRUE;
-	        addClass('user-is-using-touch');
-	        removeClass('user-is-using-mouse');
-	        $C.emit('changedUsingTouch', TRUE);
-	    });
+	    // Function declarations: ######################### ######################### ######################### ######################### ######################### ######################### #########################
 	
-	    bind(document, 'mousemove', mouseHandler);
-	    bind(document, 'mousedown', mouseHandler);
+	    function initTouchVsMouse() {
+	        bind(document, 'touchstart', function () {
+	            touchVsMouseLastTime = Date.now();
+	            if (touchVsMouseUsingTouch) return;
+	
+	            touchVsMouseUsingTouch = TRUE;
+	            addClass('user-is-using-touch');
+	            removeClass('user-is-using-mouse');
+	            $C.emit('changedUsingTouch', TRUE);
+	        });
+	
+	        bind(document, 'mousemove', mouseHandler);
+	        bind(document, 'mousedown', mouseHandler);
+	    }
 	
 	    function mouseHandler() {
 	        if (touchVsMouseUsingTouch === FALSE || Date.now() - touchVsMouseLastTime < 1000) return;
@@ -793,15 +822,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	     * @since 3.0.0
 	     */
 	
-	    // do detectHiRes.js pridat aj classy
-	    // pre ratio = 2.3
-	    // display-pixel-ratio-1-more   (>1)
-	    // display-pixel-ratio-2-more   (>2)
-	    // az po floor(actual_ratio) = 2
-	    // display-pixel-ratio-3-less   (<=3)
-	    // az po ceil(actual_ratio) = 3
-	    //
-	
 	    $C.isHiResDisplay = function () {
 	
 	        return win.devicePixelRatio > 1;
@@ -809,7 +829,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	    $C.features.detectHiRes = initHiResDisplayDetection;
 	
-	    // Function definitions: ######################### ######################### ######################### ######################### ######################### ######################### #########################
+	    // Function declarations: ######################### ######################### ######################### ######################### ######################### ######################### #########################
 	
 	    // adds "hires-display" or "normal-display" class (once)
 	    function initHiResDisplayDetection() {
@@ -854,6 +874,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	     * @returns {Boolean}
 	     * @memberof module:detectOrientation
 	     * @alias JS.Responsive.isLandscape
+	     * @since 3.0.0
 	     */
 	    $C.isLandscape = function () {
 	
@@ -865,6 +886,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	     * @returns {Boolean}
 	     * @memberof module:detectOrientation
 	     * @alias JS.Responsive.isPortrait
+	     * @since 3.0.0
 	     */
 	    $C.isPortrait = function () {
 	
@@ -872,6 +894,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	    };
 	
 	    $C.features.detectOrientation = initDetectOrientation;
+	
+	    // Function declarations: ######################### ######################### ######################### ######################### ######################### ######################### #########################
 	
 	    // init detection
 	    function initDetectOrientation() {
@@ -936,6 +960,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	     * @returns {String} "portrait" or "landscape"
 	     * @memberof module:detectDeviceOrientation
 	     * @alias JS.Responsive.getDeviceOrientation
+	     * @since 3.0.0
 	     */
 	    $C.getDeviceOrientation = function () {
 	
@@ -948,6 +973,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	     * @returns {Number} 0, 90, 180, 270
 	     * @memberof module:detectDeviceOrientation
 	     * @alias JS.Responsive.getDeviceOrientationAngle
+	     * @since 3.0.0
 	     */
 	    $C.getDeviceOrientationAngle = function () {
 	
@@ -956,7 +982,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	    $C.features.detectDeviceOrientation = initDetectDeviceOrientation;
 	
-	    // Function definitions: ######################### ######################### ######################### ######################### ######################### ######################### #########################
+	    // Function declarations: ######################### ######################### ######################### ######################### ######################### ######################### #########################
 	
 	    // init detection
 	    function initDetectDeviceOrientation() {
@@ -1084,6 +1110,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	     * @returns {String} Name of actual day time period.
 	     * @memberof module:timeBased
 	     * @alias JS.Responsive.getDayTimePeriod
+	     * @since 3.0.0
 	     */
 	    $C.getDayTimePeriod = function () {
 	
@@ -1095,6 +1122,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	     * @returns {String} Name of actual day time period.
 	     * @memberof module:timeBased
 	     * @alias JS.Responsive.getYearPeriod
+	     * @since 3.0.0
 	     */
 	    $C.getYearPeriod = function () {
 	
@@ -1110,6 +1138,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	     * @example JS.Responsive.setTimeBreakPoints( config )
 	     * @memberof module:timeBased
 	     * @alias JS.Responsive.setTimeBreakPoints
+	     * @since 3.0.0
 	     */
 	    $C.setTimeBreakPoints = function (breakpoints) {
 	        var sinceReady;
@@ -1165,7 +1194,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	    $C.features.timeBased = initTimeBased;
 	
-	    // DECLARATIONS:
+	    // Function declarations: ######################### ######################### ######################### ######################### ######################### ######################### #########################
 	
 	    function initTimeBased() {
 	        var now = new Date();
@@ -1507,7 +1536,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	    $C.features.breakpoints = initBreakpoints;
 	
-	    // Function definitions: ######################### ######################### ######################### ######################### ######################### ######################### #########################
+	    // Function declarations: ######################### ######################### ######################### ######################### ######################### ######################### #########################
 	
 	    function initBreakpoints() {
 	        setInterval(checkWindowOrDocumentResize, CHECK_DOCUMENT_SIZE_INTERVAL);
