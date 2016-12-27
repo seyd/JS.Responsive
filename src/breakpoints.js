@@ -115,15 +115,15 @@ $C.getActualHorizontalBreakPoint = function() {
 
 /**
  * Disable horizontal break points checking and remove all class names from HTML element.
- * @param {Boolean} [_leaveActualClasses] - If true, leaves (freezes) actual class names in HTML element.
+ * @param {Boolean} [_keepActualClasses] - If true, leaves (freezes) actual class names in HTML element.
  * @returns {Object} this - for chaining.
  * @memberof module:breakpoints
  * @alias JS.Responsive.disableHorizontalBreakPoints
  * @since 3.0.0
  */
-$C.disableHorizontalBreakPoints = function( _leaveActualClasses ) {
+$C.disableHorizontalBreakPoints = function( _keepActualClasses ) {
 
-    if (!_leaveActualClasses)
+    if (!_keepActualClasses)
         removeAllClassesInDimension( horizontalSizes );
     isDisabledHorizontalBreakPoints = TRUE;
     return this;
@@ -206,15 +206,15 @@ $C.getActualVerticalBreakPoint = function() {
 
 /**
  * Disable vertical break points checking and remove all class names from HTML element.
- * @param {Boolean} [_leaveActualClasses] - If true, leaves (freezes) actual class names in HTML element.
+ * @param {Boolean} [_keepActualClasses] - If true, leaves (freezes) actual class names in HTML element.
  * @returns {Object} this - for chaining.
  * @memberof module:breakpoints
  * @alias JS.Responsive.disableVerticalBreakPoints
  * @since 3.0.0
  */
-$C.disableVerticalBreakPoints = function( _leaveActualClasses ) {
+$C.disableVerticalBreakPoints = function( _keepActualClasses ) {
 
-    if (!_leaveActualClasses)
+    if (!_keepActualClasses)
         removeAllClassesInDimension( verticalSizes );
     isDisabledVerticalBreakPoints = TRUE;
     return this;
