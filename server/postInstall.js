@@ -7,7 +7,7 @@ var fs = require('fs'),
                 '<dd class="tag-default"> ' +
                     '<ul class="dummy"> ' +
                         '<?js data.customclass.forEach(function(c) { ?> ' +
-                            '<li><?js= c.name ?> - <?js= c.description ?><?js if (c.demo) {?>(<a href="<?js= c.demo ?>">DEMO</a>)<?js } ?></li>' +
+                            '<li><?js= c.name ?><?js if (c.description) {?> - <?js= c.description ?><?js } ?><?js if (c.demo) {?>(<a href="<?js= c.demo ?>">DEMO</a>)<?js } ?></li>' +
                         '<?js }); ?> ' +
                     '</ul> ' +
                 '</dd> ' +
