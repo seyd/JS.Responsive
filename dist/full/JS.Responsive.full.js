@@ -319,7 +319,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	    /**
 	     * Disable horizontal break points checking and remove all class names from HTML element.
-	     * @param {Boolean} [_keepActualClasses] - If true, leaves (freezes) actual class names in HTML element.
+	     * @param {Boolean} [_keepActualClasses] - If true, keeps (freezes) actual class names in HTML element.
 	     * @returns {Object} this - for chaining.
 	     * @memberof module:breakpoints
 	     * @alias JS.Responsive.disableHorizontalBreakPoints
@@ -403,7 +403,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	    /**
 	     * Disable vertical break points checking and remove all class names from HTML element.
-	     * @param {Boolean} [_keepActualClasses] - If true, leaves (freezes) actual class names in HTML element.
+	     * @param {Boolean} [_keepActualClasses] - If true, keeps (freezes) actual class names in HTML element.
 	     * @returns {Object} this - for chaining.
 	     * @memberof module:breakpoints
 	     * @alias JS.Responsive.disableVerticalBreakPoints
