@@ -62,7 +62,7 @@ fs.readFile(filePath, 'utf-8', function(err, contents){
         console.log('INFO: If this message is logged on first install, fix may not be needed anymore, please let me know to luckylooke@gmail.com');
     else{
         contents = contents.replace("jsdoc = spawn('./node_modules/.bin/jsdoc', files.concat('-c', jsDocConfTmp));",
-            "jsdoc = spawn(__dirname + '/node_modules/.bin/jsdoc', files.concat('-c', jsDocConfTmp));");
+            "if(/^win/.test(process.platform)) jsdoc = spawn(__dirname + '/node_modules/.bin/jsdoc.cmd', ['-c', jsDocConfTmp]); else jsdoc = spawn(__dirname + '/node_modules/.bin/jsdoc', ['-c', jsDocConfTmp]);");
 
         fs.writeFile(filePath, contents, function(err){
             if(err) console.error(err);
