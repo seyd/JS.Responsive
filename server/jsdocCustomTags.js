@@ -124,8 +124,9 @@ function isReady() {
 
 function writeFeaturesList() {
     // console.log('write fl', flData);
-    fs.writeFile(__dirname + '/featuresList.json', JSON.stringify(flData), null, function (err) {
-        if(err) console.log(err);
-        console.log(__dirname + '/featuresList.json updated');
-    });
+    if(flData.length)
+        fs.writeFile(__dirname + '/featuresList.json', JSON.stringify(flData), null, function (err) {
+            if(err) console.log(err);
+            console.log(__dirname + '/featuresList.json updated');
+        });
 }
