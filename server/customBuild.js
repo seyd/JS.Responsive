@@ -4,11 +4,11 @@ var fs = require('fs'),
     webpackConfig = require(__dirname + '/../webpack.config.js'),
     featuresList = require(__dirname + '/featuresList.json')
         .map(function processList(feature) { // processing raw list
-        return {
-            file:'/../src/' + feature.file + '.js',
-            methods: Array.isArray(feature.methods) ? feature.methods : [feature.methods]
-        }
-    }),
+            return {
+                file:'/../src/' + feature.file + '.js',
+                methods: Array.isArray(feature.methods) ? feature.methods : [feature.methods]
+            }
+        }),
     running = {};
 
 if (!fs.existsSync(__dirname + '/../tmp')){
@@ -116,17 +116,17 @@ module.exports = function(cfg, buildName, callback, version){
                 compiler.run(function (err, stats) {
                     if(err) return console.log(err);
 
+                    if(buildName === 'full' && !version) // build docs if full latest is rebuilded
+                        webpackConfig.plugins.pop(); // pop JsDocPlugin
+
                     if(version){
                         // create zip file for whole folder
                         zipFolder(version, buildName + cfg, callback);
                     }
 
-                    if(buildName === 'full' && !version) // build docs if full latest is rebuilded
-                        webpackConfig.plugins.pop(); // pop JsDocPlugin
-
                     console.log('Build end: ', buildName + cfg);
                     // console.log("webpack stats", stats);
-                    if(callback)
+                    if(!version && callback)
                         callback();
 
                     running[buildName] = false;
@@ -195,13 +195,11 @@ function zipFolder(version, name, callback) {
     });
 
     zipArchive.pipe(output);
-    zipArchive.bulk([
-        {
-            expand: true,
-            cwd: path,
-            src: ['*.js', '*.map'],
-            dest: '/JS.Responsive' + dotName
-        }
-    ]);
+    zipArchive.glob('*.js', {
+        cwd: path
+    });
+    zipArchive.glob('*.map', {
+        cwd: path
+    });
     zipArchive.finalize();
 }
