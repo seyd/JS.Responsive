@@ -28,7 +28,7 @@ module.exports = function(cfg, buildName, callback, version){
     var selectedFilesList = [],
         skippedFilesList = [];
 
-    cfg = cfg || '';
+    cfg = buildName == 'default' ? '6257' : (cfg || '');
 
     if(cfg){
         var bcfg = (+cfg).toString(2); // convert decimal string to binary string
@@ -121,7 +121,7 @@ module.exports = function(cfg, buildName, callback, version){
 
                     if(version){
                         // create zip file for whole folder
-                        zipFolder(version, buildName + cfg, callback);
+                        zipFolder(version, buildName, cfg, callback);
                     }
 
                     console.log('Build end: ', buildName + cfg);
@@ -169,14 +169,16 @@ function capitalizeFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
-function zipFolder(version, name, callback) {
-    if(name === 'default')
+function zipFolder(version, name, cfg, callback) {
+    if(name === 'default'){
         name = '';
+        cfg = '';
+    }
 
     var dotName = name ? '.' + name : '';
     var fs = require('fs');
     var path = __dirname + '/../tmp/' + version + (name ? '/' + name : '');
-    var output = fs.createWriteStream(path + '/JS.Responsive' + dotName + '.zip');
+    var output = fs.createWriteStream(path + '/JS.Responsive' + dotName + cfg + '.zip');
     var archiver =  require('archiver');
     var zipArchive = archiver('zip');
 
@@ -188,7 +190,7 @@ function zipFolder(version, name, callback) {
         if (err)
             throw err;
 
-        console.log('ZIP done:', 'JS.Responsive' + dotName + '.zip');
+        console.log('ZIP done:', 'JS.Responsive' + dotName + cfg + '.zip');
 
         if(callback)
             callback();
