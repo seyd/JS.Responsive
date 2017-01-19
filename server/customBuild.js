@@ -177,7 +177,7 @@ function zipFolder(version, name, cfg, callback) {
 
     var dotName = name ? '.' + name : '';
     var fs = require('fs');
-    var path = __dirname + '/../tmp/' + version + (name ? '/' + name : '');
+    var path = __dirname + '/../tmp/' + version + (name ? '/' + name : '') + cfg;
     var output = fs.createWriteStream(path + '/JS.Responsive' + dotName + cfg + '.zip');
     var archiver =  require('archiver');
     var zipArchive = archiver('zip');
