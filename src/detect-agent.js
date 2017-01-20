@@ -20,7 +20,7 @@
  * @example JS.Responsive.watchBrowserVersion('Chrome', 47);
  * @example JS.Responsive.watchBrowserVersion('MSIE', 10);
  * @example JS.Responsive.watchBrowserVersion('Edge', 12);
- * @memberof module:detectAgent
+ * @memberof module:detect-agent
  * @alias JS.Responsive.watchBrowserVersion
  * @since 3.0.0
  */
@@ -48,7 +48,7 @@ $C.watchBrowserVersion = function( browser, version ) {
 	 *		browser: "chrome",
 	 *		version: 43.5
 	 *   }
- * @memberof module:detectAgent
+ * @memberof module:detect-agent
  * @alias JS.Responsive.getPlatformInfo
  * @since 3.0.0
  */
@@ -60,7 +60,7 @@ $C.getPlatformInfo = function() {
  * Returns browser tags
  * @returns {Array} all browser tags strings in Array.
  * @method
- * @memberof module:detectAgent
+ * @memberof module:detect-agent
  * @alias JS.Responsive.getAgentTags
  * @since 3.0.0
  **/

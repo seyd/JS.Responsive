@@ -23,7 +23,7 @@
 /**
  * Detects if current device has a high resolution display (such as retina).
  * @returns {Boolean} The return value is not changing in time.
- * @memberof module:detectHiRes
+ * @memberof module:detect-hi-res
  * @alias JS.Responsive.isHiResDisplay
  * @since 3.0.0
  */

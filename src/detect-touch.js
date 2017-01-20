@@ -13,7 +13,7 @@
 /**
  * Detects if current device supports touch events.
  * @returns {Boolean} The return value is not changing in time.
- * @memberof module:detectTouch
+ * @memberof module:detect-touch
  * @alias JS.Responsive.isTouch
  * @since 3.0.0
  */

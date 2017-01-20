@@ -30,7 +30,7 @@ var
 /**
  * Returns true if page is just scrolled or in scrolling.
  * @returns {Boolean}
- * @memberof module:isScrolling
+ * @memberof module:is-scrolling
  * @alias JS.Responsive.isScrolling
  * @since 3.0.0
  */

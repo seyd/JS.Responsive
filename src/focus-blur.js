@@ -22,7 +22,7 @@ var
 /**
  * Returns if document is in state that everything is loaded.
  * @returns {Boolean}
- * @memberof module:focusBlur
+ * @memberof module:focus-blur
  * @alias JS.Responsive.isDocumentLoaded
  * @since 3.0.0
  */
@@ -35,7 +35,7 @@ $C.isDocumentLoaded = function() {
 /**
  * Returns true if user is leaving current page.
  * @returns {Boolean}
- * @memberof module:focusBlur
+ * @memberof module:focus-blur
  * @alias JS.Responsive.isDocumentUnloading
  * @since 3.0.0
  */
@@ -48,7 +48,7 @@ $C.isDocumentUnloading = function() {
 /**
  * Returns true if window is focused/active.
  * @returns {Boolean}
- * @memberof module:focusBlur
+ * @memberof module:focus-blur
  * @alias JS.Responsive.isFocused
  * @since 3.0.0
  */

@@ -16,7 +16,7 @@
 /**
  * Returns information if is actually using touches.
  * @returns {Boolean|undefined} Returns true if using touches, false if using mouse, undefined if no use detected yet
- * @memberof module:touchVsMouse
+ * @memberof module:touch-vs-mouse
  * @alias JS.Responsive.isUsingTouches
  * @since 3.0.0
  */

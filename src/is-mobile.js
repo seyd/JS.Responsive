@@ -14,7 +14,7 @@
  * Returns information if device is a mobile device.
  * @todo Find out if mobile is just a phone or tablet also...
  * @returns {Boolean} The return value is not changing in time.
- * @memberof module:isMobile
+ * @memberof module:is-mobile
  * @alias JS.Responsive.isMobile
  * @since 3.0.0
  */
