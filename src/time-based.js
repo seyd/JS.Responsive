@@ -1,7 +1,7 @@
 /**
  *
  * Time related classes and custom time breakpoints from document loaded event.
- * @module timeBased
+ * @module time-based
  * @pretty-name Time breakpoints and time related classes
  * @teaser Time related classes, day period, year seasson.
  *

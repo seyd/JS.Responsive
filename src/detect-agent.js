@@ -1,7 +1,7 @@
 /**
  *
  * User agent detection for precise fixes.
- * @module detectAgent
+ * @module detect-agent
  * @pretty-name User agent detection
  * @teaser User agent detection for precise fixes.
  *

@@ -1,7 +1,7 @@
 /**
  *
  * Detection of document loading state.
- * @module documentState
+ * @module document-state
  * @pretty-name Document loading
  * @teaser Document loading states detection.
  *

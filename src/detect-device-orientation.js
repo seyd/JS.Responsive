@@ -1,7 +1,7 @@
 /**
  *
  * Detection of device orientation (not orientation of viewport aka width/height ration)
- * @module detectDeviceOrientation
+ * @module detect-device-orientation
  * @pretty-name Device orientation
  * @teaser Mobile devices detection.
  *

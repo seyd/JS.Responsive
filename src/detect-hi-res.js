@@ -1,7 +1,7 @@
 /**
  *
  * Detection of high resolution display
- * @module detectHiRes
+ * @module detect-hi-res
  * @pretty-name Display resolution
  * @teaser Display resolution detection.
  *

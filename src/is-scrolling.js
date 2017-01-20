@@ -1,7 +1,7 @@
 /**
  *
  * Detection of scroll usage
- * @module isScrolling
+ * @module is-scrolling
  * @pretty-name Scroll usage
  * @teaser Is user scrolling?
  *

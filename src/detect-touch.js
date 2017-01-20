@@ -1,7 +1,7 @@
 /**
  *
  * Detection whether device is touch capable
- * @module detectTouch
+ * @module detect-touch
  * @pretty-name Touch capability
  * @teaser Touch capability detection.
  *

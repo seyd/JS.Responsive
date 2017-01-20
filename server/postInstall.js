@@ -58,11 +58,11 @@ fs.readFile(filePath, 'utf-8', function(err, contents){
     if(!contents)
         return;
 
-    if(contents.indexOf("jsdoc = spawn('./node_modules/.bin/jsdoc', files.concat('-c', jsDocConfTmp));") == -1)
+    if(contents.indexOf("if(/^win/.test(process.platform)) jsdoc = spawn(__dirname + '/../.bin/jsdoc.cmd', ['-c', jsDocConfTmp]); else jsdoc = spawn(__dirname + '/node_modules/.bin/jsdoc', ['-c', jsDocConfTmp]);") == -1)
         console.log('INFO: If this message is logged on first install, fix may not be needed anymore, please let me know to luckylooke@gmail.com');
     else{
-        contents = contents.replace("jsdoc = spawn('./node_modules/.bin/jsdoc', files.concat('-c', jsDocConfTmp));",
-            "if(/^win/.test(process.platform)) jsdoc = spawn(__dirname + '/node_modules/.bin/jsdoc.cmd', ['-c', jsDocConfTmp]); else jsdoc = spawn(__dirname + '/node_modules/.bin/jsdoc', ['-c', jsDocConfTmp]);");
+        contents = contents.replace("if(/^win/.test(process.platform)) jsdoc = spawn(__dirname + '/../.bin/jsdoc.cmd', ['-c', jsDocConfTmp]); else jsdoc = spawn(__dirname + '/node_modules/.bin/jsdoc', ['-c', jsDocConfTmp]);",
+            "if(/^win/.test(process.platform)) jsdoc = spawn(__dirname + '/../.bin/jsdoc.cmd', ['-c', jsDocConfTmp]); else jsdoc = spawn(__dirname + '/../.bin/jsdoc', ['-c', jsDocConfTmp]);");
 
         fs.writeFile(filePath, contents, function(err){
             if(err) console.error(err);

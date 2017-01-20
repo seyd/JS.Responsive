@@ -624,7 +624,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    /**
 	     *
 	     * User agent detection for precise fixes.
-	     * @module detectAgent
+	     * @module detect-agent
 	     * @pretty-name User agent detection
 	     * @teaser User agent detection for precise fixes.
 	     *
@@ -831,7 +831,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    /**
 	     *
 	     * Detection of device orientation (not orientation of viewport aka width/height ration)
-	     * @module detectDeviceOrientation
+	     * @module detect-device-orientation
 	     * @pretty-name Device orientation
 	     * @teaser Mobile devices detection.
 	     *
@@ -963,7 +963,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    /**
 	     *
 	     * Detection of high resolution display
-	     * @module detectHiRes
+	     * @module detect-hi-res
 	     * @pretty-name Display resolution
 	     * @teaser Display resolution detection.
 	     *
@@ -1028,7 +1028,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    /**
 	     *
 	     * Detection of viewport orientation (not device physical orientation)
-	     * @module detectOrientation
+	     * @module detect-orientation
 	     * @pretty-name Viewport orientation
 	     * @teaser Viewport orientation detection.
 	     *
@@ -1091,7 +1091,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    /**
 	     *
 	     * Detection whether device is touch capable
-	     * @module detectTouch
+	     * @module detect-touch
 	     * @pretty-name Touch capability
 	     * @teaser Touch capability detection.
 	     *
@@ -1123,7 +1123,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    /**
 	     *
 	     * Detection of document loading state.
-	     * @module documentState
+	     * @module document-state
 	     * @pretty-name Document loading
 	     * @teaser Document loading states detection.
 	     *
@@ -1218,7 +1218,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    /**
 	     *
 	     * Detection of window focus
-	     * @module focusBlur
+	     * @module focus-blur
 	     * @pretty-name Window focus detection
 	     * @teaser Is window focused or not?
 	     *
@@ -1298,7 +1298,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    /**
 	     *
 	     * Detection of mobile vs desktop devices
-	     * @module isMobile
+	     * @module is-mobile
 	     * @pretty-name Mobile device detection
 	     * @teaser Mobile devices detection.
 	     *
@@ -1346,7 +1346,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    /**
 	     *
 	     * Detection of scroll usage
-	     * @module isScrolling
+	     * @module is-scrolling
 	     * @pretty-name Scroll usage
 	     * @teaser Is user scrolling?
 	     *
@@ -1420,7 +1420,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    /**
 	     *
 	     * Time related classes and custom time breakpoints from document loaded event.
-	     * @module timeBased
+	     * @module time-based
 	     * @pretty-name Time breakpoints and time related classes
 	     * @teaser Time related classes, day period, year seasson.
 	     *
@@ -1639,7 +1639,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	     *
 	     * Detection of touch usage, because some devices are capable of touches even they are equipped with mouse,
 	     * so user can change usage of both inputs unexpectedly in time.
-	     * @module touchVsMouse
+	     * @module touch-vs-mouse
 	     * @pretty-name Touch usage detection
 	     * @teaser Is currently used mouse or touch?
 	     *

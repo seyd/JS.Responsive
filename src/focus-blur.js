@@ -1,7 +1,7 @@
 /**
  *
  * Detection of window focus
- * @module focusBlur
+ * @module focus-blur
  * @pretty-name Window focus detection
  * @teaser Is window focused or not?
  *

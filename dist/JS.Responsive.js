@@ -624,7 +624,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  /**
 	   *
 	   * Detection whether device is touch capable
-	   * @module detectTouch
+	   * @module detect-touch
 	   * @pretty-name Touch capability
 	   * @teaser Touch capability detection.
 	   *
@@ -656,7 +656,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  /**
 	   *
 	   * Detection of document loading state.
-	   * @module documentState
+	   * @module document-state
 	   * @pretty-name Document loading
 	   * @teaser Document loading states detection.
 	   *
@@ -751,7 +751,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  /**
 	   *
 	   * Detection of window focus
-	   * @module focusBlur
+	   * @module focus-blur
 	   * @pretty-name Window focus detection
 	   * @teaser Is window focused or not?
 	   *
@@ -832,7 +832,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	   *
 	   * Detection of touch usage, because some devices are capable of touches even they are equipped with mouse,
 	   * so user can change usage of both inputs unexpectedly in time.
-	   * @module touchVsMouse
+	   * @module touch-vs-mouse
 	   * @pretty-name Touch usage detection
 	   * @teaser Is currently used mouse or touch?
 	   *

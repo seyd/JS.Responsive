@@ -1,7 +1,7 @@
 /**
  *
  * Detection of viewport orientation (not device physical orientation)
- * @module detectOrientation
+ * @module detect-orientation
  * @pretty-name Viewport orientation
  * @teaser Viewport orientation detection.
  *

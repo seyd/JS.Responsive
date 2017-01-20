@@ -2,7 +2,7 @@
  *
  * Detection of touch usage, because some devices are capable of touches even they are equipped with mouse,
  * so user can change usage of both inputs unexpectedly in time.
- * @module touchVsMouse
+ * @module touch-vs-mouse
  * @pretty-name Touch usage detection
  * @teaser Is currently used mouse or touch?
  *

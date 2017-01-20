@@ -48,7 +48,7 @@ exports.defineTags = function(dictionary) {
                 data = flData[index];
             }
 
-            data.file = doclet.name;
+            data.file = camelCaseToDash(doclet.name);
             data.description = doclet.description;
             data.teaser = tag.value;
 
@@ -129,4 +129,8 @@ function writeFeaturesList() {
             if(err) console.log(err);
             console.log(__dirname + '/featuresList.json updated');
         });
+}
+
+function camelCaseToDash( myStr ) {
+    return myStr.replace( /([a-z])([A-Z])/g, '$1-$2' ).toLowerCase();
 }

@@ -1,7 +1,7 @@
 /**
  *
  * Detection of mobile vs desktop devices
- * @module isMobile
+ * @module is-mobile
  * @pretty-name Mobile device detection
  * @teaser Mobile devices detection.
  *
