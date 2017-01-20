@@ -643,7 +643,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	     * @example JS.Responsive.watchBrowserVersion('Chrome', 47);
 	     * @example JS.Responsive.watchBrowserVersion('MSIE', 10);
 	     * @example JS.Responsive.watchBrowserVersion('Edge', 12);
-	     * @memberof module:detectAgent
+	     * @memberof module:detect-agent
 	     * @alias JS.Responsive.watchBrowserVersion
 	     * @since 3.0.0
 	     */
@@ -667,7 +667,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    	 *		browser: "chrome",
 	    	 *		version: 43.5
 	    	 *   }
-	     * @memberof module:detectAgent
+	     * @memberof module:detect-agent
 	     * @alias JS.Responsive.getPlatformInfo
 	     * @since 3.0.0
 	     */
@@ -679,7 +679,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	     * Returns browser tags
 	     * @returns {Array} all browser tags strings in Array.
 	     * @method
-	     * @memberof module:detectAgent
+	     * @memberof module:detect-agent
 	     * @alias JS.Responsive.getAgentTags
 	     * @since 3.0.0
 	     **/
@@ -870,7 +870,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    /**
 	     * Returns device orientation "portrait" or "landscape".
 	     * @returns {String} "portrait" or "landscape"
-	     * @memberof module:detectDeviceOrientation
+	     * @memberof module:detect-device-orientation
 	     * @alias JS.Responsive.getDeviceOrientation
 	     * @since 3.0.0
 	     */
@@ -883,7 +883,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    /**
 	     * Returns angle of device orientation 0, 90, 180, 270 in degrees cross clock wise.
 	     * @returns {Number} 0, 90, 180, 270
-	     * @memberof module:detectDeviceOrientation
+	     * @memberof module:detect-device-orientation
 	     * @alias JS.Responsive.getDeviceOrientationAngle
 	     * @since 3.0.0
 	     */
@@ -985,7 +985,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    /**
 	     * Detects if current device has a high resolution display (such as retina).
 	     * @returns {Boolean} The return value is not changing in time.
-	     * @memberof module:detectHiRes
+	     * @memberof module:detect-hi-res
 	     * @alias JS.Responsive.isHiResDisplay
 	     * @since 3.0.0
 	     */
@@ -1042,7 +1042,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    /**
 	     * Returns if current device has display landscape oriented (width is larger than height).
 	     * @returns {Boolean}
-	     * @memberof module:detectOrientation
+	     * @memberof module:detect-orientation
 	     * @alias JS.Responsive.isLandscape
 	     * @since 3.0.0
 	     */
@@ -1054,7 +1054,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    /**
 	     * Returns if current device has display portrait oriented (height is larger than width).
 	     * @returns {Boolean}
-	     * @memberof module:detectOrientation
+	     * @memberof module:detect-orientation
 	     * @alias JS.Responsive.isPortrait
 	     * @since 3.0.0
 	     */
@@ -1103,7 +1103,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    /**
 	     * Detects if current device supports touch events.
 	     * @returns {Boolean} The return value is not changing in time.
-	     * @memberof module:detectTouch
+	     * @memberof module:detect-touch
 	     * @alias JS.Responsive.isTouch
 	     * @since 3.0.0
 	     */
@@ -1145,7 +1145,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    /**
 	     * Returns if document is in state that everything is loaded.
 	     * @returns {Boolean}
-	     * @memberof module:documentState
+	     * @memberof module:document-state
 	     * @alias JS.Responsive.isDocumentLoaded
 	     * @since 3.0.0
 	     */
@@ -1157,7 +1157,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    /**
 	     * Returns true if user is leaving current page.
 	     * @returns {Boolean}
-	     * @memberof module:documentState
+	     * @memberof module:document-state
 	     * @alias JS.Responsive.isDocumentUnloading
 	     * @since 3.0.0
 	     */
@@ -1238,7 +1238,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    /**
 	     * Returns if document is in state that everything is loaded.
 	     * @returns {Boolean}
-	     * @memberof module:focusBlur
+	     * @memberof module:focus-blur
 	     * @alias JS.Responsive.isDocumentLoaded
 	     * @since 3.0.0
 	     */
@@ -1250,7 +1250,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    /**
 	     * Returns true if user is leaving current page.
 	     * @returns {Boolean}
-	     * @memberof module:focusBlur
+	     * @memberof module:focus-blur
 	     * @alias JS.Responsive.isDocumentUnloading
 	     * @since 3.0.0
 	     */
@@ -1262,7 +1262,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    /**
 	     * Returns true if window is focused/active.
 	     * @returns {Boolean}
-	     * @memberof module:focusBlur
+	     * @memberof module:focus-blur
 	     * @alias JS.Responsive.isFocused
 	     * @since 3.0.0
 	     */
@@ -1311,7 +1311,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	     * Returns information if device is a mobile device.
 	     * @todo Find out if mobile is just a phone or tablet also...
 	     * @returns {Boolean} The return value is not changing in time.
-	     * @memberof module:isMobile
+	     * @memberof module:is-mobile
 	     * @alias JS.Responsive.isMobile
 	     * @since 3.0.0
 	     */
@@ -1371,7 +1371,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    /**
 	     * Returns true if page is just scrolled or in scrolling.
 	     * @returns {Boolean}
-	     * @memberof module:isScrolling
+	     * @memberof module:is-scrolling
 	     * @alias JS.Responsive.isScrolling
 	     * @since 3.0.0
 	     */
@@ -1479,7 +1479,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    /**
 	     * Returns actual day time period. One of morning, afternoon, evening or night.
 	     * @returns {String} Name of actual day time period.
-	     * @memberof module:timeBased
+	     * @memberof module:time-based
 	     * @alias JS.Responsive.getDayTimePeriod
 	     * @since 3.0.0
 	     */
@@ -1491,7 +1491,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    /**
 	     * Returns actual year period. One of Spring, Summer, Autumn or Winter.
 	     * @returns {String} Name of actual day time period.
-	     * @memberof module:timeBased
+	     * @memberof module:time-based
 	     * @alias JS.Responsive.getYearPeriod
 	     * @since 3.0.0
 	     */
@@ -1507,7 +1507,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	     * @param {Number} breakpoints[].time - The time after document load in [ms], breakpoint name will be applied.
 	     * @param {Number|Boolean} [breakpoints[].remains] - The time in [ms], breakpoint name will be removed (optional). Or TRUE value to prevent replacing with next breakpoint.
 	     * @example JS.Responsive.setTimeBreakPoints( config )
-	     * @memberof module:timeBased
+	     * @memberof module:time-based
 	     * @alias JS.Responsive.setTimeBreakPoints
 	     * @since 3.0.0
 	     */
@@ -1653,7 +1653,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    /**
 	     * Returns information if is actually using touches.
 	     * @returns {Boolean|undefined} Returns true if using touches, false if using mouse, undefined if no use detected yet
-	     * @memberof module:touchVsMouse
+	     * @memberof module:touch-vs-mouse
 	     * @alias JS.Responsive.isUsingTouches
 	     * @since 3.0.0
 	     */

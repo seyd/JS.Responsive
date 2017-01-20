@@ -636,7 +636,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  /**
 	   * Detects if current device supports touch events.
 	   * @returns {Boolean} The return value is not changing in time.
-	   * @memberof module:detectTouch
+	   * @memberof module:detect-touch
 	   * @alias JS.Responsive.isTouch
 	   * @since 3.0.0
 	   */
@@ -678,7 +678,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  /**
 	   * Returns if document is in state that everything is loaded.
 	   * @returns {Boolean}
-	   * @memberof module:documentState
+	   * @memberof module:document-state
 	   * @alias JS.Responsive.isDocumentLoaded
 	   * @since 3.0.0
 	   */
@@ -690,7 +690,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  /**
 	   * Returns true if user is leaving current page.
 	   * @returns {Boolean}
-	   * @memberof module:documentState
+	   * @memberof module:document-state
 	   * @alias JS.Responsive.isDocumentUnloading
 	   * @since 3.0.0
 	   */
@@ -771,7 +771,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  /**
 	   * Returns if document is in state that everything is loaded.
 	   * @returns {Boolean}
-	   * @memberof module:focusBlur
+	   * @memberof module:focus-blur
 	   * @alias JS.Responsive.isDocumentLoaded
 	   * @since 3.0.0
 	   */
@@ -783,7 +783,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  /**
 	   * Returns true if user is leaving current page.
 	   * @returns {Boolean}
-	   * @memberof module:focusBlur
+	   * @memberof module:focus-blur
 	   * @alias JS.Responsive.isDocumentUnloading
 	   * @since 3.0.0
 	   */
@@ -795,7 +795,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  /**
 	   * Returns true if window is focused/active.
 	   * @returns {Boolean}
-	   * @memberof module:focusBlur
+	   * @memberof module:focus-blur
 	   * @alias JS.Responsive.isFocused
 	   * @since 3.0.0
 	   */
@@ -846,7 +846,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  /**
 	   * Returns information if is actually using touches.
 	   * @returns {Boolean|undefined} Returns true if using touches, false if using mouse, undefined if no use detected yet
-	   * @memberof module:touchVsMouse
+	   * @memberof module:touch-vs-mouse
 	   * @alias JS.Responsive.isUsingTouches
 	   * @since 3.0.0
 	   */
