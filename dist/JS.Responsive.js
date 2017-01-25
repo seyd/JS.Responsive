@@ -885,6 +885,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    removeClass('user-is-using-touch');
 	    $C.emit('changedUsingTouch', FALSE);
 	  }
+	  $C.isAdblock = missingMethod("isAdblock");
 	  $C.watchBrowserVersion = missingMethod("watchBrowserVersion");
 	  $C.getPlatformInfo = missingMethod("getPlatformInfo");
 	  $C.getAgentTags = missingMethod("getAgentTags");

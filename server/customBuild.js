@@ -2,6 +2,7 @@ var fs = require('fs'),
     webpack = require("webpack"),
     JsDocPlugin = require('jsdoc-webpack-plugin'),
     webpackConfig = require(__dirname + '/../webpack.config.js'),
+    defaultCfg = require(__dirname + '/defaultCfg.js'),
     featuresList = require(__dirname + '/featuresList.json')
         .map(function processList(feature) { // processing raw list
             return {
@@ -28,7 +29,7 @@ module.exports = function(cfg, buildName, callback, version){
     var selectedFilesList = [],
         skippedFilesList = [];
 
-    cfg = buildName == 'default' ? '6257' : (cfg || '');
+    cfg = buildName == 'default' ? defaultCfg : (cfg || '');
 
     if(cfg){
         var bcfg = (+cfg).toString(2); // convert decimal string to binary string

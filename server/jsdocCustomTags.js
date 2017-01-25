@@ -119,6 +119,7 @@ exports.defineTags = function(dictionary) {
 };
 
 function isReady() {
+    // console.log('isReady', membersModulesProcessed.length+1 == files.length, teasersProcessed.length+1 == files.length, membersModulesProcessed.length+1, teasersProcessed.length+1, files.length);
     return membersModulesProcessed.length+1 == files.length && teasersProcessed.length+1 == files.length; // +1 because of core file
 }
 

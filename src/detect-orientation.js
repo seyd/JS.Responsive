@@ -13,7 +13,7 @@
  * */
 
 /**
- * Returns if current device has display landscape oriented (width is larger than height).
+ * Returns true if current device has display landscape oriented (width is larger than height).
  * @returns {Boolean}
  * @memberof module:detect-orientation
  * @alias JS.Responsive.isLandscape
@@ -25,7 +25,7 @@ $C.isLandscape = function() {
 };
 
 /**
- * Returns if current device has display portrait oriented (height is larger than width).
+ * Returns true if current device has display portrait oriented (height is larger than width).
  * @returns {Boolean}
  * @memberof module:detect-orientation
  * @alias JS.Responsive.isPortrait
