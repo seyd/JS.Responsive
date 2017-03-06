@@ -12,7 +12,7 @@
   "tags": {
     "allowUnknownTags": true
   },
-  "plugins": [ "server/jsdocCustomTags.js" ],
+  "plugins": [ "server/jsdocCustomTags.js", "plugins/markdown" ],
   "templates": {
     " * JSON comment * "    : "About these settings http://docstrap.github.io/docstrap/",
     "systemName"            : "JS.Responsive",
