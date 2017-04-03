@@ -19,7 +19,8 @@
  */
 $C.isTouch = function() {
 
-    return 'ontouchstart' in document.documentElement;
+    return 'ontouchstart' in window ||      // works on most browsers 
+			navigator.maxTouchPoints;       // works on IE10/11 and Surface
 };
 
 $C.features.detectTouch = detectTouch;
