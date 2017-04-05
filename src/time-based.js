@@ -212,10 +212,10 @@ function setClasses(){
 function getYearPeriod(date) {
     var year = date.getFullYear(),
         firstDates = [
-            {date: new Date(year, 2, 20), name: 'Spring'},
-            {date: new Date(year, 5, 21), name: 'Summer'},
-            {date: new Date(year, 8, 23), name: 'Autumn'},
-            {date: new Date(year, 11, 21), name: 'Winter'}
+            {date: new Date(year, 2, 20), name: 'spring'},
+            {date: new Date(year, 5, 21), name: 'summer'},
+            {date: new Date(year, 8, 23), name: 'autumn'},
+            {date: new Date(year, 11, 21), name: 'winter'}
         ];
 
     return testPeriod(0);

@@ -642,7 +642,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	   */
 	  $C.isTouch = function () {
 	
-	    return 'ontouchstart' in document.documentElement;
+	    return 'ontouchstart' in document.documentElement || navigator.maxTouchPoints > 0 || navigator.msMaxTouchPoints > 0;
 	  };
 	
 	  $C.features.detectTouch = detectTouch;

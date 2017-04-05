@@ -1,9 +1,10 @@
 # CHANGELOG
 
-## 3.0.0-BETA Early bird
-- **`!!! CAUTION !!!` TESTING NOT FINISHED, DO NOT USE FOR PRODUCTION**
+## 3.0.0 Early Bird
 - library custom builds with missing method warnings
 - new build-in event system (.on, .off, .emit)
+- added new feature AdBlock detection
+- added timeBasedBreakpoints
 - ! method `addOnChangeHandler` removed
 - ! method `removeOnChangeHandler` removed
 
