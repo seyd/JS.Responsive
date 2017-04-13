@@ -51,3 +51,4 @@ tmp/
 
 # Mac system files
 *.DS_Store
+!/demo/

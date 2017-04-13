@@ -1,0 +1,208 @@
+/* line 4, index.style.scss */
+html {
+    /*-webkit-text-size-adjust: none; */
+    background: #000;
+    color: #BBB;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 16px;
+}
+
+/* line 12, index.style.scss */
+html.large {
+    font-size: 21px;
+}
+
+/* line 16, index.style.scss */
+html.small {
+    font-size: 14px;
+}
+
+/* line 20, index.style.scss */
+html.x-small, html.x-small-less {
+    font-size: 12px;
+}
+
+/*
+@media (max-width: 960px) {
+	html {
+		background: red;
+	}
+}
+*/
+/* line 32, index.style.scss */
+h1, h2, h3, h4 {
+    color: white;
+}
+
+/* line 34, index.style.scss */
+strong {
+    color: white;
+}
+
+/*h1 { width: 300px; background: red; }*/
+/* line 40, index.style.scss */
+a {
+    font-weight: bold;
+    color: #B00;
+}
+
+/* line 43, index.style.scss */
+code {
+    background-color: #222;
+    color: #ddd;
+    font-weight: bold;
+}
+
+/* line 49, index.style.scss */
+#download {
+    font-size: 1em;
+    margin: 4em 0;
+}
+
+/* line 50, index.style.scss */
+#download a {
+    font-size: 1.5em;
+}
+
+/* line 52, index.style.scss */
+#html-class a {
+    display: inline-block;
+    background: #222;
+    border: 1px solid #444444;
+    margin-right: 6px;
+    margin-top: 6px;
+    padding: 2px 5px;
+    width: 11.5em;
+    text-align: center;
+    font-size: 0.9em;
+    cursor: pointer;
+    color: white;
+    text-decoration: none;
+}
+
+/* line 66, index.style.scss */
+#html-class a:hover {
+    text-decoration: underline;
+}
+
+/* line 68, index.style.scss */
+#html-class a.super {
+    color: #F49;
+}
+
+/* line 72, index.style.scss */
+#html-class a.main {
+    color: #FD8;
+}
+
+/* line 75, index.style.scss */
+#html-class a.secondary {
+    color: #49B;
+}
+
+/* line 79, index.style.scss */
+#event-object a {
+    color: #FD8;
+    text-decoration: none;
+}
+
+/* line 83, index.style.scss */
+#event-object a:hover {
+    text-decoration: underline;
+}
+
+/* line 85, index.style.scss */
+#event-object a.active {
+    color: #FFF;
+}
+
+/* line 89, index.style.scss */
+em {
+    color: #6CF;
+}
+
+/* line 93, index.style.scss */
+dl {
+    margin: 2em 0;
+}
+
+/* line 97, index.style.scss */
+dt {
+    font-size: 1.5em;
+    padding-top: 1em;
+    padding-bottom: 1em;
+    border-top: 2px dotted #444444;
+    color: white;
+}
+
+/* line 105, index.style.scss */
+dd {
+    padding-bottom: 1em;
+}
+
+/*html.mobile dd { display: none; }*/
+/* line 111, index.style.scss */
+html.x-small dd,
+html.x-small-less dd {
+    margin-left: 0;
+}
+
+/* line 113, index.style.scss */
+dl a {
+    font-weight: normal;
+    text-decoration: none;
+    color: #FD8;
+}
+
+/* line 118, index.style.scss */
+dl a:hover {
+    text-decoration: underline;
+}
+
+/* line 121, index.style.scss */
+dl a.method {
+    font-weight: bold;
+}
+
+/* line 122, index.style.scss */
+dl code {
+    display: block;
+    white-space: pre-wrap;
+    padding: 0.75em;
+}
+
+/*html.x-small code, html.x-small-less code { display: none; }*/
+/* line 129, index.style.scss */
+dl code .selector {
+    color: #6CF;
+}
+
+/* line 130, index.style.scss */
+dl code .rule {
+    color: #FFF;
+}
+
+/* line 131, index.style.scss */
+dl code .value {
+    color: #FD8;
+}
+
+/* line 132, index.style.scss */
+dl code .coments {
+    color: green;
+}
+
+/* line 134, index.style.scss */
+dl var {
+    color: #FD8;
+}
+
+/* line 136, index.style.scss */
+dl ul ul {
+    margin-top: 1em;
+}
+
+/* line 137, index.style.scss */
+dl li {
+    margin-bottom: 0.7em;
+}
