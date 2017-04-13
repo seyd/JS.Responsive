@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 3.1.0 
+- added new feature inactive
+
 ## 3.0.0 Early Bird
 - library custom builds with missing method warnings
 - new build-in event system (.on, .off, .emit)

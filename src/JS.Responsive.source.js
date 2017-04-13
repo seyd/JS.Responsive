@@ -12,33 +12,51 @@
  * @see http://responsive.lab.wezeo.com/
  *
  */
-(function() {
+(function () {
+
 	'use strict';
 
+	// Polyfill
+	if (!Date.now) {
+		Date.now = function now() {
+			return new Date().getTime();
+		};
+	}
+
+	// Simple version of polyfill Array.prototype.forEach()
+	if (![].forEach) {
+		Array.prototype.forEach = function ( callback, thisArg ) {
+			var len = this.length;
+			for ( var i = 0; i < len; i++ ) {
+				callback.call ( thisArg, this[ i ], i, this )
+			}
+		};
+	}
+
 	// base namespace
-	if (!window.JS)
+	if ( !window.JS )
 		window.JS = {};
 
 	// defines and inicialize only once
-	if (JS.Responsive)
+	if ( JS.Responsive )
 		return;
 
-	
+
 	// -------------------------------------------------------------------------------------------------
 	// --- CLASS ---------------------------------------------------------------------------------------
 	// -------------------------------------------------------------------------------------------------
-	
+
 	/**
 	 * Constructor is PRIVATE, client must use only class methods!!!!!
 	 * @constructor
 	 * @alias JS.Responsive
-     * @since 3.0.0
+	 * @since 3.0.0
 	 *
 	 * @emit documentReady - when document becomes ready
 	 *
 	 */
-	var $C = JS.Responsive = function() {
-		throw new Error("JS.Responsive cannot have instances.");
+	var $C = JS.Responsive = function () {
+		throw new Error ( "JS.Responsive cannot have instances." );
 	};
 
 	/**
@@ -47,11 +65,11 @@
 	 */
 	$C.version = '3.0.0';
 
-	 
+
 	// -------------------------------------------------------------------------------------------------
 	// --- CONFIG --------------------------------------------------------------------------------------
 	// -------------------------------------------------------------------------------------------------
-	
+
 	var
 		// substitution because minimalization (internal variables are shorten in minimizing process)
 		win = window,
@@ -87,7 +105,7 @@
 		 * }
 		 */
 		listeners = {};
-	
+
 	// -------------------------------------------------------------------------------------------------	
 	// --- PUBLIC --------------------------------------------------------------------------------------
 	// -------------------------------------------------------------------------------------------------
@@ -98,11 +116,13 @@
 	 * @param {Function} fn - callback function called after event occurred
 	 * @returns {Object} JS.Responsive - for chaining
 	 */
-	$C.on = function (type, fn) {
-		if(!listeners[type])
-			listeners[type] = [];
-		listeners[type].push(fn);
+	$C.on = function ( type, fn ) {
+
+		if ( !listeners[ type ] )
+			listeners[ type ] = [];
+		listeners[ type ].push ( fn );
 		return $C;
+
 	};
 
 	/**
@@ -111,14 +131,16 @@
 	 * @param {Function} fn - callback function to be unregistered
 	 * @returns {Object} JS.Responsive - for chaining
 	 */
-	$C.off = function (type, fn) {
-		if(!listeners[type])
+	$C.off = function ( type, fn ) {
+
+		if ( !listeners[ type ] )
 			return;
-		var typeListeners = listeners[type],
-			index = typeListeners.indexOf(fn);
-		if(index != -1)
-			typeListeners.splice(index,1);
+		var typeListeners = listeners[ type ],
+			index = typeListeners.indexOf ( fn );
+		if ( index != -1 )
+			typeListeners.splice ( index, 1 );
 		return $C;
+
 	};
 
 
@@ -128,37 +150,38 @@
 	 * @param {...*} arguments - used when calling callbacks
 	 * @returns {Object} JS.Responsive - for chaining
 	 */
-	$C.emit = function (type) {
+	$C.emit = function ( type ) {
 
 		// https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Functions/arguments
-		var args = (arguments.length === 1 ? [arguments[0]] : Array.apply(null, arguments)),
+		var args = (arguments.length === 1 ? [ arguments[ 0 ] ] : Array.apply ( null, arguments )),
 			errors = [];
 
-		args.shift(); // first argument is event type, we temporary remove it
-		if(listeners[type])
-			forEach(listeners[type], applyEach);
+		args.shift (); // first argument is event type, we temporary remove it
+		if ( listeners[ type ] )
+			forEach ( listeners[ type ], applyEach );
 
-		args.unshift(type); // type added back
-		if(listeners['all']) // listeners to all event types
-			forEach(listeners['all'], applyEach);
+		args.unshift ( type ); // type added back
+		if ( listeners[ 'all' ] ) // listeners to all event types
+			forEach ( listeners[ 'all' ], applyEach );
 
-		if (errors.length) {
+		if ( errors.length ) {
 			// if more errors, we want to print all to console
-			if (errors.length>1)
-				console.log('All errors in JS.Responsive onchangeHandler:', errors);
-			throw errors[0];
+			if ( errors.length > 1 )
+				console.log ( 'All errors in JS.Responsive onchangeHandler:', errors );
+			throw errors[ 0 ];
 		}
 
-		function applyEach(listener) {
+		function applyEach( listener ) {
 			try {
-				listener.apply(listener, args);
+				listener.apply ( listener, args );
 			}
-			catch(error) {
-				errors.push(error);
+			catch ( error ) {
+				errors.push ( error );
 			}
 		}
 
 		return $C;
+
 	};
 
 	/**
@@ -176,12 +199,14 @@
 	 * provided, all features will be initialised. If you provide empty object, none of features will be initialised.
 	 */
 
-	$C.init = function(config) {
-		init(config);
+	$C.init = function ( config ) {
+
+		init ( config );
 		return this;
+
 	};
 
-	
+
 	/**
 	 * Tests if HTML element contains given class names.
 	 * @param {...String} - class names
@@ -190,28 +215,31 @@
 	 * @example JS.Responsive.is('portrait touch') === true, when HTML contains "portrait" and "touch" class
 	 * @example JS.Responsive.is('portrait touch', 'mobile') === true, when HTML contains ("portrait" and "touch" class) OR ('mobile')
 	 */
-	$C.is = function() {
+	$C.is = function () {
 
-		for (var i=0; i<arguments.length; i++)
-			if (hasAllTheseClasses(arguments[i]))
+		for ( var i = 0; i < arguments.length; i++ )
+			if ( hasAllTheseClasses ( arguments[ i ] ) )
 				return TRUE; // if once true then disjunction is true
 
 		return FALSE;
+
 	};
-	
+
 	// -------------------------------------------------------------------------------------------------
 	// --- PRIVATE -------------------------------------------------------------------------------------
 	// -------------------------------------------------------------------------------------------------
 
 	function forEach( array, fn ) {
-		if(Array.prototype.forEach)
-			array.forEach(fn);
+
+		if ( Array.prototype.forEach )
+			array.forEach ( fn );
 		else
-			for (var i = 0; i < array.length; i++)
+			for ( var i = 0; i < array.length; i++ )
 				// calls on array (this == array) and
 				// first argument is current array item,
 				// second argument is current index
-				fn.call(array, array[i], i, array);
+				fn.call ( array, array[ i ], i, array );
+
 	}
 
 	/**
@@ -219,7 +247,9 @@
 	 * @returns {Number}.
 	 */
 	function getWindowWidth() {
-		return getWindowSize(WIDTH_STRING);
+
+		return getWindowSize ( WIDTH_STRING );
+
 	}
 
 	/**
@@ -228,7 +258,8 @@
 	 */
 	function getWindowHeight() {
 
-		return getWindowSize(HEIGHT_STRING);
+		return getWindowSize ( HEIGHT_STRING );
+
 	}
 
 	/**
@@ -237,7 +268,8 @@
 	 */
 	function getDocumentWidth() {
 
-		return getDocumentSize(WIDTH_STRING);
+		return getDocumentSize ( WIDTH_STRING );
+
 	}
 
 	/**
@@ -246,132 +278,171 @@
 	 */
 	function getDocumentHeight() {
 
-		return getDocumentSize(HEIGHT_STRING);
+		return getDocumentSize ( HEIGHT_STRING );
+
 	}
 
 
 	// @param (String) sizeType - 'width' or 'height'
-	function getDocumentSize(sizeType) {
-		var el = !isIE() ? getHtmlElement() : getBodyElement();
-		return el ? el['offset' + ucFirst(sizeType)] : 0;
+	function getDocumentSize( sizeType ) {
+
+		var el = !isIE () ? getHtmlElement () : getBodyElement ();
+		return el ? el[ 'offset' + ucFirst ( sizeType ) ] : 0;
+
 	}
 
 	// @param (String) sizeType - 'width' or 'height'
-	function getWindowSize(sizeType) {
-		var ucSizeType = ucFirst(sizeType),
-			size = win['inner' + ucSizeType],
+	function getWindowSize( sizeType ) {
+
+		var ucSizeType = ucFirst ( sizeType ),
+			size = win[ 'inner' + ucSizeType ],
 			docEl = document.documentElement;
-		return size || (docEl && docEl['offset' + ucSizeType] ? docEl['client' + ucSizeType] : screen[sizeType]);
+		return size || (docEl && docEl[ 'offset' + ucSizeType ] ? docEl[ 'client' + ucSizeType ] : screen[ sizeType ]);
+
 	}
 
 	var htmlElement,
 		bodyElement;
 
 	function getElementByTagName( tagName ) {
-		return document.getElementsByTagName(tagName)[0];
+
+		return document.getElementsByTagName ( tagName )[ 0 ];
+
 	}
 
 	function getHtmlElement() {
-		if (!htmlElement)
-			htmlElement = getElementByTagName('html');
+
+		if ( !htmlElement )
+			htmlElement = getElementByTagName ( 'html' );
 		return htmlElement;
+
 	}
 
 	function getBodyElement() {
-		if (!bodyElement)
-			bodyElement = getElementByTagName('body');
+
+		if ( !bodyElement )
+			bodyElement = getElementByTagName ( 'body' );
 		return bodyElement;
+
 	}
 
 
-	function arrayIndex(array, value, _exactMatch) {
-		for (var i = 0; i < array.length; i++)
-			if ((_exactMatch && array[i] === value) || (!_exactMatch && array[i] == value))
+	function arrayIndex( array, value, _exactMatch ) {
+
+		for ( var i = 0; i < array.length; i++ )
+			if ( (_exactMatch && array[ i ] === value) || (!_exactMatch && array[ i ] == value) )
 				return i;
 		return -1;
+
 	}
 
 
-	function arrayContains(array, item, _exactMatch) {
-		return arrayIndex(array, item, _exactMatch) >= 0;
+	function arrayContains( array, item, _exactMatch ) {
+
+		return arrayIndex ( array, item, _exactMatch ) >= 0;
+
 	}
 
 
-	function arrayRemoveItemsStartingWith(array, startingWith) {
-		var reg = new RegExp('^' + startingWith);
-        for (var i = 0; i < array.length; i++)
-            if (array[i].match(reg)){
-                array.splice(i, 1);
-                i--; // because of splice
-        	}
-    }
+	function arrayRemoveItemsStartingWith( array, startingWith ) {
+
+		var reg = new RegExp ( '^' + startingWith );
+		for ( var i = 0; i < array.length; i++ )
+			if ( array[ i ].match ( reg ) ) {
+				array.splice ( i, 1 );
+				i--; // because of splice
+			}
+
+	}
 
 
-	function bind(el, eventType, handlerFn) {
+	function bind( el, eventType, handlerFn ) {
 
-		if (el.addEventListener)
-			el.addEventListener(eventType, fn, FALSE);
-		else if (el.attachEvent)
-			el.attachEvent('on' + eventType, fn);
+		if ( el.addEventListener )
+			el.addEventListener ( eventType, fn, FALSE );
+		else if ( el.attachEvent )
+			el.attachEvent ( 'on' + eventType, fn );
 
-		function fn(e) {
-			handlerFn.call(NULL, e || event);
+		function fn( e ) {
+			handlerFn.call ( NULL, e || event );
 		}
+
+		return fn;
+
 	}
 
 
-	function addClass(name) {
-		var html = getHtmlElement();
-		if (html) {
-			if (!isInTransactionClassMode) {
-				var className = html.className;
-				// remove double spaces and trim
-				var classes = className == EMPTY_STRING ?
-								[] :
-								className
-									.replace(/ +/g, SPACE_CHAR)
-									.replace(/^\s*|\s*$/g, EMPTY_STRING)
-									.split(SPACE_CHAR);
+	function unbind( el, eventType, handlerFn ) {
 
-				if (!arrayContains(classes, name)) {
-					classes.push(name);
-					html.className = classes.join(SPACE_CHAR);
-				}
+		if ( el.removeEventListener )
+			el.removeEventListener ( eventType, handlerFn, FALSE );
+		else if ( el.detachEvent )
+			el.detachEvent ( 'on' + eventType, handlerFn );
+
+	}
+
+
+	function addClass( name ) {
+
+		var html = getHtmlElement ();
+		if ( !html ) return FALSE;
+
+		if ( !isInTransactionClassMode ) {
+			var className = html.className;
+			// remove double spaces and trim
+			var classes = className == EMPTY_STRING ?
+				[] :
+				className
+					.replace ( / +/g, SPACE_CHAR )
+					.replace ( /^\s*|\s*$/g, EMPTY_STRING )
+					.split ( SPACE_CHAR );
+
+			if ( !arrayContains ( classes, name ) ) {
+				classes.push ( name );
+				html.className = classes.join ( SPACE_CHAR );
 			}
 			else
-				addTransactionClass(name);
+				return FALSE;
 		}
+		else
+			addTransactionClass ( name );
+
+		return TRUE; // class added
 	}
 
-	function removeClass(name, startsWith) {
-		var html = getHtmlElement();
-		if (html && name) {
-			if (!isInTransactionClassMode) {
+	function removeClass( name, startsWith ) {
+
+		var html = getHtmlElement ();
+		if ( html && name ) {
+			if ( !isInTransactionClassMode ) {
 				var className = html.className,
-					classes = className == EMPTY_STRING ? [] : className.split(SPACE_CHAR);
+					classes = className == EMPTY_STRING ? [] : className.split ( SPACE_CHAR );
 
-                if(startsWith){
-                	if(className.indexOf(name) == -1)
-                		return;
-                    arrayRemoveItemsStartingWith(classes, name);
-                    html.className = classes.join(SPACE_CHAR);
-                }else if(arrayContains(classes, name)) {
-					classes.splice(arrayIndex(classes, name), 1);
-					html.className = classes.join(SPACE_CHAR);
+				if ( startsWith ) {
+					if ( className.indexOf ( name ) == -1 )
+						return;
+					arrayRemoveItemsStartingWith ( classes, name );
+					html.className = classes.join ( SPACE_CHAR );
+				} else if ( arrayContains ( classes, name ) ) {
+					classes.splice ( arrayIndex ( classes, name ), 1 );
+					html.className = classes.join ( SPACE_CHAR );
 				}
 			}
 			else
-				removeTransactionClass(name);
+				removeTransactionClass ( name );
 		}
+
 	}
 
-	function hasClass(name) {
-		var html = getHtmlElement();
-		if (html) {
-			var classes = html.className.split(SPACE_CHAR);
-			return arrayContains(classes, name);
+	function hasClass( name ) {
+
+		var html = getHtmlElement ();
+		if ( html ) {
+			var classes = html.className.split ( SPACE_CHAR );
+			return arrayContains ( classes, name );
 		}
 		return FALSE;
+
 	}
 
 
@@ -385,47 +456,47 @@
 		removedClasses = [];
 	}
 
-	function addTransactionClass(name) {
+	function addTransactionClass( name ) {
 		// if was removed, undo this state
-		if (arrayContains(removedClasses, name))
-			removedClasses.splice(arrayIndex(removedClasses, name), 1);
+		if ( arrayContains ( removedClasses, name ) )
+			removedClasses.splice ( arrayIndex ( removedClasses, name ), 1 );
 		// else adds if not already added
-		else if (!hasClass(name) && !arrayContains(addedClasses, name))
-			addedClasses.push(name);
+		else if ( !hasClass ( name ) && !arrayContains ( addedClasses, name ) )
+			addedClasses.push ( name );
 	}
 
-	function removeTransactionClass(name) {
+	function removeTransactionClass( name ) {
 		// if was added, undo this state
-		if (arrayContains(addedClasses, name))
-			addedClasses.splice(arrayIndex(addedClasses, name), 1);
+		if ( arrayContains ( addedClasses, name ) )
+			addedClasses.splice ( arrayIndex ( addedClasses, name ), 1 );
 		// else adds if not already added
-		else if (hasClass(name) && !arrayContains(removedClasses, name))
-			removedClasses.push(name);
+		else if ( hasClass ( name ) && !arrayContains ( removedClasses, name ) )
+			removedClasses.push ( name );
 	}
 
 	function commitTransactionClass() {
 		isInTransactionClassMode = FALSE;
-		for (var i = 0; i < removedClasses.length; i++)
-			removeClass(removedClasses[i]);
+		for ( var i = 0; i < removedClasses.length; i++ )
+			removeClass ( removedClasses[ i ] );
 		// adding in one punch
-		if (addedClasses.length)
-			addClass(addedClasses.join(SPACE_CHAR));  //.replace(/^\s*|\s*$/g, EMPTY_STRING)
+		if ( addedClasses.length )
+			addClass ( addedClasses.join ( SPACE_CHAR ) );  //.replace(/^\s*|\s*$/g, EMPTY_STRING)
 		addedClasses = [];
 		removedClasses = [];
 	}
 
 	/*
-	// UNUSED
-	function rollbackTransactionClass() {
-		isInTransactionClassMode = FALSE;
-		addedClasses = [];
-		removedClasses = [];
-	}
-	*/
+	 // UNUSED
+	 function rollbackTransactionClass() {
+	 isInTransactionClassMode = FALSE;
+	 addedClasses = [];
+	 removedClasses = [];
+	 }
+	 */
 
 	// capitalize first letter
-	function ucFirst(str) {
-		return str.charAt(0).toUpperCase() + str.slice(1);
+	function ucFirst( str ) {
+		return str.charAt ( 0 ).toUpperCase () + str.slice ( 1 );
 	}
 
 	function isIE() {
@@ -438,8 +509,8 @@
 
 	function onloadHandler() {
 		isDocumentLoaded = TRUE;
-		docReadyTime = +(new Date());
-		$C.emit('documentReady', docReadyTime);
+		docReadyTime = +(new Date ());
+		$C.emit ( 'documentReady', docReadyTime );
 	}
 
 
@@ -449,54 +520,54 @@
 	 */
 	function hasAllTheseClasses( classNames ) {
 
-		var classes = classNames.split(SPACE_CHAR);
-		for (var i=0; i<classes.length; i++) {
-			if (classes[i] != EMPTY_STRING && !hasClass(classes[i]))
-					return FALSE;
+		var classes = classNames.split ( SPACE_CHAR );
+		for ( var i = 0; i < classes.length; i++ ) {
+			if ( classes[ i ] != EMPTY_STRING && !hasClass ( classes[ i ] ) )
+				return FALSE;
 		}
 		return TRUE;
 	}
 
-    function missingMethod(feat) {
-    	return function(){
-			throw Error('Method "' + feat + '" is not available in this bundle!');
+	function missingMethod( feat ) {
+		return function () {
+			throw Error ( 'Method "' + feat + '" is not available in this bundle!' );
 		}
-    }
+	}
 
 	var initWasExecuted;
 
-	function init(cfg) {
+	function init( cfg ) {
 
 		// runs only once
-		if (initWasExecuted)
+		if ( initWasExecuted )
 			return;
 
 		initWasExecuted = TRUE;
 
 		var prop;
-		if (cfg) // init features by config
+		if ( cfg ) // init features by config
 
-			for (prop in cfg) {
-				if (cfg.hasOwnProperty(prop)) {
-					if ($C.features[prop]) 
-						$C.features[prop](prop);
-					else  missingMethod(prop)();
+			for ( prop in cfg ) {
+				if ( cfg.hasOwnProperty ( prop ) ) {
+					if ( $C.features[ prop ] )
+						$C.features[ prop ] ( prop );
+					else  missingMethod ( prop ) ();
 				}
 			}
 		else // init all available features
 
-			for (prop in $C.features) {
-				$C.features[prop].call($C);
+			for ( prop in $C.features ) {
+				$C.features[ prop ].call ( $C );
 			}
 
-		bind(window, 'load', onloadHandler);
+		bind ( window, 'load', onloadHandler );
 	}
 
 	// -------------------------------------------------------------------------------------------------
 	// --- INITIALIZATION ------------------------------------------------------------------------------
 	// -------------------------------------------------------------------------------------------------
 
-    if(typeof module != 'undefined')
-        module.exports = $C;
+	if ( typeof module != 'undefined' )
+		module.exports = $C;
 
-})();
+}) ();

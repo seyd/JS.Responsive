@@ -69,10 +69,28 @@ return /******/ (function(modules) { // webpackBootstrap
 	 *
 	 */
 	(function () {
+	
 	    'use strict';
 	
-	    // base namespace
+	    // Polyfill
 	
+	    if (!Date.now) {
+	        Date.now = function now() {
+	            return new Date().getTime();
+	        };
+	    }
+	
+	    // Simple version of polyfill Array.prototype.forEach()
+	    if (![].forEach) {
+	        Array.prototype.forEach = function (callback, thisArg) {
+	            var len = this.length;
+	            for (var i = 0; i < len; i++) {
+	                callback.call(thisArg, this[i], i, this);
+	            }
+	        };
+	    }
+	
+	    // base namespace
 	    if (!window.JS) window.JS = {};
 	
 	    // defines and inicialize only once
@@ -86,7 +104,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	     * Constructor is PRIVATE, client must use only class methods!!!!!
 	     * @constructor
 	     * @alias JS.Responsive
-	        * @since 3.0.0
+	     * @since 3.0.0
 	     *
 	     * @emit documentReady - when document becomes ready
 	     *
@@ -152,6 +170,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	     * @returns {Object} JS.Responsive - for chaining
 	     */
 	    $C.on = function (type, fn) {
+	
 	        if (!listeners[type]) listeners[type] = [];
 	        listeners[type].push(fn);
 	        return $C;
@@ -164,6 +183,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	     * @returns {Object} JS.Responsive - for chaining
 	     */
 	    $C.off = function (type, fn) {
+	
 	        if (!listeners[type]) return;
 	        var typeListeners = listeners[type],
 	            index = typeListeners.indexOf(fn);
@@ -1372,6 +1392,191 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 	    /**
 	     *
+	     * Detection of window focus
+	     * @module inactivity
+	     * @pretty-name Inactivity detection
+	     * @teaser Be notified that user is inactive
+	     *
+	     * @custom-class inactive
+	     * @custom-class inactive-$timeLimitName$
+	     *
+	     * @emits inactive - Arguments: {Number} time in seconds of inactivity
+	     *
+	     **/
+	
+	    var INACTIVE = 'inactive',
+	        WATCH_MOUSEMOVE = 5,
+	        // time of inactivity in seconds to start watching mouse move as user activity
+	
+	    inactiveSoonestLimit = { limit: 60 * 1000, name: INACTIVE },
+	        // default 1 min
+	    inactiveLimits = [inactiveSoonestLimit],
+	        inactiveLimitsMap = { inactive: inactiveSoonestLimit },
+	        addedInactiveClasses = [],
+	        inactiveTimeout,
+	        inactiveMouseTimeout,
+	        lastActivity,
+	        mouseMoveWatcher;
+	
+	    /**
+	     * Set time limit in seconds for considering window as inactive and optionally applying name of a limit if provided.
+	     * @param {Number} timeLimit - in seconds.
+	     * @param {String} [name=inactivity] - name of the limit, will be applied as className to window when user reaches the
+	     * time limit of inactivity. NOTE: The className will be applied with 'inactive-' prefix!, if no name provided, default
+	     * className 'inactive' will be applied instead.
+	     * @param {Function} callback - called when timeLimit is reached, `callback(timeLimit, name)`
+	     *
+	     * @memberof module:inactivity
+	     * @alias JS.Responsive.setInactiveTimeLimit
+	     * @since 3.0.0
+	     */
+	    $C.setInactiveTimeLimit = function (timeLimit, name, cb) {
+	
+	        var newLimit;
+	
+	        timeLimit *= 1000;
+	        name = name || INACTIVE;
+	
+	        if (inactiveLimitsMap[name]) {
+	
+	            inactiveLimitsMap[name].limit = timeLimit;
+	            inactiveLimitsMap[name].cb = cb;
+	        } else {
+	
+	            newLimit = { limit: timeLimit, name: name, cb: cb };
+	            inactiveLimitsMap[name] = newLimit;
+	            inactiveLimits.push(newLimit);
+	        }
+	
+	        sortInactiveLimits();
+	
+	        inactiveSoonestLimit = inactiveLimits[0];
+	    };
+	
+	    /**
+	     * Returns time limit object which is plain object with `limit` property with seconds for time limit asked
+	     * via optional `name` parameter, if no name is provided, the default 'inactive' object will be returned.
+	     * @returns {{limit: Number, name: String, cb:Function}}
+	     *
+	     * @memberof module:inactivity
+	     * @alias JS.Responsive.setInactiveTimeLimit
+	     * @since 3.0.0
+	     */
+	    $C.getInactiveTimeLimit = function (name) {
+	
+	        name = name || INACTIVE;
+	        return inactiveLimitsMap[name];
+	    };
+	
+	    /**
+	     * Deletes timeLimit object based on optional `name` parameter, if no name is provided, the default 'inactive' object will be deleted.
+	     *
+	     * @memberof module:inactivity
+	     * @alias JS.Responsive.setInactiveTimeLimit
+	     * @since 3.0.0
+	     */
+	    $C.removeInactiveTimeLimit = function (name) {
+	
+	        name = name || INACTIVE;
+	        inactiveLimits.splice(inactiveLimits.indexOf(inactiveLimitsMap[name]), 1);
+	        delete inactiveLimitsMap[name];
+	    };
+	
+	    $C.features.inactivity = initInactivity;
+	
+	    // Function declarations: ######################### ######################### ######################### ######################### ######################### ######################### #########################
+	
+	    function initInactivity() {
+	
+	        var baseGroupActivity = ['touchstart', 'touchend', 'touchmove', 'mousedown', 'mouseup', 'mousewheel', 'keydown'];
+	        baseGroupActivity.forEach(function (eventName) {
+	
+	            bind(document, eventName, onActivityHandler);
+	        });
+	
+	        lastActivity = Date.now();
+	        $C.setInactiveTimeLimit(WATCH_MOUSEMOVE, 'mouseWatch', inactivityWatchMouseMove);
+	        sortInactiveLimits();
+	        inactiveSoonestLimit = inactiveLimits[0];
+	        inactiveTimeout = setTimeout(checkIncativity, inactiveSoonestLimit.limit);
+	    }
+	
+	    function inactivityWatchMouseMove() {
+	
+	        mouseMoveWatcher = bind(document, 'mousemove', onActivityHandler);
+	    }
+	
+	    function checkIncativity() {
+	
+	        var timeFromLastActivity = Date.now() - lastActivity,
+	            className;
+	
+	        if (timeFromLastActivity >= inactiveSoonestLimit.limit) {
+	
+	            className = inactiveSoonestLimit.name == INACTIVE ? INACTIVE : INACTIVE + '-' + inactiveSoonestLimit.name;
+	
+	            if (addClass(className)) {
+	
+	                addedInactiveClasses.push(className);
+	                $C.emit(className);
+	            }
+	
+	            if (inactiveSoonestLimit.cb) inactiveSoonestLimit.cb(inactiveSoonestLimit.limit, inactiveSoonestLimit.name);
+	
+	            sortInactiveLimits();
+	            inactiveSoonestLimit = inactiveLimits[inactiveLimits.indexOf(inactiveSoonestLimit) + 1];
+	
+	            if (inactiveSoonestLimit) inactiveTimeout = setTimeout(checkIncativity, inactiveSoonestLimit.limit - timeFromLastActivity);else {
+	                inactiveSoonestLimit = inactiveLimits[0];
+	                inactiveTimeout = null;
+	            }
+	        } else {
+	
+	            inactiveTimeout = setTimeout(checkIncativity, inactiveSoonestLimit.limit - timeFromLastActivity);
+	        }
+	    }
+	
+	    function onActivityHandler() {
+	
+	        lastActivity = Date.now();
+	
+	        if (!inactiveTimeout && inactiveSoonestLimit) inactiveTimeout = setTimeout(checkIncativity, inactiveSoonestLimit.limit);
+	
+	        if (mouseMoveWatcher) mouseMoveWatcher = unbind(document, 'mousemove', mouseMoveWatcher);
+	
+	        dismissInactivity();
+	    }
+	
+	    function dismissInactivity() {
+	
+	        if (!addedInactiveClasses.length) return;
+	
+	        addedInactiveClasses.forEach(function (className) {
+	
+	            removeClass(className);
+	        });
+	
+	        $C.emit('userActiveAgain', addedInactiveClasses);
+	        addedInactiveClasses.length = 0;
+	
+	        sortInactiveLimits();
+	        inactiveSoonestLimit = inactiveLimits[0];
+	
+	        if (inactiveSoonestLimit) inactiveTimeout = setTimeout(checkIncativity, inactiveSoonestLimit.limit);
+	    }
+	
+	    function sortInactiveLimits() {
+	
+	        inactiveLimits.sort(compareLimits);
+	    }
+	
+	    function compareLimits(a, b) {
+	
+	        if (a.limit < b.limit) return -1;else if (a.limit > b.limit) return 1;
+	        return 0;
+	    }
+	    /**
+	     *
 	     * Detection of mobile vs desktop devices
 	     * @module is-mobile
 	     * @pretty-name Mobile device detection
@@ -1775,6 +1980,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	     */
 	
 	    $C.init = function (config) {
+	
 	        init(config);
 	        return this;
 	    };
@@ -1799,6 +2005,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    // -------------------------------------------------------------------------------------------------
 	
 	    function forEach(array, fn) {
+	
 	        if (Array.prototype.forEach) array.forEach(fn);else for (var i = 0; i < array.length; i++)
 	        // calls on array (this == array) and
 	        // first argument is current array item,
@@ -1811,6 +2018,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	     * @returns {Number}.
 	     */
 	    function getWindowWidth() {
+	
 	        return getWindowSize(WIDTH_STRING);
 	    }
 	
@@ -1843,12 +2051,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	    // @param (String) sizeType - 'width' or 'height'
 	    function getDocumentSize(sizeType) {
+	
 	        var el = !isIE() ? getHtmlElement() : getBodyElement();
 	        return el ? el['offset' + ucFirst(sizeType)] : 0;
 	    }
 	
 	    // @param (String) sizeType - 'width' or 'height'
 	    function getWindowSize(sizeType) {
+	
 	        var ucSizeType = ucFirst(sizeType),
 	            size = win['inner' + ucSizeType],
 	            docEl = document.documentElement;
@@ -1858,29 +2068,35 @@ return /******/ (function(modules) { // webpackBootstrap
 	    var htmlElement, bodyElement;
 	
 	    function getElementByTagName(tagName) {
+	
 	        return document.getElementsByTagName(tagName)[0];
 	    }
 	
 	    function getHtmlElement() {
+	
 	        if (!htmlElement) htmlElement = getElementByTagName('html');
 	        return htmlElement;
 	    }
 	
 	    function getBodyElement() {
+	
 	        if (!bodyElement) bodyElement = getElementByTagName('body');
 	        return bodyElement;
 	    }
 	
 	    function arrayIndex(array, value, _exactMatch) {
+	
 	        for (var i = 0; i < array.length; i++) if (_exactMatch && array[i] === value || !_exactMatch && array[i] == value) return i;
 	        return -1;
 	    }
 	
 	    function arrayContains(array, item, _exactMatch) {
+	
 	        return arrayIndex(array, item, _exactMatch) >= 0;
 	    }
 	
 	    function arrayRemoveItemsStartingWith(array, startingWith) {
+	
 	        var reg = new RegExp('^' + startingWith);
 	        for (var i = 0; i < array.length; i++) if (array[i].match(reg)) {
 	            array.splice(i, 1);
@@ -1895,25 +2111,36 @@ return /******/ (function(modules) { // webpackBootstrap
 	        function fn(e) {
 	            handlerFn.call(NULL, e || event);
 	        }
+	
+	        return fn;
+	    }
+	
+	    function unbind(el, eventType, handlerFn) {
+	
+	        if (el.removeEventListener) el.removeEventListener(eventType, handlerFn, FALSE);else if (el.detachEvent) el.detachEvent('on' + eventType, handlerFn);
 	    }
 	
 	    function addClass(name) {
-	        var html = getHtmlElement();
-	        if (html) {
-	            if (!isInTransactionClassMode) {
-	                var className = html.className;
-	                // remove double spaces and trim
-	                var classes = className == EMPTY_STRING ? [] : className.replace(/ +/g, SPACE_CHAR).replace(/^\s*|\s*$/g, EMPTY_STRING).split(SPACE_CHAR);
 	
-	                if (!arrayContains(classes, name)) {
-	                    classes.push(name);
-	                    html.className = classes.join(SPACE_CHAR);
-	                }
-	            } else addTransactionClass(name);
-	        }
+	        var html = getHtmlElement();
+	        if (!html) return FALSE;
+	
+	        if (!isInTransactionClassMode) {
+	            var className = html.className;
+	            // remove double spaces and trim
+	            var classes = className == EMPTY_STRING ? [] : className.replace(/ +/g, SPACE_CHAR).replace(/^\s*|\s*$/g, EMPTY_STRING).split(SPACE_CHAR);
+	
+	            if (!arrayContains(classes, name)) {
+	                classes.push(name);
+	                html.className = classes.join(SPACE_CHAR);
+	            } else return FALSE;
+	        } else addTransactionClass(name);
+	
+	        return TRUE; // class added
 	    }
 	
 	    function removeClass(name, startsWith) {
+	
 	        var html = getHtmlElement();
 	        if (html && name) {
 	            if (!isInTransactionClassMode) {
@@ -1933,6 +2160,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 	
 	    function hasClass(name) {
+	
 	        var html = getHtmlElement();
 	        if (html) {
 	            var classes = html.className.split(SPACE_CHAR);
@@ -1975,13 +2203,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 	
 	    /*
-	    // UNUSED
-	    function rollbackTransactionClass() {
-	    	isInTransactionClassMode = FALSE;
-	    	addedClasses = [];
-	    	removedClasses = [];
-	    }
-	    */
+	     // UNUSED
+	     function rollbackTransactionClass() {
+	     isInTransactionClassMode = FALSE;
+	     addedClasses = [];
+	     removedClasses = [];
+	     }
+	     */
 	
 	    // capitalize first letter
 	    function ucFirst(str) {

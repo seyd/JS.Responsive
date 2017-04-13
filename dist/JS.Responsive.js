@@ -69,10 +69,28 @@ return /******/ (function(modules) { // webpackBootstrap
 	 *
 	 */
 	(function () {
+	
 	  'use strict';
 	
-	  // base namespace
+	  // Polyfill
 	
+	  if (!Date.now) {
+	    Date.now = function now() {
+	      return new Date().getTime();
+	    };
+	  }
+	
+	  // Simple version of polyfill Array.prototype.forEach()
+	  if (![].forEach) {
+	    Array.prototype.forEach = function (callback, thisArg) {
+	      var len = this.length;
+	      for (var i = 0; i < len; i++) {
+	        callback.call(thisArg, this[i], i, this);
+	      }
+	    };
+	  }
+	
+	  // base namespace
 	  if (!window.JS) window.JS = {};
 	
 	  // defines and inicialize only once
@@ -86,7 +104,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	   * Constructor is PRIVATE, client must use only class methods!!!!!
 	   * @constructor
 	   * @alias JS.Responsive
-	      * @since 3.0.0
+	   * @since 3.0.0
 	   *
 	   * @emit documentReady - when document becomes ready
 	   *
@@ -152,6 +170,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	   * @returns {Object} JS.Responsive - for chaining
 	   */
 	  $C.on = function (type, fn) {
+	
 	    if (!listeners[type]) listeners[type] = [];
 	    listeners[type].push(fn);
 	    return $C;
@@ -164,6 +183,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	   * @returns {Object} JS.Responsive - for chaining
 	   */
 	  $C.off = function (type, fn) {
+	
 	    if (!listeners[type]) return;
 	    var typeListeners = listeners[type],
 	        index = typeListeners.indexOf(fn);
@@ -894,6 +914,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	  $C.isHiResDisplay = missingMethod("isHiResDisplay");
 	  $C.isLandscape = missingMethod("isLandscape");
 	  $C.isPortrait = missingMethod("isPortrait");
+	  $C.setInactiveTimeLimit = missingMethod("setInactiveTimeLimit");
+	  $C.getInactiveTimeLimit = missingMethod("getInactiveTimeLimit");
+	  $C.removeInactiveTimeLimit = missingMethod("removeInactiveTimeLimit");
 	  $C.isMobile = missingMethod("isMobile");
 	  $C.isScrolling = missingMethod("isScrolling");
 	  $C.getDayTimePeriod = missingMethod("getDayTimePeriod");
@@ -907,6 +930,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	   */
 	
 	  $C.init = function (config) {
+	
 	    init(config);
 	    return this;
 	  };
@@ -931,6 +955,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  // -------------------------------------------------------------------------------------------------
 	
 	  function forEach(array, fn) {
+	
 	    if (Array.prototype.forEach) array.forEach(fn);else for (var i = 0; i < array.length; i++)
 	    // calls on array (this == array) and
 	    // first argument is current array item,
@@ -943,6 +968,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	   * @returns {Number}.
 	   */
 	  function getWindowWidth() {
+	
 	    return getWindowSize(WIDTH_STRING);
 	  }
 	
@@ -975,12 +1001,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	  // @param (String) sizeType - 'width' or 'height'
 	  function getDocumentSize(sizeType) {
+	
 	    var el = !isIE() ? getHtmlElement() : getBodyElement();
 	    return el ? el['offset' + ucFirst(sizeType)] : 0;
 	  }
 	
 	  // @param (String) sizeType - 'width' or 'height'
 	  function getWindowSize(sizeType) {
+	
 	    var ucSizeType = ucFirst(sizeType),
 	        size = win['inner' + ucSizeType],
 	        docEl = document.documentElement;
@@ -990,29 +1018,35 @@ return /******/ (function(modules) { // webpackBootstrap
 	  var htmlElement, bodyElement;
 	
 	  function getElementByTagName(tagName) {
+	
 	    return document.getElementsByTagName(tagName)[0];
 	  }
 	
 	  function getHtmlElement() {
+	
 	    if (!htmlElement) htmlElement = getElementByTagName('html');
 	    return htmlElement;
 	  }
 	
 	  function getBodyElement() {
+	
 	    if (!bodyElement) bodyElement = getElementByTagName('body');
 	    return bodyElement;
 	  }
 	
 	  function arrayIndex(array, value, _exactMatch) {
+	
 	    for (var i = 0; i < array.length; i++) if (_exactMatch && array[i] === value || !_exactMatch && array[i] == value) return i;
 	    return -1;
 	  }
 	
 	  function arrayContains(array, item, _exactMatch) {
+	
 	    return arrayIndex(array, item, _exactMatch) >= 0;
 	  }
 	
 	  function arrayRemoveItemsStartingWith(array, startingWith) {
+	
 	    var reg = new RegExp('^' + startingWith);
 	    for (var i = 0; i < array.length; i++) if (array[i].match(reg)) {
 	      array.splice(i, 1);
@@ -1027,25 +1061,36 @@ return /******/ (function(modules) { // webpackBootstrap
 	    function fn(e) {
 	      handlerFn.call(NULL, e || event);
 	    }
+	
+	    return fn;
+	  }
+	
+	  function unbind(el, eventType, handlerFn) {
+	
+	    if (el.removeEventListener) el.removeEventListener(eventType, handlerFn, FALSE);else if (el.detachEvent) el.detachEvent('on' + eventType, handlerFn);
 	  }
 	
 	  function addClass(name) {
-	    var html = getHtmlElement();
-	    if (html) {
-	      if (!isInTransactionClassMode) {
-	        var className = html.className;
-	        // remove double spaces and trim
-	        var classes = className == EMPTY_STRING ? [] : className.replace(/ +/g, SPACE_CHAR).replace(/^\s*|\s*$/g, EMPTY_STRING).split(SPACE_CHAR);
 	
-	        if (!arrayContains(classes, name)) {
-	          classes.push(name);
-	          html.className = classes.join(SPACE_CHAR);
-	        }
-	      } else addTransactionClass(name);
-	    }
+	    var html = getHtmlElement();
+	    if (!html) return FALSE;
+	
+	    if (!isInTransactionClassMode) {
+	      var className = html.className;
+	      // remove double spaces and trim
+	      var classes = className == EMPTY_STRING ? [] : className.replace(/ +/g, SPACE_CHAR).replace(/^\s*|\s*$/g, EMPTY_STRING).split(SPACE_CHAR);
+	
+	      if (!arrayContains(classes, name)) {
+	        classes.push(name);
+	        html.className = classes.join(SPACE_CHAR);
+	      } else return FALSE;
+	    } else addTransactionClass(name);
+	
+	    return TRUE; // class added
 	  }
 	
 	  function removeClass(name, startsWith) {
+	
 	    var html = getHtmlElement();
 	    if (html && name) {
 	      if (!isInTransactionClassMode) {
@@ -1065,6 +1110,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }
 	
 	  function hasClass(name) {
+	
 	    var html = getHtmlElement();
 	    if (html) {
 	      var classes = html.className.split(SPACE_CHAR);
@@ -1107,13 +1153,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }
 	
 	  /*
-	  // UNUSED
-	  function rollbackTransactionClass() {
-	  	isInTransactionClassMode = FALSE;
-	  	addedClasses = [];
-	  	removedClasses = [];
-	  }
-	  */
+	   // UNUSED
+	   function rollbackTransactionClass() {
+	   isInTransactionClassMode = FALSE;
+	   addedClasses = [];
+	   removedClasses = [];
+	   }
+	   */
 	
 	  // capitalize first letter
 	  function ucFirst(str) {
