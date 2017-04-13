@@ -93,7 +93,7 @@ $C.removeInactiveTimeLimit = function ( name ) {
 
 };
 
-$C.features.inactivity = initInactivity;
+$C._features.inactivity = initInactivity;
 
 // Function declarations: ######################### ######################### ######################### ######################### ######################### ######################### #########################
 

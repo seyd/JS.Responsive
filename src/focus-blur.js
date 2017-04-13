@@ -57,7 +57,7 @@ $C.isFocused = function () {
 	return isWindowFocused;
 };
 
-$C.features.focusBlur = initFB;
+$C._features.focusBlur = initFB;
 
 // Function declarations: ######################### ######################### ######################### ######################### ######################### ######################### #########################
 

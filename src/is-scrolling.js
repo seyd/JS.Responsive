@@ -40,7 +40,7 @@ $C.isScrolling = function () {
 };
 
 
-$C.features.isScrolling = initIsScrolling;
+$C._features.isScrolling = initIsScrolling;
 
 // Function declarations: ######################### ######################### ######################### ######################### ######################### ######################### #########################
 

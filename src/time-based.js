@@ -151,7 +151,7 @@ $C.setTimeBreakPoints = function ( breakpoints ) {
 	}
 };
 
-$C.features.timeBased = initTimeBased;
+$C._features.timeBased = initTimeBased;
 
 // Function declarations: ######################### ######################### ######################### ######################### ######################### ######################### #########################
 

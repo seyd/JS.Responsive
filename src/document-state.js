@@ -46,7 +46,7 @@ $C.isDocumentUnloading = function () {
 	return isDocumentUnloading;
 };
 
-$C.features.documentState = initDocState;
+$C._features.documentState = initDocState;
 
 // Function declarations: ######################### ######################### ######################### ######################### ######################### ######################### #########################
 

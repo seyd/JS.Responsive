@@ -62,7 +62,7 @@ $C.getDeviceOrientationAngle = function () {
 	return getDeviceOrientationAngle();
 };
 
-$C.features.detectDeviceOrientation = initDetectDeviceOrientation;
+$C._features.detectDeviceOrientation = initDetectDeviceOrientation;
 
 
 // Function declarations: ######################### ######################### ######################### ######################### ######################### ######################### #########################

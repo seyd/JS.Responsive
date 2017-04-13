@@ -62,7 +62,10 @@ $(function() {
 		console.log('inactivity limit reached', name, limit);
 	});
 
-    JS.Responsive.init();
+    // JS.Responsive.disableAutoInit();
+	// setTimeout(JS.Responsive.init, 5000);
+
+	JS.Responsive.init();
 
 });
 

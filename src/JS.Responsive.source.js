@@ -1,9 +1,9 @@
 /**
- * @license JS.Responsive v3.0.0
+ * @license JS.Responsive
  * (c) 2015 WEZEO http://wezeo.com
  * License: MIT
  *
- * @version 3.0.0
+ * @version 3.1.0
  *
  * @author Johnny Seyd <seyd@wezeo.com>, Ctibor Laky <laky@wezeo.com>
  *
@@ -65,7 +65,6 @@
 	 */
 	$C.version = '3.0.0';
 
-
 	// -------------------------------------------------------------------------------------------------
 	// --- CONFIG --------------------------------------------------------------------------------------
 	// -------------------------------------------------------------------------------------------------
@@ -95,7 +94,15 @@
 		VERTICAL_STRING = 'vertical',
 
 		/**
-		 * Storing listeners types and callback functions
+		 * @param {String} autoInit=true
+		 * Library auto initialization flag
+		 * @private
+		 */
+		_autoInit = TRUE,
+
+		/**
+		 * @param {Object}
+		 * Storing _listeners types and callback functions
 		 * structure:
 		 * {
 		 * 	eventTypeName: [callbackFn, ...],
@@ -103,8 +110,17 @@
 		 * 	...
 		 * 	eventTypeName: [callbackFn, ...]
 		 * }
+		 * @private
 		 */
-		listeners = {};
+		_listeners = {};
+
+
+	// -------------------------------------------------------------------------------------------------
+	// --- CORE LISTENER  ------------------------------------------------------------------------------
+	// -------------------------------------------------------------------------------------------------
+
+	if (document.readyState === "complete") { winLoaded(); }
+	else bind( win, 'load', winLoaded );
 
 	// -------------------------------------------------------------------------------------------------	
 	// --- PUBLIC --------------------------------------------------------------------------------------
@@ -118,9 +134,9 @@
 	 */
 	$C.on = function ( type, fn ) {
 
-		if ( !listeners[ type ] )
-			listeners[ type ] = [];
-		listeners[ type ].push( fn );
+		if ( !_listeners[ type ] )
+			_listeners[ type ] = [];
+		_listeners[ type ].push( fn );
 		return $C;
 
 	};
@@ -133,9 +149,9 @@
 	 */
 	$C.off = function ( type, fn ) {
 
-		if ( !listeners[ type ] )
+		if ( !_listeners[ type ] )
 			return;
-		var typeListeners = listeners[ type ],
+		var typeListeners = _listeners[ type ],
 			index = typeListeners.indexOf( fn );
 		if ( index != -1 )
 			typeListeners.splice( index, 1 );
@@ -157,12 +173,12 @@
 			errors = [];
 
 		args.shift(); // first argument is event type, we temporary remove it
-		if ( listeners[ type ] )
-			listeners[ type ].forEach( applyEach );
+		if ( _listeners[ type ] )
+			_listeners[ type ].forEach( applyEach );
 
 		args.unshift( type ); // type added back
-		if ( listeners[ 'all' ] ) // listeners to all event types
-			listeners[ 'all' ].forEach( applyEach );
+		if ( _listeners[ 'all' ] ) // _listeners to all event types
+			_listeners[ 'all' ].forEach( applyEach );
 
 		if ( errors.length ) {
 			// if more errors, we want to print all to console
@@ -185,16 +201,15 @@
 	};
 
 	/**
-	 * @property {object} - List of included features in current bundle, each property represent one feature and value is initialisation
+	 * @prop {object} - List of included features in current bundle, each property represent one feature and value is initialisation
 	 * function of the feature, so it can be initialised later
+	 * @private
 	 */
 
-	$C.features = {};
-
-	/* Optional files content goes here! */
+	$C._features = {};
 
 	/**
-	 * Initialise JS.Responsive
+	 * Initialise JS.Responsive, called automatically on document load event, if not prevented by calling `JS.Responsive,disableAutoInit()` in advance
 	 * @param {Object} [config] - Object with key value pairs of features which will be initialised, if not
 	 * provided, all features will be initialised. If you provide empty object, none of features will be initialised.
 	 */
@@ -206,10 +221,9 @@
 
 	};
 
-
 	/**
 	 * Tests if HTML element contains given class names.
-	 * @param {...String} - class names
+	 * @param {...String} classNames - class names
 	 * @returns {Boolean}
 	 * @example JS.Responsive.is('mobile') === true, when HTML contains "mobile" class
 	 * @example JS.Responsive.is('portrait touch') === true, when HTML contains "portrait" and "touch" class
@@ -224,6 +238,21 @@
 		return FALSE;
 
 	};
+
+	/**
+	 * Disables auto initialization of library, if not called before document load event, the library initialize it selves automatically
+	 */
+	$C.disableAutoInit = function () {
+
+		_autoInit = FALSE;
+
+	};
+
+	// -------------------------------------------------------------------------------------------------
+	// --- OPTIONAL CONTENT ----------------------------------------------------------------------------
+	// -------------------------------------------------------------------------------------------------
+
+	/* Optional files content goes here! */
 
 	// -------------------------------------------------------------------------------------------------
 	// --- PRIVATE -------------------------------------------------------------------------------------
@@ -494,9 +523,14 @@
 		docReadyTime;
 
 
-	function onloadHandler() {
+	function winLoaded() {
+
 		isDocumentLoaded = TRUE;
 		docReadyTime = +(new Date());
+
+		if (!initWasExecuted && _autoInit)
+			init();
+		
 		$C.emit( 'documentReady', docReadyTime );
 	}
 
@@ -515,9 +549,9 @@
 		return TRUE;
 	}
 
-	function missingMethod( feat ) {
+	function missingMethod( method ) {
 		return function () {
-			throw Error( 'Method "' + feat + '" is not available in this bundle!' );
+			throw Error( 'Method "' + method + '" is not available in this bundle!' );
 		}
 	}
 
@@ -536,18 +570,17 @@
 
 			for ( prop in cfg ) {
 				if ( cfg.hasOwnProperty( prop ) ) {
-					if ( $C.features[ prop ] )
-						$C.features[ prop ]( prop );
+					if ( $C._features[ prop ] )
+						$C._features[ prop ]( prop );
 					else  missingMethod( prop )();
 				}
 			}
 		else // init all available features
 
-			for ( prop in $C.features ) {
-				$C.features[ prop ].call( $C );
+			for ( prop in $C._features ) {
+				$C._features[ prop ].call( $C );
 			}
 
-		bind( window, 'load', onloadHandler );
 	}
 
 	// -------------------------------------------------------------------------------------------------

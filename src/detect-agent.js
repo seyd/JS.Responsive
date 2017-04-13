@@ -67,7 +67,7 @@ $C.getPlatformInfo = function () {
 
 $C.getAgentTags = getAgentTags;
 
-$C.features.detectAgent = detectAgentPlatform;
+$C._features.detectAgent = detectAgentPlatform;
 
 // Function declarations: ######################### ######################### ######################### ######################### ######################### ######################### #########################
 

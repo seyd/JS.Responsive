@@ -36,7 +36,7 @@ $C.isPortrait = function () {
 	return !this.isLandscape();
 };
 
-$C.features.detectOrientation = initDetectOrientation;
+$C._features.detectOrientation = initDetectOrientation;
 
 // Function declarations: ######################### ######################### ######################### ######################### ######################### ######################### #########################
 

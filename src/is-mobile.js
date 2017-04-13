@@ -41,7 +41,7 @@ function www_detectmobilebrowsers_com() {
 	return isMobile;
 }
 
-$C.features.isMobile = detectMobileInit;
+$C._features.isMobile = detectMobileInit;
 
 // Function declarations: ######################### ######################### ######################### ######################### ######################### ######################### #########################
 

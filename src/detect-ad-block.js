@@ -29,7 +29,7 @@ $C.isAdblock = function () {
 	return detectAdblock();
 };
 
-$C.features.detectAdblock = initDetectAdblock;
+$C._features.detectAdblock = initDetectAdblock;
 
 // Function declarations: ######################### ######################### ######################### ######################### ######################### ######################### #########################
 

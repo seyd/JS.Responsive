@@ -33,7 +33,7 @@ $C.isHiResDisplay = function () {
 	return win.devicePixelRatio > 1;
 };
 
-$C.features.detectHiRes = initHiResDisplayDetection;
+$C._features.detectHiRes = initHiResDisplayDetection;
 
 // Function declarations: ######################### ######################### ######################### ######################### ######################### ######################### #########################
 

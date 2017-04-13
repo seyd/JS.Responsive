@@ -24,7 +24,7 @@ $C.isTouch = function () {
 		|| navigator.msMaxTouchPoints > 0;
 };
 
-$C.features.detectTouch = detectTouch;
+$C._features.detectTouch = detectTouch;
 
 // Function declarations: ######################### ######################### ######################### ######################### ######################### ######################### #########################
 

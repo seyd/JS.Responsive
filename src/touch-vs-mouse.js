@@ -29,7 +29,7 @@ $C.isUsingTouches = function () {
 var touchVsMouseLastTime = 0,
 	touchVsMouseUsingTouch;
 
-$C.features.isScrolling = initTouchVsMouse;
+$C._features.isScrolling = initTouchVsMouse;
 
 // Function declarations: ######################### ######################### ######################### ######################### ######################### ######################### #########################
 

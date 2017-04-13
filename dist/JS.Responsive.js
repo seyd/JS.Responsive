@@ -148,7 +148,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	
 		/**
-	  * Storing listeners types and callback functions
+	  * @param {String} autoInit=true
+	  * Library auto initialization flag
+	  * @private
+	  */
+		_autoInit = TRUE,
+	
+	
+		/**
+	  * @param {Object}
+	  * Storing _listeners types and callback functions
 	  * structure:
 	  * {
 	  * 	eventTypeName: [callbackFn, ...],
@@ -156,8 +165,17 @@ return /******/ (function(modules) { // webpackBootstrap
 	  * 	...
 	  * 	eventTypeName: [callbackFn, ...]
 	  * }
+	  * @private
 	  */
-		listeners = {};
+		_listeners = {};
+	
+		// -------------------------------------------------------------------------------------------------
+		// --- CORE LISTENER  ------------------------------------------------------------------------------
+		// -------------------------------------------------------------------------------------------------
+	
+		if (document.readyState === "complete") {
+			winLoaded();
+		} else bind(win, 'load', winLoaded);
 	
 		// -------------------------------------------------------------------------------------------------	
 		// --- PUBLIC --------------------------------------------------------------------------------------
@@ -171,8 +189,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	  */
 		$C.on = function (type, fn) {
 	
-			if (!listeners[type]) listeners[type] = [];
-			listeners[type].push(fn);
+			if (!_listeners[type]) _listeners[type] = [];
+			_listeners[type].push(fn);
 			return $C;
 		};
 	
@@ -184,8 +202,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	  */
 		$C.off = function (type, fn) {
 	
-			if (!listeners[type]) return;
-			var typeListeners = listeners[type],
+			if (!_listeners[type]) return;
+			var typeListeners = _listeners[type],
 			    index = typeListeners.indexOf(fn);
 			if (index != -1) typeListeners.splice(index, 1);
 			return $C;
@@ -204,11 +222,11 @@ return /******/ (function(modules) { // webpackBootstrap
 			    errors = [];
 	
 			args.shift(); // first argument is event type, we temporary remove it
-			if (listeners[type]) listeners[type].forEach(applyEach);
+			if (_listeners[type]) _listeners[type].forEach(applyEach);
 	
 			args.unshift(type); // type added back
-			if (listeners['all']) // listeners to all event types
-				listeners['all'].forEach(applyEach);
+			if (_listeners['all']) // _listeners to all event types
+				_listeners['all'].forEach(applyEach);
 	
 			if (errors.length) {
 				// if more errors, we want to print all to console
@@ -228,11 +246,51 @@ return /******/ (function(modules) { // webpackBootstrap
 		};
 	
 		/**
-	  * @property {object} - List of included features in current bundle, each property represent one feature and value is initialisation
+	  * @prop {object} - List of included features in current bundle, each property represent one feature and value is initialisation
 	  * function of the feature, so it can be initialised later
+	  * @private
 	  */
 	
-		$C.features = {};
+		$C._features = {};
+	
+		/**
+	  * Initialise JS.Responsive, called automatically on document load event, if not prevented by calling `JS.Responsive,disableAutoInit()` in advance
+	  * @param {Object} [config] - Object with key value pairs of features which will be initialised, if not
+	  * provided, all features will be initialised. If you provide empty object, none of features will be initialised.
+	  */
+	
+		$C.init = function (config) {
+	
+			init(config);
+			return this;
+		};
+	
+		/**
+	  * Tests if HTML element contains given class names.
+	  * @param {...String} classNames - class names
+	  * @returns {Boolean}
+	  * @example JS.Responsive.is('mobile') === true, when HTML contains "mobile" class
+	  * @example JS.Responsive.is('portrait touch') === true, when HTML contains "portrait" and "touch" class
+	  * @example JS.Responsive.is('portrait touch', 'mobile') === true, when HTML contains ("portrait" and "touch" class) OR ('mobile')
+	  */
+		$C.is = function () {
+	
+			for (var i = 0; i < arguments.length; i++) if (hasAllTheseClasses(arguments[i])) return TRUE; // if once true then disjunction is true
+	
+			return FALSE;
+		};
+	
+		/**
+	  * Disables auto initialization of library, if not called before document load event, the library initialize it selves automatically
+	  */
+		$C.disableAutoInit = function () {
+	
+			_autoInit = FALSE;
+		};
+	
+		// -------------------------------------------------------------------------------------------------
+		// --- OPTIONAL CONTENT ----------------------------------------------------------------------------
+		// -------------------------------------------------------------------------------------------------
 	
 		/**
 	 *
@@ -506,7 +564,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  */
 		$C.getDocumentHeight = getDocumentHeight;
 	
-		$C.features.breakpoints = initBreakpoints;
+		$C._features.breakpoints = initBreakpoints;
 	
 		// Function declarations: ######################### ######################### ######################### ######################### ######################### ######################### #########################
 	
@@ -665,7 +723,7 @@ return /******/ (function(modules) { // webpackBootstrap
 			return 'ontouchstart' in document.documentElement || navigator.maxTouchPoints > 0 || navigator.msMaxTouchPoints > 0;
 		};
 	
-		$C.features.detectTouch = detectTouch;
+		$C._features.detectTouch = detectTouch;
 	
 		// Function declarations: ######################### ######################### ######################### ######################### ######################### ######################### #########################
 	
@@ -719,7 +777,7 @@ return /******/ (function(modules) { // webpackBootstrap
 			return isDocumentUnloading;
 		};
 	
-		$C.features.documentState = initDocState;
+		$C._features.documentState = initDocState;
 	
 		// Function declarations: ######################### ######################### ######################### ######################### ######################### ######################### #########################
 	
@@ -824,7 +882,7 @@ return /******/ (function(modules) { // webpackBootstrap
 			return isWindowFocused;
 		};
 	
-		$C.features.focusBlur = initFB;
+		$C._features.focusBlur = initFB;
 	
 		// Function declarations: ######################### ######################### ######################### ######################### ######################### ######################### #########################
 	
@@ -878,7 +936,7 @@ return /******/ (function(modules) { // webpackBootstrap
 		var touchVsMouseLastTime = 0,
 		    touchVsMouseUsingTouch;
 	
-		$C.features.isScrolling = initTouchVsMouse;
+		$C._features.isScrolling = initTouchVsMouse;
 	
 		// Function declarations: ######################### ######################### ######################### ######################### ######################### ######################### #########################
 	
@@ -922,33 +980,6 @@ return /******/ (function(modules) { // webpackBootstrap
 		$C.getDayTimePeriod = missingMethod("getDayTimePeriod");
 		$C.getYearPeriod = missingMethod("getYearPeriod");
 		$C.setTimeBreakPoints = missingMethod("setTimeBreakPoints");
-	
-		/**
-	  * Initialise JS.Responsive
-	  * @param {Object} [config] - Object with key value pairs of features which will be initialised, if not
-	  * provided, all features will be initialised. If you provide empty object, none of features will be initialised.
-	  */
-	
-		$C.init = function (config) {
-	
-			init(config);
-			return this;
-		};
-	
-		/**
-	  * Tests if HTML element contains given class names.
-	  * @param {...String} - class names
-	  * @returns {Boolean}
-	  * @example JS.Responsive.is('mobile') === true, when HTML contains "mobile" class
-	  * @example JS.Responsive.is('portrait touch') === true, when HTML contains "portrait" and "touch" class
-	  * @example JS.Responsive.is('portrait touch', 'mobile') === true, when HTML contains ("portrait" and "touch" class) OR ('mobile')
-	  */
-		$C.is = function () {
-	
-			for (var i = 0; i < arguments.length; i++) if (hasAllTheseClasses(arguments[i])) return TRUE; // if once true then disjunction is true
-	
-			return FALSE;
-		};
 	
 		// -------------------------------------------------------------------------------------------------
 		// --- PRIVATE -------------------------------------------------------------------------------------
@@ -1164,9 +1195,13 @@ return /******/ (function(modules) { // webpackBootstrap
 		var isDocumentLoaded = FALSE,
 		    docReadyTime;
 	
-		function onloadHandler() {
+		function winLoaded() {
+	
 			isDocumentLoaded = TRUE;
 			docReadyTime = +new Date();
+	
+			if (!initWasExecuted && _autoInit) init();
+	
 			$C.emit('documentReady', docReadyTime);
 		}
 	
@@ -1183,9 +1218,9 @@ return /******/ (function(modules) { // webpackBootstrap
 			return TRUE;
 		}
 	
-		function missingMethod(feat) {
+		function missingMethod(method) {
 			return function () {
-				throw Error('Method "' + feat + '" is not available in this bundle!');
+				throw Error('Method "' + method + '" is not available in this bundle!');
 			};
 		}
 	
@@ -1203,15 +1238,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 				for (prop in cfg) {
 					if (cfg.hasOwnProperty(prop)) {
-						if ($C.features[prop]) $C.features[prop](prop);else missingMethod(prop)();
+						if ($C._features[prop]) $C._features[prop](prop);else missingMethod(prop)();
 					}
 				} else // init all available features
 	
-				for (prop in $C.features) {
-					$C.features[prop].call($C);
+				for (prop in $C._features) {
+					$C._features[prop].call($C);
 				}
-	
-			bind(window, 'load', onloadHandler);
 		}
 	
 		// -------------------------------------------------------------------------------------------------

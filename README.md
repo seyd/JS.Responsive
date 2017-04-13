@@ -29,11 +29,7 @@ import JSResponsive from ('JS.Responsive');
 var JSResponsive = require('JS.Responsive');
 ```
 
-And at the end, init JS.Responsive whenever you want
-```javascript
-JS.Responsive.init();
-```
-you can init modules individually refer to [documentation](https://jsresponsive.wezeo.com/documentation/JS.Responsive/#.init)
+You can init modules individually refer to [documentation](https://jsresponsive.wezeo.com/documentation/JS.Responsive/#.init)
 
 For proper functionality use:
 

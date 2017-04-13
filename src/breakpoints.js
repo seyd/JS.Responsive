@@ -296,7 +296,7 @@ $C.getDocumentWidth = getDocumentWidth;
  */
 $C.getDocumentHeight = getDocumentHeight;
 
-$C.features.breakpoints = initBreakpoints;
+$C._features.breakpoints = initBreakpoints;
 
 // Function declarations: ######################### ######################### ######################### ######################### ######################### ######################### #########################
 
