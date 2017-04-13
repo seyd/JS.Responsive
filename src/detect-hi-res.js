@@ -28,9 +28,9 @@
  * @since 3.0.0
  */
 
-$C.isHiResDisplay = function() {
+$C.isHiResDisplay = function () {
 
-    return win.devicePixelRatio > 1;
+	return win.devicePixelRatio > 1;
 };
 
 $C.features.detectHiRes = initHiResDisplayDetection;
@@ -39,31 +39,31 @@ $C.features.detectHiRes = initHiResDisplayDetection;
 
 // adds "hires-display" or "normal-display" class (once)
 function initHiResDisplayDetection() {
-    detectHiResDisplay();
-    bind(window, 'resize', detectHiResDisplay); // also zoom and moving to another display triggers this
+	detectHiResDisplay();
+	bind( window, 'resize', detectHiResDisplay ); // also zoom and moving to another display triggers this
 }
 
 function detectHiResDisplay() {
-    // clear previous state
-    removeClass('display-pixel-ratio-', TRUE); // remove all classes starting with display-pixel-ratio-
-    removeClass('normal-display');
-    removeClass('hires-display');
+	// clear previous state
+	removeClass( 'display-pixel-ratio-', TRUE ); // remove all classes starting with display-pixel-ratio-
+	removeClass( 'normal-display' );
+	removeClass( 'hires-display' );
 
-    var ratio = win.devicePixelRatio,
-        ratioCeil,
-        i;
+	var ratio = win.devicePixelRatio,
+		ratioCeil,
+		i;
 
-    addClass(ratio>1 ? 'hires-display' : 'normal-display');
+	addClass( ratio > 1 ? 'hires-display' : 'normal-display' );
 
-    if(typeof ratio != 'undefined'){
-        ratioCeil = Math.ceil(ratio);
+	if ( typeof ratio != 'undefined' ) {
+		ratioCeil = Math.ceil( ratio );
 
-        for(i = 0; i <= ratioCeil; i++){
-            if(ratio > i)
-                addClass('display-pixel-ratio-' + i + '-more');
-            else if(ratio <= i)
-                addClass('display-pixel-ratio-' + i + '-less');
+		for ( i = 0; i <= ratioCeil; i++ ) {
+			if ( ratio > i )
+				addClass( 'display-pixel-ratio-' + i + '-more' );
+			else if ( ratio <= i )
+				addClass( 'display-pixel-ratio-' + i + '-less' );
 
-        }
-    }
+		}
+	}
 }

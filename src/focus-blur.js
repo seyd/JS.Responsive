@@ -13,11 +13,11 @@
  **/
 
 var
-    // Opera does not support document.hasFocus()
-    isWindowFocused = document.hasFocus ? document.hasFocus() : TRUE,
+	// Opera does not support document.hasFocus()
+	isWindowFocused = document.hasFocus ? document.hasFocus() : TRUE,
 
-    WINDOW_FOCUSED_CLASS = 'window-focused',
-    WINDOW_BLURED_CLASS = 'window-blured';
+	WINDOW_FOCUSED_CLASS = 'window-focused',
+	WINDOW_BLURED_CLASS = 'window-blured';
 
 /**
  * Returns if document is in state that everything is loaded.
@@ -26,9 +26,9 @@ var
  * @alias JS.Responsive.isDocumentLoaded
  * @since 3.0.0
  */
-$C.isDocumentLoaded = function() {
+$C.isDocumentLoaded = function () {
 
-    return isDocumentLoaded;
+	return isDocumentLoaded;
 };
 
 
@@ -39,9 +39,9 @@ $C.isDocumentLoaded = function() {
  * @alias JS.Responsive.isDocumentUnloading
  * @since 3.0.0
  */
-$C.isDocumentUnloading = function() {
+$C.isDocumentUnloading = function () {
 
-    return isDocumentUnloading;
+	return isDocumentUnloading;
 };
 
 
@@ -52,9 +52,9 @@ $C.isDocumentUnloading = function() {
  * @alias JS.Responsive.isFocused
  * @since 3.0.0
  */
-$C.isFocused = function() {
+$C.isFocused = function () {
 
-    return isWindowFocused;
+	return isWindowFocused;
 };
 
 $C.features.focusBlur = initFB;
@@ -62,25 +62,25 @@ $C.features.focusBlur = initFB;
 // Function declarations: ######################### ######################### ######################### ######################### ######################### ######################### #########################
 
 function initFB() {
-    bind(window, 'blur', onblurHandler);
-    bind(window, 'focus', onfocusHandler);
+	bind( window, 'blur', onblurHandler );
+	bind( window, 'focus', onfocusHandler );
 
-    if (isWindowFocused)
-        onfocusHandler();
-    else
-        onblurHandler();
+	if ( isWindowFocused )
+		onfocusHandler();
+	else
+		onblurHandler();
 }
 
 function onblurHandler( e ) {
-    isWindowFocused = FALSE;
-    removeClass(WINDOW_FOCUSED_CLASS);
-    addClass(WINDOW_BLURED_CLASS);
-    $C.emit('windowFocused', FALSE);
+	isWindowFocused = FALSE;
+	removeClass( WINDOW_FOCUSED_CLASS );
+	addClass( WINDOW_BLURED_CLASS );
+	$C.emit( 'windowFocused', FALSE );
 }
 
 function onfocusHandler( e ) {
-    isWindowFocused = TRUE;
-    removeClass(WINDOW_BLURED_CLASS);
-    addClass(WINDOW_FOCUSED_CLASS);
-    $C.emit('windowFocused', TRUE);
+	isWindowFocused = TRUE;
+	removeClass( WINDOW_BLURED_CLASS );
+	addClass( WINDOW_FOCUSED_CLASS );
+	$C.emit( 'windowFocused', TRUE );
 }

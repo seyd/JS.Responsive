@@ -17,11 +17,11 @@
  * @alias JS.Responsive.isTouch
  * @since 3.0.0
  */
-$C.isTouch = function() {
+$C.isTouch = function () {
 
-    return 'ontouchstart' in document.documentElement
-            || navigator.maxTouchPoints > 0
-            || navigator.msMaxTouchPoints > 0;
+	return 'ontouchstart' in document.documentElement
+		|| navigator.maxTouchPoints > 0
+		|| navigator.msMaxTouchPoints > 0;
 };
 
 $C.features.detectTouch = detectTouch;
@@ -30,5 +30,5 @@ $C.features.detectTouch = detectTouch;
 
 // adds "touch" or "no-touch" class (once)
 function detectTouch() {
-    addClass($C.isTouch() ? 'touch' : 'no-touch');
+	addClass( $C.isTouch() ? 'touch' : 'no-touch' );
 }

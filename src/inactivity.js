@@ -16,7 +16,7 @@ var
 	INACTIVE = 'inactive',
 	WATCH_MOUSEMOVE = 5, // time of inactivity in seconds to start watching mouse move as user activity
 
-    inactiveSoonestLimit = { limit: 60 * 1000, name: INACTIVE }, // default 1 min
+	inactiveSoonestLimit = { limit: 60 * 1000, name: INACTIVE }, // default 1 min
 	inactiveLimits = [ inactiveSoonestLimit ],
 	inactiveLimitsMap = { inactive: inactiveSoonestLimit },
 	addedInactiveClasses = [],
@@ -37,14 +37,14 @@ var
  * @alias JS.Responsive.setInactiveTimeLimit
  * @since 3.1.0
  */
-$C.setInactiveTimeLimit = function( timeLimit, name, cb ) {
+$C.setInactiveTimeLimit = function ( timeLimit, name, cb ) {
 
 	var newLimit;
 
 	timeLimit *= 1000;
 	name = name || INACTIVE;
 
-	if ( inactiveLimitsMap[ name ] ){
+	if ( inactiveLimitsMap[ name ] ) {
 
 		inactiveLimitsMap[ name ].limit = timeLimit;
 		inactiveLimitsMap[ name ].cb = cb;
@@ -58,7 +58,7 @@ $C.setInactiveTimeLimit = function( timeLimit, name, cb ) {
 
 	sortInactiveLimits();
 
-	inactiveSoonestLimit = inactiveLimits[0];
+	inactiveSoonestLimit = inactiveLimits[ 0 ];
 
 };
 
@@ -71,7 +71,7 @@ $C.setInactiveTimeLimit = function( timeLimit, name, cb ) {
  * @alias JS.Responsive.setInactiveTimeLimit
  * @since 3.1.0
  */
-$C.getInactiveTimeLimit = function( name ) {
+$C.getInactiveTimeLimit = function ( name ) {
 
 	name = name || INACTIVE;
 	return inactiveLimitsMap[ name ];
@@ -85,7 +85,7 @@ $C.getInactiveTimeLimit = function( name ) {
  * @alias JS.Responsive.setInactiveTimeLimit
  * @since 3.1.0
  */
-$C.removeInactiveTimeLimit = function( name ) {
+$C.removeInactiveTimeLimit = function ( name ) {
 
 	name = name || INACTIVE;
 	inactiveLimits.splice( inactiveLimits.indexOf( inactiveLimitsMap[ name ] ), 1 );
@@ -99,7 +99,7 @@ $C.features.inactivity = initInactivity;
 
 function initInactivity() {
 
-    var baseGroupActivity = [ 'touchstart', 'touchend', 'touchmove', 'mousedown', 'mouseup', 'mousewheel', 'keydown' ];
+	var baseGroupActivity = [ 'touchstart', 'touchend', 'touchmove', 'mousedown', 'mouseup', 'mousewheel', 'keydown' ];
 	baseGroupActivity.forEach( function ( eventName ) {
 
 		bind( document, eventName, onActivityHandler );
@@ -109,7 +109,7 @@ function initInactivity() {
 	lastActivity = Date.now();
 	$C.setInactiveTimeLimit( WATCH_MOUSEMOVE, 'mouseWatch', inactivityWatchMouseMove );
 	sortInactiveLimits();
-	inactiveSoonestLimit = inactiveLimits[0];
+	inactiveSoonestLimit = inactiveLimits[ 0 ];
 	inactiveTimeout = setTimeout( checkIncativity, inactiveSoonestLimit.limit );
 }
 
@@ -123,11 +123,11 @@ function checkIncativity() {
 	var timeFromLastActivity = Date.now() - lastActivity,
 		className;
 
-	if ( timeFromLastActivity >= inactiveSoonestLimit.limit ){
+	if ( timeFromLastActivity >= inactiveSoonestLimit.limit ) {
 
 		className = inactiveSoonestLimit.name == INACTIVE ? INACTIVE : INACTIVE + '-' + inactiveSoonestLimit.name;
 
-		if ( addClass( className )){
+		if ( addClass( className ) ) {
 
 			addedInactiveClasses.push( className );
 			$C.emit( className );
@@ -137,13 +137,12 @@ function checkIncativity() {
 			inactiveSoonestLimit.cb( inactiveSoonestLimit.limit, inactiveSoonestLimit.name )
 
 		sortInactiveLimits();
-		inactiveSoonestLimit = inactiveLimits[ inactiveLimits.indexOf( inactiveSoonestLimit ) +1 ];
+		inactiveSoonestLimit = inactiveLimits[ inactiveLimits.indexOf( inactiveSoonestLimit ) + 1 ];
 
 		if ( inactiveSoonestLimit )
 			inactiveTimeout = setTimeout( checkIncativity, inactiveSoonestLimit.limit - timeFromLastActivity );
-		else
-		{
-			inactiveSoonestLimit = inactiveLimits[0];
+		else {
+			inactiveSoonestLimit = inactiveLimits[ 0 ];
 			inactiveTimeout = null;
 		}
 	}
@@ -169,7 +168,7 @@ function onActivityHandler() {
 
 function dismissInactivity() {
 
-	if( !addedInactiveClasses.length ) return;
+	if ( !addedInactiveClasses.length ) return;
 
 	addedInactiveClasses.forEach( function ( className ) {
 
@@ -181,7 +180,7 @@ function dismissInactivity() {
 	addedInactiveClasses.length = 0;
 
 	sortInactiveLimits();
-	inactiveSoonestLimit = inactiveLimits[0];
+	inactiveSoonestLimit = inactiveLimits[ 0 ];
 
 	if ( inactiveSoonestLimit )
 		inactiveTimeout = setTimeout( checkIncativity, inactiveSoonestLimit.limit );
@@ -194,11 +193,11 @@ function sortInactiveLimits() {
 
 }
 
-function compareLimits(a,b) {
+function compareLimits( a, b ) {
 
-	if (a.limit < b.limit)
+	if ( a.limit < b.limit )
 		return -1;
-	else if (a.limit > b.limit)
+	else if ( a.limit > b.limit )
 		return 1;
 	return 0;
 

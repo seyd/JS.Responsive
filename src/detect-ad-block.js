@@ -13,10 +13,10 @@
  * */
 
 var isAdblockDetected = false,
-    testDivCreated,
+	testDivCreated,
 
-    ADBLOCK_STRING = 'ad-block',
-    NO_ADBLOCK_STRING = 'no-ad-block';
+	ADBLOCK_STRING = 'ad-block',
+	NO_ADBLOCK_STRING = 'no-ad-block';
 
 /**
  * Returns true if current device has Adblock or similar blocking app installed.
@@ -25,8 +25,8 @@ var isAdblockDetected = false,
  * @alias JS.Responsive.isAdblock
  * @since 3.0.0
  */
-$C.isAdblock = function() {
-    return detectAdblock();
+$C.isAdblock = function () {
+	return detectAdblock();
 };
 
 $C.features.detectAdblock = initDetectAdblock;
@@ -35,42 +35,42 @@ $C.features.detectAdblock = initDetectAdblock;
 
 // init detection
 function initDetectAdblock() {
-    setTimeout(detectAdblock, 500);
+	setTimeout( detectAdblock, 500 );
 }
 
 function detectAdblock() {
-    createTestDiv();
+	createTestDiv();
 
-    // console.log('dingdong', getStyle(testDivCreated, 'display') == 'none', getStyle(testDivCreated, 'width') != '1px', getStyle(testDivCreated, 'height') != '1px');
-    isAdblockDetected = getStyle(testDivCreated, 'display') == 'none' || getStyle(testDivCreated, 'width') != '1px' || getStyle(testDivCreated, 'height') != '1px';
+	// console.log('dingdong', getStyle(testDivCreated, 'display') == 'none', getStyle(testDivCreated, 'width') != '1px', getStyle(testDivCreated, 'height') != '1px');
+	isAdblockDetected = getStyle( testDivCreated, 'display' ) == 'none' || getStyle( testDivCreated, 'width' ) != '1px' || getStyle( testDivCreated, 'height' ) != '1px';
 
-    var newValue = isAdblockDetected ? ADBLOCK_STRING : NO_ADBLOCK_STRING,
-        oldValue = isAdblockDetected ? NO_ADBLOCK_STRING : ADBLOCK_STRING;
+	var newValue = isAdblockDetected ? ADBLOCK_STRING : NO_ADBLOCK_STRING,
+		oldValue = isAdblockDetected ? NO_ADBLOCK_STRING : ADBLOCK_STRING;
 
-    if(!hasClass(newValue)){
-        addClass(newValue);
-        removeClass(oldValue);
+	if ( !hasClass( newValue ) ) {
+		addClass( newValue );
+		removeClass( oldValue );
 
-        $C.emit('changedAdblock', newValue, oldValue);
-    }
+		$C.emit( 'changedAdblock', newValue, oldValue );
+	}
 
-    return isAdblockDetected;
+	return isAdblockDetected;
 }
 
-function createTestDiv(){
-    if(testDivCreated) return;
-    testDivCreated = document.createElement('div');
-    testDivCreated.style.width = '1px';
-    testDivCreated.style.height = '1px';
-    testDivCreated.className = 'ad-banner';
-    testDivCreated.id = 'ad-banner';
-    document.body.appendChild(testDivCreated);
+function createTestDiv() {
+	if ( testDivCreated ) return;
+	testDivCreated = document.createElement( 'div' );
+	testDivCreated.style.width = '1px';
+	testDivCreated.style.height = '1px';
+	testDivCreated.className = 'ad-banner';
+	testDivCreated.id = 'ad-banner';
+	document.body.appendChild( testDivCreated );
 }
 
-function getStyle(el, prop) {
-    if (typeof getComputedStyle !== 'undefined') {
-        return getComputedStyle(el, null).getPropertyValue(prop);
-    } else {
-        return el.currentStyle[prop]; // IE < 9
-    }
+function getStyle( el, prop ) {
+	if ( typeof getComputedStyle !== 'undefined' ) {
+		return getComputedStyle( el, null ).getPropertyValue( prop );
+	} else {
+		return el.currentStyle[ prop ]; // IE < 9
+	}
 }

@@ -18,8 +18,8 @@
 
 var isDocumentUnloading = FALSE,
 
-    lastDocumentState = 'uninitialized',
-    onceLoaded = FALSE;
+	lastDocumentState = 'uninitialized',
+	onceLoaded = FALSE;
 
 /**
  * Returns if document is in state that everything is loaded.
@@ -28,9 +28,9 @@ var isDocumentUnloading = FALSE,
  * @alias JS.Responsive.isDocumentLoaded
  * @since 3.0.0
  */
-$C.isDocumentLoaded = function() {
+$C.isDocumentLoaded = function () {
 
-    return isDocumentLoaded;
+	return isDocumentLoaded;
 };
 
 
@@ -41,9 +41,9 @@ $C.isDocumentLoaded = function() {
  * @alias JS.Responsive.isDocumentUnloading
  * @since 3.0.0
  */
-$C.isDocumentUnloading = function() {
+$C.isDocumentUnloading = function () {
 
-    return isDocumentUnloading;
+	return isDocumentUnloading;
 };
 
 $C.features.documentState = initDocState;
@@ -51,47 +51,47 @@ $C.features.documentState = initDocState;
 // Function declarations: ######################### ######################### ######################### ######################### ######################### ######################### #########################
 
 function initDocState() {
-    bind(document, 'readystatechange', onreadyStateChangeHandler);
-    bind(window, 'load', onreadyStateChangeHandler);
-    bind(window, 'unload', onunloadHandler);
-    bind(window, 'onbeforeunload', onunloadHandler);
+	bind( document, 'readystatechange', onreadyStateChangeHandler );
+	bind( window, 'load', onreadyStateChangeHandler );
+	bind( window, 'unload', onunloadHandler );
+	bind( window, 'onbeforeunload', onunloadHandler );
 }
 
 function getDocumentState() {
-    return isDocumentLoaded ? 'loaded' : document.readyState;
+	return isDocumentLoaded ? 'loaded' : document.readyState;
 }
 
 function onreadyStateChangeHandler() {
-    if (!onceLoaded) {
-        /*
-         ---uncommnon states----------------------------------------------------------------
-         uninitialized - Has not started loading yet
-         loading - Is loading
-         ---common states-------------------------------------------------------------------
-         interactive - Has loaded enough and the user can interact with it
-         complete - Fully loaded
-         ---custom state--------------------------------------------------------------------
-         loaded - when document is loaded (including all images)
-         unloading - when document is unloading
-         */
-        removeClass('state-uninitialized');
-        removeClass('state-loading');
-        removeClass('state-interactive');
-        // 'state-complete' sa nebude odstranovat
-        var newState = getDocumentState();
-        addClass('state-' + newState);
-        if (newState == 'loaded')
-            onceLoaded = TRUE;
+	if ( !onceLoaded ) {
+		/*
+		 ---uncommnon states----------------------------------------------------------------
+		 uninitialized - Has not started loading yet
+		 loading - Is loading
+		 ---common states-------------------------------------------------------------------
+		 interactive - Has loaded enough and the user can interact with it
+		 complete - Fully loaded
+		 ---custom state--------------------------------------------------------------------
+		 loaded - when document is loaded (including all images)
+		 unloading - when document is unloading
+		 */
+		removeClass( 'state-uninitialized' );
+		removeClass( 'state-loading' );
+		removeClass( 'state-interactive' );
+		// 'state-complete' sa nebude odstranovat
+		var newState = getDocumentState();
+		addClass( 'state-' + newState );
+		if ( newState == 'loaded' )
+			onceLoaded = TRUE;
 
-        if (newState != lastDocumentState){
-            $C.emit('changedDocumentState', newState, lastDocumentState);
-            lastDocumentState = newState;
-        }
-    }
+		if ( newState != lastDocumentState ) {
+			$C.emit( 'changedDocumentState', newState, lastDocumentState );
+			lastDocumentState = newState;
+		}
+	}
 }
 
 function onunloadHandler() {
-    addClass('state-unloading');
-    isDocumentUnloading = TRUE;
-    $C.emit('documentUnloading');
+	addClass( 'state-unloading' );
+	isDocumentUnloading = TRUE;
+	$C.emit( 'documentUnloading' );
 }

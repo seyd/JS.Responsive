@@ -22,39 +22,39 @@
  */
 
 
-$C.isUsingTouches = function() {
-    return touchVsMouseUsingTouch;
+$C.isUsingTouches = function () {
+	return touchVsMouseUsingTouch;
 };
 
 var touchVsMouseLastTime = 0,
-    touchVsMouseUsingTouch;
+	touchVsMouseUsingTouch;
 
 $C.features.isScrolling = initTouchVsMouse;
 
 // Function declarations: ######################### ######################### ######################### ######################### ######################### ######################### #########################
 
 function initTouchVsMouse() {
-    bind(document, 'touchstart', function(){
-        touchVsMouseLastTime = Date.now();
-        if(touchVsMouseUsingTouch)
-            return;
+	bind( document, 'touchstart', function () {
+		touchVsMouseLastTime = Date.now();
+		if ( touchVsMouseUsingTouch )
+			return;
 
-        touchVsMouseUsingTouch = TRUE;
-        addClass('user-is-using-touch');
-        removeClass('user-is-using-mouse');
-        $C.emit('changedUsingTouch', TRUE);
-    });
+		touchVsMouseUsingTouch = TRUE;
+		addClass( 'user-is-using-touch' );
+		removeClass( 'user-is-using-mouse' );
+		$C.emit( 'changedUsingTouch', TRUE );
+	} );
 
-    bind(document, 'mousemove', mouseHandler);
-    bind(document, 'mousedown', mouseHandler);
+	bind( document, 'mousemove', mouseHandler );
+	bind( document, 'mousedown', mouseHandler );
 }
 
 function mouseHandler() {
-    if (touchVsMouseUsingTouch === FALSE || Date.now() - touchVsMouseLastTime < 1000)
-        return;
+	if ( touchVsMouseUsingTouch === FALSE || Date.now() - touchVsMouseLastTime < 1000 )
+		return;
 
-    touchVsMouseUsingTouch = FALSE;
-    addClass('user-is-using-mouse');
-    removeClass('user-is-using-touch');
-    $C.emit('changedUsingTouch', FALSE);
+	touchVsMouseUsingTouch = FALSE;
+	addClass( 'user-is-using-mouse' );
+	removeClass( 'user-is-using-touch' );
+	$C.emit( 'changedUsingTouch', FALSE );
 }

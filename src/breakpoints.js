@@ -44,29 +44,29 @@
 
 
 var
-    // (ms) how offen is checking the document size (not just window, but content size)
-    CHECK_DOCUMENT_SIZE_INTERVAL = 500,
+	// (ms) how offen is checking the document size (not just window, but content size)
+	CHECK_DOCUMENT_SIZE_INTERVAL = 500,
 
-    horizontalSizes = [],
-    verticalSizes = [],
+	horizontalSizes = [],
+	verticalSizes = [],
 
-    lastWinWidth = 0,
-    lastWinHeight = 0,
+	lastWinWidth = 0,
+	lastWinHeight = 0,
 
-    lastDocWidth = 0,
-    lastDocHeight = 0,
+	lastDocWidth = 0,
+	lastDocHeight = 0,
 
-    lastHorizontalBreakPoint = EMPTY_STRING,
-    lastVerticalBreakPoint = EMPTY_STRING,
+	lastHorizontalBreakPoint = EMPTY_STRING,
+	lastVerticalBreakPoint = EMPTY_STRING,
 
-    actualHorizontalBreakPoint = EMPTY_STRING,
-    actualVerticalBreakPoint = EMPTY_STRING,
+	actualHorizontalBreakPoint = EMPTY_STRING,
+	actualVerticalBreakPoint = EMPTY_STRING,
 
-    isDisabledHorizontalBreakPoints = FALSE,
-    isDisabledVerticalBreakPoints = FALSE,
+	isDisabledHorizontalBreakPoints = FALSE,
+	isDisabledVerticalBreakPoints = FALSE,
 
-    LESS_APPENDIX = '-less',
-    MORE_APPENDIX = '-more';
+	LESS_APPENDIX = '-less',
+	MORE_APPENDIX = '-more';
 
 
 /**
@@ -79,9 +79,9 @@ var
  * @alias JS.Responsive.addHorizontalBreakPoint
  * @since 3.0.0
  */
-$C.addHorizontalBreakPoint = function( name, width ) {
-    addBreakPoint(name, width, horizontalSizes, WIDTH_STRING);
-    return this;
+$C.addHorizontalBreakPoint = function ( name, width ) {
+	addBreakPoint( name, width, horizontalSizes, WIDTH_STRING );
+	return this;
 };
 
 
@@ -94,9 +94,9 @@ $C.addHorizontalBreakPoint = function( name, width ) {
  * @alias JS.Responsive.removeHorizontalBreakPoint
  * @since 3.0.0
  */
-$C.removeHorizontalBreakPoint = function( name ) {
-    removeBreakPoint(name, horizontalSizes);
-    return this;
+$C.removeHorizontalBreakPoint = function ( name ) {
+	removeBreakPoint( name, horizontalSizes );
+	return this;
 };
 
 
@@ -107,9 +107,9 @@ $C.removeHorizontalBreakPoint = function( name ) {
  * @alias JS.Responsive.getActualHorizontalBreakPoint
  * @since 3.0.0
  */
-$C.getActualHorizontalBreakPoint = function() {
+$C.getActualHorizontalBreakPoint = function () {
 
-    return actualHorizontalBreakPoint || NULL;
+	return actualHorizontalBreakPoint || NULL;
 };
 
 
@@ -121,12 +121,12 @@ $C.getActualHorizontalBreakPoint = function() {
  * @alias JS.Responsive.disableHorizontalBreakPoints
  * @since 3.0.0
  */
-$C.disableHorizontalBreakPoints = function( _keepActualClasses ) {
+$C.disableHorizontalBreakPoints = function ( _keepActualClasses ) {
 
-    if (!_keepActualClasses)
-        removeAllClassesInDimension( horizontalSizes );
-    isDisabledHorizontalBreakPoints = TRUE;
-    return this;
+	if ( !_keepActualClasses )
+		removeAllClassesInDimension( horizontalSizes );
+	isDisabledHorizontalBreakPoints = TRUE;
+	return this;
 };
 
 
@@ -137,11 +137,11 @@ $C.disableHorizontalBreakPoints = function( _keepActualClasses ) {
  * @alias JS.Responsive.enableHorizontalBreakPoints
  * @since 3.0.0
  */
-$C.enableHorizontalBreakPoints = function() {
+$C.enableHorizontalBreakPoints = function () {
 
-    isDisabledHorizontalBreakPoints = FALSE;
-    solveSizes();
-    return this;
+	isDisabledHorizontalBreakPoints = FALSE;
+	solveSizes();
+	return this;
 };
 
 
@@ -152,9 +152,9 @@ $C.enableHorizontalBreakPoints = function() {
  * @alias JS.Responsive.isDisabledHorizontalBreakPoints
  * @since 3.0.0
  */
-$C.isDisabledHorizontalBreakPoints = function() {
+$C.isDisabledHorizontalBreakPoints = function () {
 
-    return isDisabledHorizontalBreakPoints;
+	return isDisabledHorizontalBreakPoints;
 };
 
 
@@ -168,10 +168,10 @@ $C.isDisabledHorizontalBreakPoints = function() {
  * @alias JS.Responsive.addVerticalBreakPoint
  * @since 3.0.0
  */
-$C.addVerticalBreakPoint = function( name, height ) {
+$C.addVerticalBreakPoint = function ( name, height ) {
 
-    addBreakPoint(name, height, verticalSizes, HEIGHT_STRING);
-    return this;
+	addBreakPoint( name, height, verticalSizes, HEIGHT_STRING );
+	return this;
 };
 
 
@@ -184,10 +184,10 @@ $C.addVerticalBreakPoint = function( name, height ) {
  * @alias JS.Responsive.removeVerticalBreakPoint
  * @since 3.0.0
  */
-$C.removeVerticalBreakPoint = function( name ) {
+$C.removeVerticalBreakPoint = function ( name ) {
 
-    removeBreakPoint(name, verticalSizes);
-    return this;
+	removeBreakPoint( name, verticalSizes );
+	return this;
 };
 
 
@@ -198,9 +198,9 @@ $C.removeVerticalBreakPoint = function( name ) {
  * @alias JS.Responsive.getActualVerticalBreakPoint
  * @since 3.0.0
  */
-$C.getActualVerticalBreakPoint = function() {
+$C.getActualVerticalBreakPoint = function () {
 
-    return actualVerticalBreakPoint || NULL;
+	return actualVerticalBreakPoint || NULL;
 };
 
 
@@ -212,12 +212,12 @@ $C.getActualVerticalBreakPoint = function() {
  * @alias JS.Responsive.disableVerticalBreakPoints
  * @since 3.0.0
  */
-$C.disableVerticalBreakPoints = function( _keepActualClasses ) {
+$C.disableVerticalBreakPoints = function ( _keepActualClasses ) {
 
-    if (!_keepActualClasses)
-        removeAllClassesInDimension( verticalSizes );
-    isDisabledVerticalBreakPoints = TRUE;
-    return this;
+	if ( !_keepActualClasses )
+		removeAllClassesInDimension( verticalSizes );
+	isDisabledVerticalBreakPoints = TRUE;
+	return this;
 };
 
 
@@ -228,11 +228,11 @@ $C.disableVerticalBreakPoints = function( _keepActualClasses ) {
  * @alias JS.Responsive.enableVerticalBreakPoints
  * @since 3.0.0
  */
-$C.enableVerticalBreakPoints = function() {
+$C.enableVerticalBreakPoints = function () {
 
-    isDisabledVerticalBreakPoints = FALSE;
-    solveSizes();
-    return this;
+	isDisabledVerticalBreakPoints = FALSE;
+	solveSizes();
+	return this;
 };
 
 
@@ -243,9 +243,9 @@ $C.enableVerticalBreakPoints = function() {
  * @alias JS.Responsive.isDisabledVerticalBreakPoints
  * @since 3.0.0
  */
-$C.isDisabledVerticalBreakPoints = function() {
+$C.isDisabledVerticalBreakPoints = function () {
 
-    return isDisabledVerticalBreakPoints;
+	return isDisabledVerticalBreakPoints;
 };
 
 
@@ -259,7 +259,6 @@ $C.isDisabledVerticalBreakPoints = function() {
  * @since 3.0.0
  */
 $C.getWindowWidth = getWindowWidth;
-
 
 
 /**
@@ -301,152 +300,153 @@ $C.features.breakpoints = initBreakpoints;
 
 // Function declarations: ######################### ######################### ######################### ######################### ######################### ######################### #########################
 
-function initBreakpoints(){
-    setInterval(checkWindowOrDocumentResize, CHECK_DOCUMENT_SIZE_INTERVAL);
+function initBreakpoints() {
+	setInterval( checkWindowOrDocumentResize, CHECK_DOCUMENT_SIZE_INTERVAL );
 
-    bind(window, 'resize', solveSizes);
+	bind( window, 'resize', solveSizes );
 
-    // for mobiles - on mobile devices is window size changing while scrolling content - because some panels are hiding
-    bind(document, 'touchmove', checkWindowOrDocumentResize);
-    bind(document, 'touchend', checkWindowOrDocumentResize);
+	// for mobiles - on mobile devices is window size changing while scrolling content - because some panels are hiding
+	bind( document, 'touchmove', checkWindowOrDocumentResize );
+	bind( document, 'touchend', checkWindowOrDocumentResize );
 }
 
 // on mobile devices is window size changing while scrolling content - because some panels are hiding
 function checkWindowOrDocumentResize() {
-    if (getWindowWidth() != lastWinWidth || getWindowHeight() != lastWinHeight ||
-        getDocumentWidth() != lastDocWidth || getDocumentHeight() != lastDocHeight)
-        solveSizes();
+	if ( getWindowWidth() != lastWinWidth || getWindowHeight() != lastWinHeight ||
+		getDocumentWidth() != lastDocWidth || getDocumentHeight() != lastDocHeight )
+		solveSizes();
 }
 
 function arrayGetIndexOfName( array, name ) {
-    for (var i = 0; i < array.length; i++)
-        if (array[i].name == name)
-            return i;
-    return -1;
+	for ( var i = 0; i < array.length; i++ )
+		if ( array[ i ].name == name )
+			return i;
+	return -1;
 }
 
 
-function addBreakPoint(name, size, sizesArray, sizeAttr) {
+function addBreakPoint( name, size, sizesArray, sizeAttr ) {
 
-    var index = arrayGetIndexOfName(sizesArray, name);
-    // if does not exists this name
-    if (index==-1) {
-        var sizeObj = {name: name};
-        sizeObj[sizeAttr] = parseInt(size, 10);
-        sizesArray.push(sizeObj);
-        sizesArray.sort(function( a, b ) { return a[sizeAttr] - b[sizeAttr]; });
-        solveSizes();
-    }
+	var index = arrayGetIndexOfName( sizesArray, name );
+	// if does not exists this name
+	if ( index == -1 ) {
+		var sizeObj = { name: name };
+		sizeObj[ sizeAttr ] = parseInt( size, 10 );
+		sizesArray.push( sizeObj );
+		sizesArray.sort( function ( a, b ) {
+			return a[ sizeAttr ] - b[ sizeAttr ];
+		} );
+		solveSizes();
+	}
 }
 
-function removeBreakPoint(name, sizesArray) {
+function removeBreakPoint( name, sizesArray ) {
 
-    var index = arrayGetIndexOfName(sizesArray, name);
-    // if does exists this name
-    if (index>=0) {
-        sizesArray.splice(index,1);
-        removeAllClasses(name);
-        solveSizes();
-    }
+	var index = arrayGetIndexOfName( sizesArray, name );
+	// if does exists this name
+	if ( index >= 0 ) {
+		sizesArray.splice( index, 1 );
+		removeAllClasses( name );
+		solveSizes();
+	}
 }
 
 function removeAllClassesInDimension( sizesArray ) {
 
-    forEach(sizesArray, function( size ){
-        removeAllClasses( size.name );
-    });
+	sizesArray.forEach( function ( size ) {
+		removeAllClasses( size.name );
+	} );
 
 }
 
 function removeAllClasses( sizeAttributeName ) {
 
-    removeClass(sizeAttributeName + LESS_APPENDIX);
-    removeClass(sizeAttributeName);
-    removeClass(sizeAttributeName + MORE_APPENDIX);
+	removeClass( sizeAttributeName + LESS_APPENDIX );
+	removeClass( sizeAttributeName );
+	removeClass( sizeAttributeName + MORE_APPENDIX );
 }
 
 function solveSizes() {
 
-    startTransactionClass();
+	startTransactionClass();
 
-    var arrays = [],
-        sizes = [],
-        sizeAttributes = [],
-        dimensions = [];
+	var arrays = [],
+		sizes = [],
+		sizeAttributes = [],
+		dimensions = [];
 
-    if (!isDisabledHorizontalBreakPoints) {
-        arrays.push( horizontalSizes );
-        sizes.push( getWindowWidth() );
-        sizeAttributes.push( WIDTH_STRING );
-        dimensions.push( HORIZONTAL_STRING );
-    }
+	if ( !isDisabledHorizontalBreakPoints ) {
+		arrays.push( horizontalSizes );
+		sizes.push( getWindowWidth() );
+		sizeAttributes.push( WIDTH_STRING );
+		dimensions.push( HORIZONTAL_STRING );
+	}
 
-    if (!isDisabledVerticalBreakPoints) {
-        arrays.push( verticalSizes );
-        sizes.push( getWindowHeight() );
-        sizeAttributes.push( HEIGHT_STRING );
-        dimensions.push( VERTICAL_STRING );
-    }
+	if ( !isDisabledVerticalBreakPoints ) {
+		arrays.push( verticalSizes );
+		sizes.push( getWindowHeight() );
+		sizeAttributes.push( HEIGHT_STRING );
+		dimensions.push( VERTICAL_STRING );
+	}
 
-    lastHorizontalBreakPoint = actualHorizontalBreakPoint;
-    actualHorizontalBreakPoint = EMPTY_STRING;
-    lastVerticalBreakPoint = actualVerticalBreakPoint;
-    actualVerticalBreakPoint = EMPTY_STRING;
+	lastHorizontalBreakPoint = actualHorizontalBreakPoint;
+	actualHorizontalBreakPoint = EMPTY_STRING;
+	lastVerticalBreakPoint = actualVerticalBreakPoint;
+	actualVerticalBreakPoint = EMPTY_STRING;
 
 
+	var size,
+		nextSize,
+		sizeIsEqualToCurrentBreakPoint,
+		sizeIsGreaterThanCurrentBreakPoint,
+		sizeIsGreaterOrEqualToCurrentBreakPoint,
+		thisBreakPointIsLastOne,
+		isSmallerThanNextBreakPoint;
 
-    var size,
-        nextSize,
-        sizeIsEqualToCurrentBreakPoint,
-        sizeIsGreaterThanCurrentBreakPoint,
-        sizeIsGreaterOrEqualToCurrentBreakPoint,
-        thisBreakPointIsLastOne,
-        isSmallerThanNextBreakPoint;
+	// for all dimensions, both 'horizontal' and 'vertical'
+	for ( var k = 0; k < arrays.length; k++ ) {
 
-    // for all dimensions, both 'horizontal' and 'vertical'
-    for (var k = 0; k < arrays.length; k++) {
+		var actualSize = sizes[ k ],
+			firstIn = FALSE,
+			a = arrays[ k ],
+			sizeAttributeName = sizeAttributes[ k ];
 
-        var actualSize = sizes[k],
-            firstIn = FALSE,
-            a = arrays[k],
-            sizeAttributeName = sizeAttributes[k];
+		// for all break points in current dimension
+		for ( var i = 0; i < a.length; i++ ) {
+			size = a[ i ];
+			nextSize = a[ i + 1 ];
+			removeAllClasses( size.name );
 
-        // for all break points in current dimension
-        for (var i = 0; i < a.length; i++) {
-            size = a[i];
-            nextSize = a[i + 1];
-            removeAllClasses(size.name);
+			sizeIsEqualToCurrentBreakPoint = (size[ sizeAttributeName ] == actualSize);
+			sizeIsGreaterThanCurrentBreakPoint = (size[ sizeAttributeName ] < actualSize);
+			sizeIsGreaterOrEqualToCurrentBreakPoint = (size[ sizeAttributeName ] <= actualSize);
+			thisBreakPointIsLastOne = (i == a.length - 1);
+			isSmallerThanNextBreakPoint = nextSize && nextSize[ sizeAttributeName ] > actualSize;
 
-            sizeIsEqualToCurrentBreakPoint = (size[sizeAttributeName] == actualSize);
-            sizeIsGreaterThanCurrentBreakPoint = (size[sizeAttributeName] < actualSize);
-            sizeIsGreaterOrEqualToCurrentBreakPoint = (size[sizeAttributeName] <= actualSize);
-            thisBreakPointIsLastOne = (i == a.length - 1);
-            isSmallerThanNextBreakPoint = nextSize && nextSize[sizeAttributeName] > actualSize;
+			if ( sizeIsGreaterOrEqualToCurrentBreakPoint )
+				addClass( size.name + MORE_APPENDIX );
 
-            if (sizeIsGreaterOrEqualToCurrentBreakPoint)
-                addClass(size.name + MORE_APPENDIX);
+			if ( !firstIn ) {
+				if ( sizeIsEqualToCurrentBreakPoint || (sizeIsGreaterThanCurrentBreakPoint && (thisBreakPointIsLastOne || isSmallerThanNextBreakPoint)) ) {
+					addClass( size.name );
+					if ( dimensions[ k ] == HORIZONTAL_STRING )
+						actualHorizontalBreakPoint = size.name;
+					if ( dimensions[ k ] == VERTICAL_STRING )
+						actualVerticalBreakPoint = size.name;
+					firstIn = TRUE;
+				}
+			}
 
-            if (!firstIn) {
-                if (sizeIsEqualToCurrentBreakPoint || (sizeIsGreaterThanCurrentBreakPoint && (thisBreakPointIsLastOne || isSmallerThanNextBreakPoint))) {
-                    addClass(size.name);
-                    if (dimensions[k]==HORIZONTAL_STRING)
-                        actualHorizontalBreakPoint = size.name;
-                    if (dimensions[k]==VERTICAL_STRING)
-                        actualVerticalBreakPoint = size.name;
-                    firstIn = TRUE;
-                }
-            }
+			if ( !sizeIsGreaterOrEqualToCurrentBreakPoint )
+				addClass( size.name + LESS_APPENDIX );
+		}
+	}
 
-            if (!sizeIsGreaterOrEqualToCurrentBreakPoint)
-                addClass(size.name + LESS_APPENDIX);
-        }
-    }
+	commitTransactionClass();
 
-    commitTransactionClass();
-
-    if(lastHorizontalBreakPoint != actualHorizontalBreakPoint)
-        $C.emit('changedBreakPointHorizontal', actualHorizontalBreakPoint, lastHorizontalBreakPoint);
-    if(lastVerticalBreakPoint != actualVerticalBreakPoint)
-        $C.emit('changedBreakPointVertical', actualVerticalBreakPoint, lastVerticalBreakPoint);
+	if ( lastHorizontalBreakPoint != actualHorizontalBreakPoint )
+		$C.emit( 'changedBreakPointHorizontal', actualHorizontalBreakPoint, lastHorizontalBreakPoint );
+	if ( lastVerticalBreakPoint != actualVerticalBreakPoint )
+		$C.emit( 'changedBreakPointVertical', actualVerticalBreakPoint, lastVerticalBreakPoint );
 
 }

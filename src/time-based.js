@@ -18,44 +18,44 @@
  **/
 
 var timeBreakPointTimeout,
-    timeBreakPointCurrentName,
-    timeBreakPointsInit,
-    dayTimeCurrent,
-    dayTimePeriod,
-    yearPeriod,
-    lastDayTime,
-    lastDayTimePeriod,
-    lastYearPeriod,
-    MORNING = 'morning',
-    AFTERNOON = 'afternoon',
-    EVENING = 'evening',
-    NIGHT = 'night',
-    DAYPERIODS = {
-        0: NIGHT,
-        1: NIGHT,
-        2: NIGHT,
-        3: NIGHT,
-        4: NIGHT,
-        5: NIGHT,
-        6: MORNING,
-        7: MORNING,
-        8: MORNING,
-        9: MORNING,
-        10: MORNING,
-        11: MORNING,
-        12: AFTERNOON,
-        13: AFTERNOON,
-        14: AFTERNOON,
-        15: AFTERNOON,
-        16: AFTERNOON,
-        17: EVENING,
-        18: EVENING,
-        19: EVENING,
-        20: NIGHT,
-        21: NIGHT,
-        22: NIGHT,
-        23: NIGHT,
-    };
+	timeBreakPointCurrentName,
+	timeBreakPointsInit,
+	dayTimeCurrent,
+	dayTimePeriod,
+	yearPeriod,
+	lastDayTime,
+	lastDayTimePeriod,
+	lastYearPeriod,
+	MORNING = 'morning',
+	AFTERNOON = 'afternoon',
+	EVENING = 'evening',
+	NIGHT = 'night',
+	DAYPERIODS = {
+		0: NIGHT,
+		1: NIGHT,
+		2: NIGHT,
+		3: NIGHT,
+		4: NIGHT,
+		5: NIGHT,
+		6: MORNING,
+		7: MORNING,
+		8: MORNING,
+		9: MORNING,
+		10: MORNING,
+		11: MORNING,
+		12: AFTERNOON,
+		13: AFTERNOON,
+		14: AFTERNOON,
+		15: AFTERNOON,
+		16: AFTERNOON,
+		17: EVENING,
+		18: EVENING,
+		19: EVENING,
+		20: NIGHT,
+		21: NIGHT,
+		22: NIGHT,
+		23: NIGHT,
+	};
 
 /**
  * Returns actual day time period. One of morning, afternoon, evening or night.
@@ -64,9 +64,9 @@ var timeBreakPointTimeout,
  * @alias JS.Responsive.getDayTimePeriod
  * @since 3.0.0
  */
-$C.getDayTimePeriod = function() {
+$C.getDayTimePeriod = function () {
 
-    return dayTimePeriod;
+	return dayTimePeriod;
 };
 
 /**
@@ -76,9 +76,9 @@ $C.getDayTimePeriod = function() {
  * @alias JS.Responsive.getYearPeriod
  * @since 3.0.0
  */
-$C.getYearPeriod = function() {
+$C.getYearPeriod = function () {
 
-    return yearPeriod;
+	return yearPeriod;
 };
 
 /**
@@ -92,63 +92,63 @@ $C.getYearPeriod = function() {
  * @alias JS.Responsive.setTimeBreakPoints
  * @since 3.0.0
  */
-$C.setTimeBreakPoints = function(breakpoints) {
-    var sinceReady;
-    if (docReadyTime)
-        initBreakpoints();
-    else
-        timeBreakPointsInit = initBreakpoints;
+$C.setTimeBreakPoints = function ( breakpoints ) {
+	var sinceReady;
+	if ( docReadyTime )
+		initBreakpoints();
+	else
+		timeBreakPointsInit = initBreakpoints;
 
-    // fn declarations
-    function initBreakpoints() {
-        var now = +(new Date());
-        sinceReady = now - docReadyTime;
+	// fn declarations
+	function initBreakpoints() {
+		var now = +(new Date());
+		sinceReady = now - docReadyTime;
 
-        // sort by time
-        breakpoints.sort(function (a, b) {
-            return +(a.time > b.time) || +(a.time === b.time) - 1;
-        });
+		// sort by time
+		breakpoints.sort( function ( a, b ) {
+			return +(a.time > b.time) || +(a.time === b.time) - 1;
+		} );
 
-        // clear passed times
-        while(breakpoints[0].time < sinceReady)
-            breakpoints[0].shift();
+		// clear passed times
+		while ( breakpoints[ 0 ].time < sinceReady )
+			breakpoints[ 0 ].shift();
 
-        // clear running timeout if any
-        if(timeBreakPointTimeout)
-            clearTimeout(timeBreakPointTimeout);
+		// clear running timeout if any
+		if ( timeBreakPointTimeout )
+			clearTimeout( timeBreakPointTimeout );
 
-        // set new timeout for first breakpoint
-        activateNext();
-    }
+		// set new timeout for first breakpoint
+		activateNext();
+	}
 
-    function activateNext() {
-        if(!breakpoints[0]) // no more breakpoints
-            return;
+	function activateNext() {
+		if ( !breakpoints[ 0 ] ) // no more breakpoints
+			return;
 
-        timeBreakPointTimeout = setTimeout(function () {
+		timeBreakPointTimeout = setTimeout( function () {
 
-            // remove current breakpoint name
-            removeClass(timeBreakPointCurrentName);
+			// remove current breakpoint name
+			removeClass( timeBreakPointCurrentName );
 
-            // apply new breakpoint
-            var bp = breakpoints.shift();
-            addClass(bp.name);
+			// apply new breakpoint
+			var bp = breakpoints.shift();
+			addClass( bp.name );
 
-            $C.emit('timeBreakpointReached', bp.name, timeBreakPointCurrentName);
-            timeBreakPointCurrentName = UNDEFINED;
+			$C.emit( 'timeBreakpointReached', bp.name, timeBreakPointCurrentName );
+			timeBreakPointCurrentName = UNDEFINED;
 
-            if(!bp.remains){
-                // next breakpoint will clear this one
-                timeBreakPointCurrentName = bp.name;
-            }
+			if ( !bp.remains ) {
+				// next breakpoint will clear this one
+				timeBreakPointCurrentName = bp.name;
+			}
 
-            if(bp.remains && bp.remains !== TRUE)
-                setTimeout(thenRemoveClass(bp.name), bp.remains);
+			if ( bp.remains && bp.remains !== TRUE )
+				setTimeout( thenRemoveClass( bp.name ), bp.remains );
 
-            activateNext();
+			activateNext();
 
-        }, breakpoints[0].time - sinceReady);
-    }
+		}, breakpoints[ 0 ].time - sinceReady );
+	}
 };
 
 $C.features.timeBased = initTimeBased;
@@ -156,86 +156,85 @@ $C.features.timeBased = initTimeBased;
 // Function declarations: ######################### ######################### ######################### ######################### ######################### ######################### #########################
 
 function initTimeBased() {
-    var now = new Date();
-    dayTimeCurrent = 'day-time-' + now.getHours() + 'h';
-    dayTimePeriod = DAYPERIODS[now.getHours()];
-    yearPeriod = getYearPeriod(now);
+	var now = new Date();
+	dayTimeCurrent = 'day-time-' + now.getHours() + 'h';
+	dayTimePeriod = DAYPERIODS[ now.getHours() ];
+	yearPeriod = getYearPeriod( now );
 
-    if (docReadyTime){
-        timeBreakPointsInit();
-        realInitTimeBased();
-    }else{
-        $C.on('documentReady', function () {
-            if(timeBreakPointsInit)
-                timeBreakPointsInit();
-            realInitTimeBased();
-        });
-    }
+	if ( docReadyTime ) {
+		timeBreakPointsInit();
+		realInitTimeBased();
+	} else {
+		$C.on( 'documentReady', function () {
+			if ( timeBreakPointsInit )
+				timeBreakPointsInit();
+			realInitTimeBased();
+		} );
+	}
 }
 
-function realInitTimeBased(){
-    var now = new Date();
-    setClasses();
-    if (timeBreakPointsInit)
-        timeBreakPointsInit();
+function realInitTimeBased() {
+	var now = new Date();
+	setClasses();
+	if ( timeBreakPointsInit )
+		timeBreakPointsInit();
 
-    setInterval(function () {
-        setClasses();
-    }, 60*60*1000 - (now.getMilliseconds() + now.getSeconds() + now.getMinutes()));
+	setInterval( function () {
+		setClasses();
+	}, 60 * 60 * 1000 - (now.getMilliseconds() + now.getSeconds() + now.getMinutes()) );
 }
 
 // fn definitions
-function setClasses(){
-    if(lastDayTime != dayTimeCurrent){
-        removeClass(lastDayTime);
-        addClass(dayTimeCurrent);
-        $C.emit('changedDayTime', dayTimeCurrent, lastDayTime);
-        lastDayTime = dayTimeCurrent;
+function setClasses() {
+	if ( lastDayTime != dayTimeCurrent ) {
+		removeClass( lastDayTime );
+		addClass( dayTimeCurrent );
+		$C.emit( 'changedDayTime', dayTimeCurrent, lastDayTime );
+		lastDayTime = dayTimeCurrent;
 
-    }
-    if(lastDayTimePeriod != dayTimePeriod){
-        removeClass(lastDayTimePeriod);
-        addClass(dayTimePeriod);
-        $C.emit('changedDayPeriod', dayTimePeriod, lastDayTimePeriod);
-        lastDayTimePeriod = dayTimePeriod;
+	}
+	if ( lastDayTimePeriod != dayTimePeriod ) {
+		removeClass( lastDayTimePeriod );
+		addClass( dayTimePeriod );
+		$C.emit( 'changedDayPeriod', dayTimePeriod, lastDayTimePeriod );
+		lastDayTimePeriod = dayTimePeriod;
 
-    }
-    if(lastYearPeriod != yearPeriod){
-        removeClass(lastYearPeriod);
-        addClass(yearPeriod);
-        $C.emit('changedYearPeriod', yearPeriod, lastYearPeriod);
-        lastYearPeriod = yearPeriod;
+	}
+	if ( lastYearPeriod != yearPeriod ) {
+		removeClass( lastYearPeriod );
+		addClass( yearPeriod );
+		$C.emit( 'changedYearPeriod', yearPeriod, lastYearPeriod );
+		lastYearPeriod = yearPeriod;
 
-    }
+	}
 }
 
-function getYearPeriod(date) {
-    var year = date.getFullYear(),
-        firstDates = [
-            {date: new Date(year, 2, 20), name: 'spring'},
-            {date: new Date(year, 5, 21), name: 'summer'},
-            {date: new Date(year, 8, 23), name: 'autumn'},
-            {date: new Date(year, 11, 21), name: 'winter'}
-        ];
+function getYearPeriod( date ) {
+	var year = date.getFullYear(),
+		firstDates = [
+			{ date: new Date( year, 2, 20 ), name: 'spring' },
+			{ date: new Date( year, 5, 21 ), name: 'summer' },
+			{ date: new Date( year, 8, 23 ), name: 'autumn' },
+			{ date: new Date( year, 11, 21 ), name: 'winter' }
+		];
 
-    return testPeriod(0);
+	return testPeriod( 0 );
 
-    function testPeriod(index) {
-        if(date < firstDates[index].date)
-            if(!index) // index === 0
-                return firstDates[3].name;
-            else
-                return firstDates[index-1].name;
-        else
-        if(firstDates[++index])
-            return testPeriod(index);
-        else
-            return firstDates[0].name;
-    }
+	function testPeriod( index ) {
+		if ( date < firstDates[ index ].date )
+			if ( !index ) // index === 0
+				return firstDates[ 3 ].name;
+			else
+				return firstDates[ index - 1 ].name;
+		else if ( firstDates[ ++index ] )
+			return testPeriod( index );
+		else
+			return firstDates[ 0 ].name;
+	}
 }
 
-function thenRemoveClass(className) {
-    return function () {
-        removeClass(className);
-    }
+function thenRemoveClass( className ) {
+	return function () {
+		removeClass( className );
+	}
 }
