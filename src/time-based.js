@@ -95,13 +95,14 @@ $C.getYearPeriod = function () {
 $C.setTimeBreakPoints = function ( breakpoints ) {
 	var sinceReady;
 	if ( docReadyTime )
-		initBreakpoints();
+		_initTimeBased();
 	else
-		timeBreakPointsInit = initBreakpoints;
+		timeBreakPointsInit = _initTimeBased;
 
 	// fn declarations
-	function initBreakpoints() {
-		var now = +(new Date());
+	function _initTimeBased() {
+		var now = +(new Date()),
+			i = 0;
 		sinceReady = now - docReadyTime;
 
 		// sort by time
@@ -110,8 +111,8 @@ $C.setTimeBreakPoints = function ( breakpoints ) {
 		} );
 
 		// clear passed times
-		while ( breakpoints[ 0 ].time < sinceReady )
-			breakpoints[ 0 ].shift();
+		while ( breakpoints[ i ] && breakpoints[ i ].time < sinceReady )
+			breakpoints.shift();
 
 		// clear running timeout if any
 		if ( timeBreakPointTimeout )

@@ -1862,11 +1862,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	  */
 		$C.setTimeBreakPoints = function (breakpoints) {
 			var sinceReady;
-			if (docReadyTime) initBreakpoints();else timeBreakPointsInit = initBreakpoints;
+			if (docReadyTime) _initTimeBased();else timeBreakPointsInit = _initTimeBased;
 	
 			// fn declarations
-			function initBreakpoints() {
-				var now = +new Date();
+			function _initTimeBased() {
+				var now = +new Date(),
+				    i = 0;
 				sinceReady = now - docReadyTime;
 	
 				// sort by time
@@ -1875,7 +1876,7 @@ return /******/ (function(modules) { // webpackBootstrap
 				});
 	
 				// clear passed times
-				while (breakpoints[0].time < sinceReady) breakpoints[0].shift();
+				while (breakpoints[i] && breakpoints[i].time < sinceReady) breakpoints.shift();
 	
 				// clear running timeout if any
 				if (timeBreakPointTimeout) clearTimeout(timeBreakPointTimeout);
