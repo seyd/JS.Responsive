@@ -3,6 +3,7 @@
 ## 3.1.0 
 - added new feature inactive
 - autoInit on documentReady
+- fixed breakpoints ( bug: started before init, when addHorizontalBreakPoint method used )
 
 ## 3.0.0 Early Bird
 - library custom builds with missing method warnings

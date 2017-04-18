@@ -352,7 +352,8 @@ return /******/ (function(modules) { // webpackBootstrap
 		    isDisabledHorizontalBreakPoints = FALSE,
 		    isDisabledVerticalBreakPoints = FALSE,
 		    LESS_APPENDIX = '-less',
-		    MORE_APPENDIX = '-more';
+		    MORE_APPENDIX = '-more',
+		    _breakpointsInitialized;
 	
 		/**
 	  * Sets a new horizontal break point for responsive styling.
@@ -569,6 +570,7 @@ return /******/ (function(modules) { // webpackBootstrap
 		// Function declarations: ######################### ######################### ######################### ######################### ######################### ######################### #########################
 	
 		function initBreakpoints() {
+	
 			setInterval(checkWindowOrDocumentResize, CHECK_DOCUMENT_SIZE_INTERVAL);
 	
 			bind(window, 'resize', solveSizes);
@@ -576,14 +578,18 @@ return /******/ (function(modules) { // webpackBootstrap
 			// for mobiles - on mobile devices is window size changing while scrolling content - because some panels are hiding
 			bind(document, 'touchmove', checkWindowOrDocumentResize);
 			bind(document, 'touchend', checkWindowOrDocumentResize);
+	
+			_breakpointsInitialized = TRUE;
 		}
 	
 		// on mobile devices is window size changing while scrolling content - because some panels are hiding
 		function checkWindowOrDocumentResize() {
+	
 			if (getWindowWidth() != lastWinWidth || getWindowHeight() != lastWinHeight || getDocumentWidth() != lastDocWidth || getDocumentHeight() != lastDocHeight) solveSizes();
 		}
 	
 		function arrayGetIndexOfName(array, name) {
+	
 			for (var i = 0; i < array.length; i++) if (array[i].name == name) return i;
 			return -1;
 		}
@@ -629,6 +635,10 @@ return /******/ (function(modules) { // webpackBootstrap
 		}
 	
 		function solveSizes() {
+	
+			if (!_breakpointsInitialized) {
+				return;
+			}
 	
 			startTransactionClass();
 	
