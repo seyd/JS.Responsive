@@ -60,6 +60,18 @@ If your PR is doing little more than changing the JS.Responsive source code into
 
 That is fine too. While Pull Requests are the best thing in the world for us, they are not the only way to help. You're welcome to post fixes to our forum or even just email them to us. All we ask is that you still adhere to the guidelines presented here re: JSHint, etc.
 
+## Release ( 1st class contributors only )
+- cmd: git pull
+- update changelog ( look at git logs )
+- update version in JS.Responsive.source.js ( $C.version = 'X.X.X'; )
+- update version in bower.json
+- cmd: npm run build
+- cmd: git add --all
+- cmd: commit -m "$ReleaseName vX.X.X"
+- cmd: npm version major/minor/patch -m "$ReleaseName %s"
+- cmd: npm publish
+- cmd: git push && git push --tags
+- github.com make new release
 
 [0]: https://github.com/seyd/JS.Responsive/issues
 [1]: http://jsfiddle.net

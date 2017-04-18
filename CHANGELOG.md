@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## 3.1.0 
+## 3.1.0 Inactivity
 - added new feature inactive
 - autoInit on documentReady
 - fixed breakpoints ( bug: started before init, when addHorizontalBreakPoint method used )
