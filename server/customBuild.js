@@ -16,8 +16,11 @@ if (!fs.existsSync(__dirname + '/../tmp')){
     fs.mkdirSync(__dirname + '/../tmp');
 }
 
-module.exports = function(cfg, buildName, callback, version){
+module.exports = function(cfg, buildName, callback, version, dest){
     "use strict";
+
+    if (!version)
+        version = 'latest';
 
     console.log('CUSTOM BUILD INPUT w/o cb: ', cfg, buildName, version);
 
@@ -87,14 +90,13 @@ module.exports = function(cfg, buildName, callback, version){
 
                 var path = '';
 
-                if(version){
-                    // path += '/tmp/' + version;
-                    path += '/tmp/';
+                if(!dest){
+                    path += '/tmp/' + version;
                     if(!fs.existsSync(__dirname + '/..' + path)){
                         fs.mkdirSync(__dirname + '/..' + path);
                     }
                 }else{
-                    path += '/dist';
+                    path += dest;
                 }
 
                 if(buildName !== 'default'){
@@ -109,7 +111,7 @@ module.exports = function(cfg, buildName, callback, version){
                 console.log('webpackConfig.output.filename', webpackConfig.output.filename, outputName);
                 console.log('webpackConfig.output.path', webpackConfig.output.path);
 
-                if(buildName === 'full' && !version) // build docs if full is rebuilded
+                if(buildName === 'full') // build docs if full is rebuilded
                     webpackConfig.plugins.push(new JsDocPlugin({
                         conf: __dirname + '/../jsdoc.json'
                     }));
@@ -118,17 +120,17 @@ module.exports = function(cfg, buildName, callback, version){
                 compiler.run(function (err, stats) {
                     if(err) return console.log(err);
 
-                    if(buildName === 'full' && !version) // build docs if full latest is rebuilded
+                    if(buildName === 'full') // build docs if full latest is rebuilded
                         webpackConfig.plugins.pop(); // pop JsDocPlugin
 
-                    if(version){
+                    if(!dest){
                         // create zip file for whole folder
                         zipFolder(version, buildName, cfg, callback);
                     }
 
                     console.log('Build end: ', buildName + cfg);
                     // console.log("webpack stats", stats);
-                    if(!version && callback)
+                    if(callback)
                         callback();
 
                     running[buildName] = false;
@@ -179,8 +181,7 @@ function zipFolder(version, name, cfg, callback) {
 
     var dotName = name ? '.' + name : '';
     var fs = require('fs');
-    // var path = __dirname + '/../tmp/' + version + (name ? '/' + name : '') + cfg;
-    var path = __dirname + '/../tmp/' + (name ? '/' + name : '') + cfg;
+    var path = __dirname + '/../tmp/' + version + (name ? '/' + name : '') + cfg;
     var output = fs.createWriteStream(path + '/JS.Responsive' + dotName + cfg + '.zip');
     var archiver =  require('archiver');
     var zipArchive = archiver('zip');
