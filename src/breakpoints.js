@@ -375,7 +375,9 @@ function removeAllClasses( sizeAttributeName ) {
 
 function solveSizes() {
 
-	if ( !_breakpointsInitialized ){ return; }
+	if ( !_breakpointsInitialized ) {
+		return;
+	}
 
 	startTransactionClass();
 

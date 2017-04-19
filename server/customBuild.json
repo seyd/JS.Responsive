@@ -1,1 +1,4 @@
-["focusBlur", "detectOrientation"]
+[
+  "focusBlur",
+  "detectOrientation"
+]

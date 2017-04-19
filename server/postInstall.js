@@ -1,48 +1,48 @@
-var fs = require('fs'),
+var fs = require( 'fs' ),
 
-    regexp = /<\?js if \(data\.defaultvalue\) \{\?>[^}]+<\?js } \?>/,
-    match,
-    newStr = '<?js if (data.customclass && data.customclass.length) {?> ' +
-                '<dt class="tag-default method-doc-label method-doc-details-label">Classes applied to &lt;HTML&gt;:</dt> ' +
-                '<dd class="tag-default"> ' +
-                    '<ul class="dummy"> ' +
-                        '<?js data.customclass.forEach(function(c) { ?> ' +
-                            '<li><?js= c.name ?><?js if (c.description) {?> - <?js= c.description ?><?js } ?><?js if (c.demo) {?>(<a href="<?js= c.demo ?>">DEMO</a>)<?js } ?></li>' +
-                        '<?js }); ?> ' +
-                    '</ul> ' +
-                '</dd> ' +
-            '<?js } ?>' +
-            '<?js if (data.fires && data.fires.length) {?> ' +
-                '<dt class="tag-default method-doc-label method-doc-details-label">Events:</dt> ' +
-                '<dd class="tag-default"> ' +
-                    '<ul class="dummy"> ' +
-                        '<?js data.fires.forEach(function(f) { ?> ' +
-                            '<li><?js= f.replace(/^event:/,"") ?></li>' +
-                        '<?js }); ?> ' +
-                    '</ul> ' +
-                '</dd> ' +
-            '<?js } ?>';
+	regexp = /<\?js if \(data\.defaultvalue\) \{\?>[^}]+<\?js } \?>/,
+	match,
+	newStr = '<?js if (data.customclass && data.customclass.length) {?> ' +
+		'<dt class="tag-default method-doc-label method-doc-details-label">Classes applied to &lt;HTML&gt;:</dt> ' +
+		'<dd class="tag-default"> ' +
+		'<ul class="dummy"> ' +
+		'<?js data.customclass.forEach(function(c) { ?> ' +
+		'<li><?js= c.name ?><?js if (c.description) {?> - <?js= c.description ?><?js } ?><?js if (c.demo) {?>(<a href="<?js= c.demo ?>">DEMO</a>)<?js } ?></li>' +
+		'<?js }); ?> ' +
+		'</ul> ' +
+		'</dd> ' +
+		'<?js } ?>' +
+		'<?js if (data.fires && data.fires.length) {?> ' +
+		'<dt class="tag-default method-doc-label method-doc-details-label">Events:</dt> ' +
+		'<dd class="tag-default"> ' +
+		'<ul class="dummy"> ' +
+		'<?js data.fires.forEach(function(f) { ?> ' +
+		'<li><?js= f.replace(/^event:/,"") ?></li>' +
+		'<?js }); ?> ' +
+		'</ul> ' +
+		'</dd> ' +
+		'<?js } ?>';
 
-fs.readFile(__dirname + '/../node_modules/ink-docstrap/template/tmpl/details.tmpl', 'utf-8', function(err, contents) {
-    if (err) console.error(err);
+fs.readFile( __dirname + '/../node_modules/ink-docstrap/template/tmpl/details.tmpl', 'utf-8', function ( err, contents ) {
+	if ( err ) console.error( err );
 
-    if(contents.match(/data\.customclass && data\.customclass\.length/))
-        return; // already fixed
+	if ( contents.match( /data\.customclass && data\.customclass\.length/ ) )
+		return; // already fixed
 
-    match = contents.match(regexp);
+	match = contents.match( regexp );
 
-    if(!match)
-        return;
+	if ( !match )
+		return;
 
-    contents = contents.replace(match[0], match[0] + newStr);
+	contents = contents.replace( match[ 0 ], match[ 0 ] + newStr );
 
-    fs.writeFile(__dirname + '/../node_modules/ink-docstrap/template/tmpl/details.tmpl', contents, function(err){
-        "use strict";
-        if(err) console.error(err);
+	fs.writeFile( __dirname + '/../node_modules/ink-docstrap/template/tmpl/details.tmpl', contents, function ( err ) {
+		"use strict";
+		if ( err ) console.error( err );
 
-        console.log('file fix done: ', './node_modules/ink-docstrap/template/tmpl/details.tmpl');
-    });
-});
+		console.log( 'file fix done: ', './node_modules/ink-docstrap/template/tmpl/details.tmpl' );
+	} );
+} );
 
 /**
  * Created by luckylooke on 20/11/16.
@@ -52,23 +52,23 @@ fs.readFile(__dirname + '/../node_modules/ink-docstrap/template/tmpl/details.tmp
 
 var filePath = __dirname + '/../node_modules/jsdoc-webpack-plugin/index.js';
 
-fs.readFile(filePath, 'utf-8', function(err, contents){
-    if(err)
-        console.log('error', err);
-    if(!contents)
-        return;
+fs.readFile( filePath, 'utf-8', function ( err, contents ) {
+	if ( err )
+		console.log( 'error', err );
+	if ( !contents )
+		return;
 
-    if(contents.indexOf("if(/^win/.test(process.platform)) jsdoc = spawn(__dirname + '/../.bin/jsdoc.cmd', ['-c', jsDocConfTmp]); else jsdoc = spawn(__dirname + '/node_modules/.bin/jsdoc', ['-c', jsDocConfTmp]);") == -1)
-        console.log('INFO: If this message is logged on first install, fix may not be needed anymore, please let me know to luckylooke@gmail.com');
-    else{
-        contents = contents.replace("if(/^win/.test(process.platform)) jsdoc = spawn(__dirname + '/../.bin/jsdoc.cmd', ['-c', jsDocConfTmp]); else jsdoc = spawn(__dirname + '/node_modules/.bin/jsdoc', ['-c', jsDocConfTmp]);",
-            "if(/^win/.test(process.platform)) jsdoc = spawn(__dirname + '/../.bin/jsdoc.cmd', ['-c', jsDocConfTmp]); else jsdoc = spawn(__dirname + '/../.bin/jsdoc', ['-c', jsDocConfTmp]);");
+	if ( contents.indexOf( "if(/^win/.test(process.platform)) jsdoc = spawn(__dirname + '/../.bin/jsdoc.cmd', ['-c', jsDocConfTmp]); else jsdoc = spawn(__dirname + '/node_modules/.bin/jsdoc', ['-c', jsDocConfTmp]);" ) == -1 )
+		console.log( 'INFO: If this message is logged on first install, fix may not be needed anymore, please let me know to luckylooke@gmail.com' );
+	else {
+		contents = contents.replace( "if(/^win/.test(process.platform)) jsdoc = spawn(__dirname + '/../.bin/jsdoc.cmd', ['-c', jsDocConfTmp]); else jsdoc = spawn(__dirname + '/node_modules/.bin/jsdoc', ['-c', jsDocConfTmp]);",
+			"if(/^win/.test(process.platform)) jsdoc = spawn(__dirname + '/../.bin/jsdoc.cmd', ['-c', jsDocConfTmp]); else jsdoc = spawn(__dirname + '/../.bin/jsdoc', ['-c', jsDocConfTmp]);" );
 
-        fs.writeFile(filePath, contents, function(err){
-            if(err) console.error(err);
-            console.log('temporary fixing the jsdoc webpack plugin done: ', filePath);
-        });
-    }
+		fs.writeFile( filePath, contents, function ( err ) {
+			if ( err ) console.error( err );
+			console.log( 'temporary fixing the jsdoc webpack plugin done: ', filePath );
+		} );
+	}
 
 
-});
+} );
