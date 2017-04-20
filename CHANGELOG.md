@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 3.2.0
+- detect-touch module now detects also number of touches
+
 ## 3.1.0 Inactivity
 - added new feature inactive
 - autoInit on documentReady
