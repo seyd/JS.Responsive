@@ -47,8 +47,8 @@ buildFullAndDefault();
 
 function buildFullAndDefault() {
 	customBuild( false, 'default', function () {
-		customBuild( false, 'full' );
-	} );
+		customBuild( false, 'full', null, 'latest', '/dist/'  );
+	}, 'latest', '/dist/' );
 }
 
 
