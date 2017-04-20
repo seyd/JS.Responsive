@@ -1,8 +1,9 @@
 # CHANGELOG
 
-## 3.2.0
+## 3.2.0 Pathfinder
 - added new feature url-based
 - detect-touch module now detects also number of touches
+- some minor fixes
 
 ## 3.1.0 Inactivity
 - added new feature inactive
