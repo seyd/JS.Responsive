@@ -2,6 +2,7 @@
  *
  * Detection of window focus
  * @module inactivity
+ * @since 3.1.0
  * @pretty-name Inactivity detection
  * @teaser Be notified that user is inactive
  *
@@ -68,7 +69,7 @@ $C.setInactiveTimeLimit = function ( timeLimit, name, cb ) {
  * @returns {{limit: Number, name: String, cb:Function}}
  *
  * @memberof module:inactivity
- * @alias JS.Responsive.setInactiveTimeLimit
+ * @alias JS.Responsive.getInactiveTimeLimit
  * @since 3.1.0
  */
 $C.getInactiveTimeLimit = function ( name ) {
@@ -82,7 +83,7 @@ $C.getInactiveTimeLimit = function ( name ) {
  * Deletes timeLimit object based on optional `name` parameter, if no name is provided, the default 'inactive' object will be deleted.
  *
  * @memberof module:inactivity
- * @alias JS.Responsive.setInactiveTimeLimit
+ * @alias JS.Responsive.removeInactiveTimeLimit
  * @since 3.1.0
  */
 $C.removeInactiveTimeLimit = function ( name ) {

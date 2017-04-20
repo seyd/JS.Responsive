@@ -1021,6 +1021,7 @@ return /******/ (function(modules) { // webpackBootstrap
 		$C.getDayTimePeriod = missingMethod("getDayTimePeriod");
 		$C.getYearPeriod = missingMethod("getYearPeriod");
 		$C.setTimeBreakPoints = missingMethod("setTimeBreakPoints");
+		$C.urlChanged = missingMethod("urlChanged");
 	
 		// -------------------------------------------------------------------------------------------------
 		// --- PRIVATE -------------------------------------------------------------------------------------

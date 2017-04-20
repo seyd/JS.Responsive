@@ -712,6 +712,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  *
 	  * Detection of Adblock or kind of ads blocking programs/apps
 	  * @module detect-ad-block
+	  * @since 3.0.0
 	  * @pretty-name Adblock detection
 	  * @teaser Detect weather user has Adblock enabled.
 	  *
@@ -1494,6 +1495,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  *
 	  * Detection of window focus
 	  * @module inactivity
+	  * @since 3.1.0
 	  * @pretty-name Inactivity detection
 	  * @teaser Be notified that user is inactive
 	  *
@@ -1559,7 +1561,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  * @returns {{limit: Number, name: String, cb:Function}}
 	  *
 	  * @memberof module:inactivity
-	  * @alias JS.Responsive.setInactiveTimeLimit
+	  * @alias JS.Responsive.getInactiveTimeLimit
 	  * @since 3.1.0
 	  */
 		$C.getInactiveTimeLimit = function (name) {
@@ -1572,7 +1574,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  * Deletes timeLimit object based on optional `name` parameter, if no name is provided, the default 'inactive' object will be deleted.
 	  *
 	  * @memberof module:inactivity
-	  * @alias JS.Responsive.setInactiveTimeLimit
+	  * @alias JS.Responsive.removeInactiveTimeLimit
 	  * @since 3.1.0
 	  */
 		$C.removeInactiveTimeLimit = function (name) {
@@ -1801,6 +1803,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  *
 	  * Time related classes and custom time breakpoints from document loaded event.
 	  * @module time-based
+	  * @since 3.0.0
 	  * @pretty-name Time breakpoints and time related classes
 	  * @teaser Time related classes, day period, year seasson.
 	  *
@@ -2072,6 +2075,78 @@ return /******/ (function(modules) { // webpackBootstrap
 			addClass('user-is-using-mouse');
 			removeClass('user-is-using-touch');
 			$C.emit('changedUsingTouch', FALSE);
+		}
+		/**
+	  *
+	  * Url related classes representing url path.
+	  * @module url-based
+	  * @since 3.2.0
+	  * @pretty-name Url related classes
+	  * @teaser Classes representing url path.
+	  *
+	  * @custom-class page---$pathItem--$pathItem... - 'page-' is class name base identificator and then every '/item' is represented as '--item' in class
+	  * @custom-class hash---$pathItem--$pathItem... - same like page but for hash part of url
+	  *
+	  * @emits changedUrl - Arguments: {String} newUrl, {String} lastUrl
+	  *
+	  **/
+	
+		var actualUrlClasses = {};
+	
+		/**
+	  * Method for use cases of SPA routers which dynamically changes url via js. If your router uses # before
+	  * navigation urls, like mypage.com/#/my/router/url. Then you don't need to use this method, as library is
+	  * listening on window hashchange event. And generates `hash-` classes accordingly.
+	  * @memberof module:url-based
+	  * @alias JS.Responsive.urlChanged
+	  * @since 3.2.0
+	  * @example JS.Responsive.urlChanged( '/my/router/url' );
+	  */
+		$C.urlChanged = checkUrlChanges;
+	
+		$C._features.urlBased = initUrlBased;
+	
+		// Function declarations: ######################### ######################### ######################### ######################### ######################### ######################### #########################
+	
+		function initUrlBased() {
+	
+			bind(win, 'popstate', checkUrlChanges);
+			bind(win, 'hashchange', checkUrlChanges);
+			checkUrlChanges();
+		}
+	
+		function checkUrlChanges() {
+	
+			_checkUrlChanges('pathname', 'page-', 'pageUrlChanged');
+			_checkUrlChanges('hash', 'hash-', 'hashUrlChanged');
+		}
+	
+		function _checkUrlChanges(prop, prefix, evtName) {
+	
+			var converted = parseUrlItems(win.location[prop]),
+			    newClass = prefix + converted;
+	
+			if (!converted || newClass == actualUrlClasses[prop]) return;
+	
+			removeClass(actualUrlClasses[prop]);
+			addClass(newClass);
+	
+			$C.emit(evtName, newClass, actualUrlClasses[prop]);
+			actualUrlClasses[prop] = newClass;
+		}
+	
+		function parseUrlItems(path) {
+	
+			if (path == '/') return FALSE;
+	
+			var parsed = path.split('/');
+	
+			parsed.shift(); // remove first item ""
+	
+			return parsed.reduce(function (result, item) {
+	
+				return result += '--' + item;
+			}, '');
 		}
 	
 		// -------------------------------------------------------------------------------------------------

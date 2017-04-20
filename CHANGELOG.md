@@ -1,6 +1,7 @@
 # CHANGELOG
 
 ## 3.2.0
+- added new feature url-based
 - detect-touch module now detects also number of touches
 
 ## 3.1.0 Inactivity

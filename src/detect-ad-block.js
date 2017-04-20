@@ -2,6 +2,7 @@
  *
  * Detection of Adblock or kind of ads blocking programs/apps
  * @module detect-ad-block
+ * @since 3.0.0
  * @pretty-name Adblock detection
  * @teaser Detect weather user has Adblock enabled.
  *
