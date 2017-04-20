@@ -49,7 +49,7 @@ module.exports = function ( cfg, buildName, callback, version, dest ) {
 			return feature.file;
 		} );
 
-	fs.readFile( __dirname + '/../src/JS.Responsive.source.js', 'utf8', function ( err, JSRSource ) {
+	fs.readFile( __dirname + '/../src/js-responsive-core.js', 'utf8', function ( err, JSRSource ) {
 		if ( err ) return console.log( err );
 
 		var missing = skippedFilesList.reduce( function ( result, methods ) {
