@@ -59,7 +59,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * (c) 2015 WEZEO http://wezeo.com
 	 * License: MIT
 	 *
-	 * @version 3.1.0
+	 * @version 3.2.2
 	 *
 	 * @author Johnny Seyd <seyd@wezeo.com>, Ctibor Laky <laky@wezeo.com>
 	 *
@@ -116,7 +116,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  * Library version
 	  * @const {String}
 	  */
-		$C.version = '3.2.0';
+		$C.version = '3.2.2';
 	
 		// -------------------------------------------------------------------------------------------------
 		// --- CONFIG --------------------------------------------------------------------------------------

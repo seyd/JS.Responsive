@@ -63,7 +63,7 @@ That is fine too. While Pull Requests are the best thing in the world for us, th
 ## Release ( 1st class contributors only )
 - cmd: git pull
 - update changelog ( look at git logs )
-- update version in JS.Responsive.source.js ( $C.version = 'X.X.X'; )
+- update version in js-responsive-core.js ( two places: @version on top and $C.version = 'X.X.X'; )
 - update version in bower.json
 - cmd: npm run build
 - cmd: git add --all
