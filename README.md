@@ -68,4 +68,4 @@ npm run custom
 ```
 Custom build DONE!
 ```
-- built files are in `tmp/custom/` directory (`JS.Responsive.custom.js`, `JS.Responsive.custom.min.js`, etc..)
+- built files are in `tmp/latest/custom$$$` directory (`JS.Responsive.custom.js`, `JS.Responsive.custom.min.js`, etc..)

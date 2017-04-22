@@ -1,6 +1,6 @@
-var customJson = require( __dirname + '/customBuild.json' ),
-	featureNumbersList = require( __dirname + '/featuresList.json' ),
-	customBuild = require( __dirname + '/customBuild.js' ),
+var customJson =            require( __dirname + '/customBuild.json' ),
+	featureNumbersList =    require( __dirname + '/featuresList.json' ),
+	customBuild =           require( __dirname + '/customBuild.js' ),
 	cfg = '1';
 
 
@@ -12,9 +12,10 @@ if ( require.main === module ) {
 	module.exports = customBuildStart;
 }
 
-function customBuildStart( callback ) {
+function customBuildStart( callback, version ) {
 	"use strict";
 	featureNumbersList.forEach( function ( feature ) {
+		console.log('feature.file:', feature.file);
 		if ( customJson.indexOf( feature.file ) != -1 ) {
 			cfg += '1';
 		} else {
@@ -22,10 +23,10 @@ function customBuildStart( callback ) {
 		}
 	} );
 
-	customBuild( cfg, 'custom', function () {
+	customBuild( parseInt( cfg, 2 ), 'custom', function () {
 		console.log( 'Custom build DONE!' );
 
 		if ( callback )
 			callback();
-	} );
+	}, version );
 }

@@ -18,6 +18,8 @@ if ( !fs.existsSync( __dirname + '/../tmp' ) ) {
 
 module.exports = function ( cfg, buildName, callback, version, dest ) {
 	"use strict";
+	
+	console.log('dingdong', cfg);
 
 	if ( !version )
 		version = 'latest';

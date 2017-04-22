@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## 3.2.2
+- removed autoInit on documentReady
+- fixed #1
+- fixed build paths
+
 ## 3.2.0 Pathfinder
 - added new feature url-based
 - detect-touch module now detects also number of touches

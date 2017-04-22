@@ -13,9 +13,9 @@ customBuild(
 				console.log( 'BUILD IS DONE!' );
 			},
 			'latest',
-			'/tmp/custom/'
+			'/dist'
 		);
 	},
 	'latest',
-	'/tmp/custom/'
+	'/dist'
 );

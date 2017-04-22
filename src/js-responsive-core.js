@@ -93,13 +93,6 @@
 		VERTICAL_STRING = 'vertical',
 
 		/**
-		 * @param {String} autoInit=true
-		 * Library auto initialization flag
-		 * @private
-		 */
-		_autoInit = TRUE,
-
-		/**
 		 * @param {Object}
 		 * Storing _listeners types and callback functions
 		 * structure:
@@ -208,7 +201,7 @@
 	$C._features = {};
 
 	/**
-	 * Initialise JS.Responsive, called automatically on document load event, if not prevented by calling `JS.Responsive,disableAutoInit()` in advance
+	 * Initialise JS.Responsive
 	 * @param {Object} [config] - Object with key value pairs of features which will be initialised, if not
 	 * provided, all features will be initialised. If you provide empty object, none of features will be initialised.
 	 */
@@ -235,15 +228,6 @@
 				return TRUE; // if once true then disjunction is true
 
 		return FALSE;
-
-	};
-
-	/**
-	 * Disables auto initialization of library, if not called before document load event, the library initialize it selves automatically
-	 */
-	$C.disableAutoInit = function () {
-
-		_autoInit = FALSE;
 
 	};
 
@@ -526,9 +510,6 @@
 
 		isDocumentLoaded = TRUE;
 		docReadyTime = +(new Date());
-
-		if (!initWasExecuted && _autoInit)
-			init();
 		
 		$C.emit( 'documentReady', docReadyTime );
 	}
@@ -554,15 +535,7 @@
 		}
 	}
 
-	var initWasExecuted;
-
 	function init( cfg ) {
-
-		// runs only once
-		if ( initWasExecuted )
-			return;
-
-		initWasExecuted = TRUE;
 
 		var prop;
 		if ( cfg ) // init features by config
