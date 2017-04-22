@@ -5,10 +5,10 @@
   "main": "dist/JS.Responsive.js",
   "scripts": {
     "dev": "node server/server.js",
-    "build": "node server/buildHelper.js",
-    "custom": "node server/customBuildHelper.js",
-    "test": "mocha --compilers js:babel-core/register --colors -w ./test/*.spec.js",
-    "install": "node server/postInstall.js"
+    "prebuild": "node server/preBuild.js",
+    "build": "npm run prebuild && node server/buildHelper.js",
+    "custom": "npm run prebuild && node server/customBuildHelper.js",
+    "test": "mocha --compilers js:babel-core/register --colors -w ./test/*.spec.js"
   },
   "devDependencies": {
     "archiver": "^1.3.0",
