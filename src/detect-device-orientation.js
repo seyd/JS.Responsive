@@ -70,7 +70,7 @@ $C._features.detectDeviceOrientation = initDetectDeviceOrientation;
 // init detection
 function initDetectDeviceOrientation() {
 	detectDeviceOrientation();
-	$C.on( 'update', detectDeviceOrientation );
+	bind( win,'orientationchange', detectDeviceOrientation );
 }
 
 // adds "device-orientation-portrait" or "device-orientation-landscape" class  and  "device-orientation-0", "device-orientation-90", "device-orientation-180" or "device-orientation-270" class

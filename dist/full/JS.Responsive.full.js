@@ -1047,7 +1047,7 @@ return /******/ (function(modules) { // webpackBootstrap
 		// init detection
 		function initDetectDeviceOrientation() {
 			detectDeviceOrientation();
-			$C.on('update', detectDeviceOrientation);
+			bind(win, 'orientationchange', detectDeviceOrientation);
 		}
 	
 		// adds "device-orientation-portrait" or "device-orientation-landscape" class  and  "device-orientation-0", "device-orientation-90", "device-orientation-180" or "device-orientation-270" class
@@ -1218,7 +1218,7 @@ return /******/ (function(modules) { // webpackBootstrap
 		// init detection
 		function initDetectOrientation() {
 			detectOrientation();
-			bind(window, 'orientationchange', detectOrientation);
+			bind(win, 'orientationchange', detectOrientation);
 		}
 	
 		// adds "portrait" or "landscape" class
