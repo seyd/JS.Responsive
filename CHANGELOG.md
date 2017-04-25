@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 3.2.3
+- fixed device-orientation not fired
+
 ## 3.2.2
 - removed autoInit on documentReady
 - fixed #1
