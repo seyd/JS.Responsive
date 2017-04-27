@@ -108,7 +108,7 @@ function initInactivity() {
 	} );
 
 	lastActivity = Date.now();
-	$C.setInactiveTimeLimit( WATCH_MOUSEMOVE, 'mouseWatch', inactivityWatchMouseMove );
+	$C.setInactiveTimeLimit( WATCH_MOUSEMOVE, 'mouse-watch', inactivityWatchMouseMove );
 	sortInactiveLimits();
 	inactiveSoonestLimit = inactiveLimits[ 0 ];
 	inactiveTimeout = setTimeout( checkIncativity, inactiveSoonestLimit.limit );
