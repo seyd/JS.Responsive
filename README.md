@@ -20,13 +20,18 @@ Include lib into HEAD element in your document:
 ```html
 <script type="text/javascript" src="path/to/scripts/JS.Responsive.js"></script>
 ```
+```javascript
+JS.Responsive.init();
+```
 
 Or include it as [UMD](http://davidbcalhoun.com/2014/what-is-amd-commonjs-and-umd/#umd-universal-module-definition) component
 ```javascript
 import JSResponsive from ('JS.Responsive');
+JSResponsive.init();
 ```
 ```javascript
 var JSResponsive = require('JS.Responsive');
+JSResponsive.init();
 ```
 
 You can init modules individually refer to [documentation](https://jsresponsive.wezeo.com/documentation/JS.Responsive/#.init)
