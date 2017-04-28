@@ -1218,7 +1218,7 @@ return /******/ (function(modules) { // webpackBootstrap
 		// init detection
 		function initDetectOrientation() {
 			detectOrientation();
-			bind(win, 'orientationchange', detectOrientation);
+			bind(win, 'resize', detectOrientation);
 		}
 	
 		// adds "portrait" or "landscape" class
@@ -1581,7 +1581,7 @@ return /******/ (function(modules) { // webpackBootstrap
 			});
 	
 			lastActivity = Date.now();
-			$C.setInactiveTimeLimit(WATCH_MOUSEMOVE, 'mouseWatch', inactivityWatchMouseMove);
+			$C.setInactiveTimeLimit(WATCH_MOUSEMOVE, 'mouse-watch', inactivityWatchMouseMove);
 			sortInactiveLimits();
 			inactiveSoonestLimit = inactiveLimits[0];
 			inactiveTimeout = setTimeout(checkIncativity, inactiveSoonestLimit.limit);

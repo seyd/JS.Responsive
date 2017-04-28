@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 3.2.4
+- fixed detect orientation
+
 ## 3.2.3
 - fixed device-orientation not fired
 

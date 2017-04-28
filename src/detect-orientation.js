@@ -43,7 +43,7 @@ $C._features.detectOrientation = initDetectOrientation;
 // init detection
 function initDetectOrientation() {
 	detectOrientation();
-	bind( win, 'orientationchange', detectOrientation );
+	bind( win, 'resize', detectOrientation );
 }
 
 // adds "portrait" or "landscape" class
