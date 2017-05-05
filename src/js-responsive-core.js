@@ -3,7 +3,7 @@
  * (c) 2015 WEZEO http://wezeo.com
  * License: MIT
  *
- * @version 3.2.4
+ * @version 3.3.0
  *
  * @author Johnny Seyd <seyd@wezeo.com>, Ctibor Laky <laky@wezeo.com>
  *
@@ -62,7 +62,7 @@
 	 * Library version
 	 * @const {String}
 	 */
-	$C.version = '3.2.4';
+	$C.version = '3.3.0';
 
 	// -------------------------------------------------------------------------------------------------
 	// --- CONFIG --------------------------------------------------------------------------------------
