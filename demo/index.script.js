@@ -65,6 +65,8 @@ $( function () {
 	// JS.Responsive.disableAutoInit();
 	// setTimeout(JS.Responsive.init, 5000);
 
+	JS.Responsive.setLocation( 48.136609, 17.107228 );
+
 	JS.Responsive.init();
 
 } );

@@ -1008,6 +1008,8 @@ return /******/ (function(modules) { // webpackBootstrap
 		$C.setLocation = missingMethod("setLocation");
 		$C.isDaylight = missingMethod("isDaylight");
 		$C.dayOfYear = missingMethod("dayOfYear");
+		$C.getSunrise = missingMethod("getSunrise");
+		$C.getSunset = missingMethod("getSunset");
 		$C.urlChanged = missingMethod("urlChanged");
 	
 		// -------------------------------------------------------------------------------------------------

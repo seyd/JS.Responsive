@@ -165,7 +165,7 @@ $C.setTimeBreakPoints = function ( breakpoints ) {
  * @memberof module:time-based
  * @param {Number} lat - input latitude
  * @param {Number} lng - input longitude
- * @example JS.Responsive.setLocation(48.136609, 17.107228); // Bratislava
+ * @example JS.Responsive.setLocation( 48.136609, 17.107228 ); // Bratislava
  * @alias JS.Responsive.setLocation
  * @since 3.3.0
  */
