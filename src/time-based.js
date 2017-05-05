@@ -10,6 +10,8 @@
  * @custom-class day-period-$periodName$ - day pariod class where name can be one of morning, afternoon, evening or night
  * @custom-class year-period-$periodName$ - year pariod class where name can be one of spring, summer, autumn or winter
  * @custom-class $timeBreakpointName$ - where name is custom name provided via setTimeBreakPoints
+ * @custom-class daylight-true - value of calculated daylight after location is provided by setLocation( lat, lng )
+ * @custom-class daylight-false - value of calculated daylight after location is provided by setLocation( lat, lng )
  *
  * @emits changedDayTime - Arguments: {String} dayTimeCurrent, {String} lastDayTime, both have same syntax as classes (day-time-$$h)
  * @emits changedDayPeriod - Arguments: {String} dayTimePeriod, {String} lastDayTimePeriod, both have same syntax as classes (day-period-$periodName$)
@@ -27,6 +29,10 @@ var timeBreakPointTimeout,
 	lastDayTime,
 	lastDayTimePeriod,
 	lastYearPeriod,
+	positionLat,
+	positionLng,
+	daylightTimeout,
+	DAYLIGHT = 'daylight',
 	MORNING = 'morning',
 	AFTERNOON = 'afternoon',
 	EVENING = 'evening',
@@ -153,11 +159,108 @@ $C.setTimeBreakPoints = function ( breakpoints ) {
 	}
 };
 
+/**
+ * Set location to activate daylight detection classes
+ * @returns {Boolean} true for daylight time span
+ * @memberof module:time-based
+ * @param {Number} lat - input latitude
+ * @param {Number} lng - input longitude
+ * @example JS.Responsive.setLocation(48.136609, 17.107228); // Bratislava
+ * @alias JS.Responsive.setLocation
+ * @since 3.3.0
+ */
+$C.setLocation = function ( lat, lng ) {
+
+	positionLat = lat;
+	positionLng = lng;
+	return $C.isDaylight();
+};
+
+/**
+ * Returns actual daylight state
+ * @returns {Boolean} true for daylight time span
+ * @memberof module:time-based
+ * @alias JS.Responsive.isDaylight
+ * @since 3.3.0
+ */
+$C.isDaylight = function () {
+
+	if ( !positionLat )
+		throw new Error( 'Location not provided! You need to provide location, via setLocation( lan, lng ) method first!' );
+
+	if ( daylightTimeout )
+		clearTimeout( daylightTimeout );
+
+	var day = $C.dayOfYear();
+	var now = Date.now();
+	var sunrise = computeSunrise( day );
+	var sunset = computeSunset( day );
+	// console.log( 'sunrise < now', sunrise < now, sunrise, now );
+	// console.log( 'now < sunset', now < sunset, now, sunset );
+	var daylight = sunrise < now && now < sunset;
+
+	if ( daylight )
+	//                                               time to sunset + 10ms reserve
+		daylightTimeout = setTimeout( $C.isDaylight, sunset - now + 10 );
+	else if ( now < sunrise )
+	//                                               time to sunrise + 10ms reserve
+		daylightTimeout = setTimeout( $C.isDaylight, sunrise - now + 10 );
+	else
+	//                                               time to midnight + 10ms reserve
+		daylightTimeout = setTimeout( $C.isDaylight, new Date( now ).setHours( 24, 0, 0, 10 ) - now );
+
+	removeClass( DAYLIGHT + '-' + (!daylight).toString() );
+	addClass( DAYLIGHT + '-' + daylight.toString() );
+
+	return daylight;
+};
+
+/**
+ * @returns {Number} day of the year
+ * @param {Date} [date] - input Date instance, dafault is new Date()
+ * @memberof module:time-based
+ * @alias JS.Responsive.dayOfYear
+ * @since 3.3.0
+ */
+$C.dayOfYear = function ( date ) {
+
+	date = date || new Date();
+	var start = new Date( date.getFullYear(), 0, 0 );
+	var diff = date - start;
+	var oneDay = 1000 * 60 * 60 * 24;
+	return Math.floor( diff / oneDay );
+};
+
+/**
+ * @returns {Date} date object of sunrise calculated from provided date
+ * @param {Date} [date] - input Date instance, dafault is new Date()
+ * @memberof module:time-based
+ * @alias JS.Responsive.getSunrise
+ * @since 3.3.0
+ */
+$C.getSunrise = function ( date ) {
+
+	return new Date( computeSunrise( $C.dayOfYear( date ) ) );
+};
+
+/**
+ * @returns {Date} date object of sunrise calculated from provided date
+ * @param {Date} [date] - input Date instance, dafault is new Date()
+ * @memberof module:time-based
+ * @alias JS.Responsive.getSunrise
+ * @since 3.3.0
+ */
+$C.getSunset = function ( date ) {
+
+	return new Date( computeSunset( $C.dayOfYear( date ) ) );
+};
+
 $C._features.timeBased = initTimeBased;
 
 // Function declarations: ######################### ######################### ######################### ######################### ######################### ######################### #########################
 
 function initTimeBased() {
+
 	var now = new Date();
 	dayTimeCurrent = 'day-time-' + now.getHours() + 'h';
 	dayTimePeriod = DAYPERIODS[ now.getHours() ];
@@ -176,6 +279,7 @@ function initTimeBased() {
 }
 
 function realInitTimeBased() {
+
 	var now = new Date();
 	setClasses();
 	if ( timeBreakPointsInit )
@@ -188,6 +292,7 @@ function realInitTimeBased() {
 
 // fn definitions
 function setClasses() {
+
 	if ( lastDayTime != dayTimeCurrent ) {
 		removeClass( lastDayTime );
 		addClass( dayTimeCurrent );
@@ -212,6 +317,7 @@ function setClasses() {
 }
 
 function getYearPeriod( date ) {
+
 	var year = date.getFullYear(),
 		firstDates = [
 			{ date: new Date( year, 2, 20 ), name: 'spring' },
@@ -223,6 +329,7 @@ function getYearPeriod( date ) {
 	return testPeriod( 0 );
 
 	function testPeriod( index ) {
+
 		if ( date < firstDates[ index ].date )
 			if ( !index ) // index === 0
 				return firstDates[ 3 ].name;
@@ -236,7 +343,101 @@ function getYearPeriod( date ) {
 }
 
 function thenRemoveClass( className ) {
+
 	return function () {
 		removeClass( className );
 	}
+}
+
+// Taken from https://gist.github.com/Tafkas/4742250
+// and fixed some things
+function computeSunrise( day, sunset ) {
+
+	if ( !positionLat ) return;
+
+	/*Sunrise/Sunset Algorithm taken from
+	 http://williams.best.vwh.net/sunrise_sunset_algorithm.htm
+	 inputs:
+	 day = day of the year
+	 sunset = true for sunset, false for sunrise
+	 output:
+	 unix time of sunrise/sunset in ms */
+
+	//lat, lon for Berlin, Germany
+	var longitude = positionLng;
+	var latitude = positionLat;
+	var zenith = 90.83333333333333;
+	var D2R = Math.PI / 180;
+	var R2D = 180 / Math.PI;
+
+	// convert the longitude to hour value and calculate an approximate time
+	var lnHour = longitude / 15;
+	var t;
+	if ( sunset ) {
+		t = day + ((18 - lnHour) / 24);
+	} else {
+		t = day + ((6 - lnHour) / 24);
+	}
+
+	//calculate the Sun's mean anomaly
+	var M = (0.9856 * t) - 3.289;
+
+	//calculate the Sun's true longitude
+	var L = M + (1.916 * Math.sin( M * D2R )) + (0.020 * Math.sin( 2 * M * D2R )) + 282.634;
+	if ( L > 360 ) {
+		L = L - 360;
+	} else if ( L < 0 ) {
+		L = L + 360;
+	}
+
+	//calculate the Sun's right ascension
+	var RA = R2D * Math.atan( 0.91764 * Math.tan( L * D2R ) );
+	if ( RA > 360 ) {
+		RA = RA - 360;
+	} else if ( RA < 0 ) {
+		RA = RA + 360;
+	}
+
+	//right ascension value needs to be in the same qua
+	var Lquadrant = (Math.floor( L / (90) )) * 90;
+	var RAquadrant = (Math.floor( RA / 90 )) * 90;
+	RA = RA + (Lquadrant - RAquadrant);
+
+	//right ascension value needs to be converted into hours
+	RA = RA / 15;
+
+	//calculate the Sun's declination
+	var sinDec = 0.39782 * Math.sin( L * D2R );
+	var cosDec = Math.cos( Math.asin( sinDec ) );
+
+	//calculate the Sun's local hour angle
+	var cosH = (Math.cos( zenith * D2R ) - (sinDec * Math.sin( latitude * D2R ))) / (cosDec * Math.cos( latitude * D2R ));
+	var H;
+	if ( sunset ) {
+		H = R2D * Math.acos( cosH );
+	} else {
+		H = 360 - R2D * Math.acos( cosH );
+	}
+
+	H = H / 15;
+
+	//calculate local mean time of rising/setting
+	var T = H + RA - (0.06571 * t) - 6.622;
+
+	//adjust back to UTC
+	var UT = T - lnHour;
+	if ( UT > 24 ) {
+		UT = UT - 24;
+	} else if ( UT < 0 ) {
+		UT = UT + 24;
+	}
+
+	//convert to Milliseconds
+	var now = new Date();
+	return new Date( now.getFullYear(), now.getMonth(), now.getDate() ).getTime() + ( UT * 3600 * 1000 );
+}
+
+function computeSunset( day ) {
+
+	return computeSunrise( day, true );
 }

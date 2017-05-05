@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 3.3.0 Sunshine
+- new daylight-true and daylight-false classes ( time-based module ), and some methods related ( setLocation, isDaylight, dayOfYear, getSunrise, getSunset )
+
 ## 3.2.4
 - fixed detect orientation
 
