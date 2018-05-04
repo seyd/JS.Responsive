@@ -59,7 +59,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * (c) 2015 WEZEO http://wezeo.com
 	 * License: MIT
 	 *
-	 * @version 3.3.0
+	 * @version 3.4.0
 	 *
 	 * @author Johnny Seyd <seyd@wezeo.com>, Ctibor Laky <laky@wezeo.com>
 	 *
@@ -168,7 +168,7 @@ return /******/ (function(modules) { // webpackBootstrap
 			winLoaded();
 		} else bind(win, 'load', winLoaded);
 	
-		// -------------------------------------------------------------------------------------------------	
+		// -------------------------------------------------------------------------------------------------
 		// --- PUBLIC --------------------------------------------------------------------------------------
 		// -------------------------------------------------------------------------------------------------
 	
@@ -246,8 +246,29 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 		/**
 	  * Initialise JS.Responsive
-	  * @param {Object} [config] - Object with key value pairs of features which will be initialised, if not
-	  * provided, all features will be initialised. If you provide empty object, none of features will be initialised.
+	  * @param {Object} [config] - Object with key value pairs of features which will be initialised, where key is the
+	  * camelCased module name and value is optionally a configuration to the module, it can be of any type. If not
+	  * provided, all features will be initialised with default configuration. If you provide empty object, none of
+	  * features will be initialised.
+	  *
+	 	 * @example JS.Responsive.init({
+	  * 	detectAdblock: {
+	  * 		adblockDetectedClass: 'blocker-detected',
+	  * 		noAdblockClass: 'no-blocker',
+	  * 	},
+	  * 	timeBased: true
+	  * });
+	  *
+	  * You can use special config property `all` to initialise all other available
+	  * modules with their default configurations.
+	  *
+	 	 * @example JS.Responsive.init({
+	  * 	detectAdblock: {
+	  * 		adblockDetectedClass: 'blocker-detected',
+	  * 		noAdblockClass: 'no-blocker',
+	  * 	},
+	  * 	all: true
+	  * });
 	  */
 	
 		$C.init = function (config) {
@@ -1008,6 +1029,8 @@ return /******/ (function(modules) { // webpackBootstrap
 		$C.setLocation = missingMethod("setLocation");
 		$C.isDaylight = missingMethod("isDaylight");
 		$C.dayOfYear = missingMethod("dayOfYear");
+		$C.getSunrise = missingMethod("getSunrise");
+		$C.getSunset = missingMethod("getSunset");
 		$C.urlChanged = missingMethod("urlChanged");
 	
 		// -------------------------------------------------------------------------------------------------
@@ -1254,13 +1277,25 @@ return /******/ (function(modules) { // webpackBootstrap
 		function init(cfg) {
 	
 			var prop;
-			if (cfg) // init features by config
+			if (cfg) {
+				// init features by config
 	
+				var processAll = false;
 				for (prop in cfg) {
-					if (cfg.hasOwnProperty(prop)) {
-						if ($C._features[prop]) $C._features[prop](prop);else missingMethod(prop)();
+	
+					if (!cfg.hasOwnProperty(prop)) return;
+	
+					if ($C._features[prop]) $C._features[prop](cfg[prop]);else if (prop == 'all') processAll = true;else missingMethod(prop)();
+	
+					if (processAll) {
+						// init also all other available features
+						for (prop in $C._features) {
+							if (!cfg[prop]) // has not been inited already
+								$C._features[prop].call($C);
+						}
 					}
-				} else // init all available features
+				}
+			} else // init all available features
 	
 				for (prop in $C._features) {
 					$C._features[prop].call($C);

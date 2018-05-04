@@ -10,7 +10,7 @@
 $( function () {
 
 	// styly musia byt zadane v takom poradi, ako su vlozene do dokumentu html (v opacnom pripade sa mozu pravidla prejavit inak)
-	var STYLESHEET_NAMES = [ 'index.style.css' ];
+	var STYLESHEET_NAMES = [ 'demo.css' ];
 	var AUTOMATIC_REFRESH_INTERVAL = 1000;
 
 	// --------------------------------------------------------------------------------------------------------------------------------------------

@@ -1,5 +1,13 @@
 # CHANGELOG
 
+## 3.4.0 Whitescreen
+- configurations can be passed to modules
+- added configurable ad-block module classes, it fixes the problem when whole page goes white. Caused when you use ad-block addon in browser ( because it detects ad-block class as advertisment and will remove whole html ). *It is highly recommended to set classes not including the word "ad"* in next major release they will be renamed following way:
+```
+ad-block --> blocker-detected
+no-ad-block --> no-blocker
+```
+
 ## 3.3.0 Sunshine
 - new daylight-true and daylight-false classes ( time-based module ), and some methods related ( setLocation, isDaylight, dayOfYear, getSunrise, getSunset )
 

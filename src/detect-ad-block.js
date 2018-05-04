@@ -6,8 +6,17 @@
  * @pretty-name Adblock detection
  * @teaser Detect weather user has Adblock enabled.
  *
- * @custom-class ad-block - ad-block detected
- * @custom-class no-ad-block - ad-block not detected
+ * @custom-class ad-block - ad-block detected ( will be changed in next major release to blocker-detected )
+ * @custom-class no-ad-block - ad-block not detected ( will be changed in next major release to no-blocker )
+ *
+ * You can future-proof your code using config on init:
+ * @example JS.Responsive.init({
+ * 	detectAdblock: {
+ * 		adblockDetectedClass: 'blocker-detected',
+ * 		noAdblockClass: 'no-blocker',
+ * 	},
+ * 	all: true
+ * });
  *
  * @emits changedAdblock
  *
@@ -35,8 +44,12 @@ $C._features.detectAdblock = initDetectAdblock;
 // Function declarations: ######################### ######################### ######################### ######################### ######################### ######################### #########################
 
 // init detection
-function initDetectAdblock() {
-	setTimeout( detectAdblock, 500 );
+function initDetectAdblock( cfg ) {
+	if ( cfg.adblockDetectedClass )
+		ADBLOCK_STRING = cfg.adblockDetectedClass
+	if ( cfg.noAdblockClass )
+		NO_ADBLOCK_STRING = cfg.noAdblockClass
+	window.addEventListener('load', detectAdblock );
 }
 
 function detectAdblock() {
@@ -69,9 +82,12 @@ function createTestDiv() {
 }
 
 function getStyle( el, prop ) {
-	if ( typeof getComputedStyle !== 'undefined' ) {
+	// https://stackoverflow.com/questions/46127213/how-to-fix-typeerror-window-getcomputedstyle-is-null-in-firefox?rq=1
+	if ( typeof getComputedStyle !== 'undefined' && getComputedStyle( el, null )) {
 		return getComputedStyle( el, null ).getPropertyValue( prop );
-	} else {
+	} else if ( el.currentStyle ) {
 		return el.currentStyle[ prop ]; // IE < 9
-	}
+	} else {
+        return element.style[ prop ];
+    }
 }

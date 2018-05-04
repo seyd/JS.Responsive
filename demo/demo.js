@@ -67,7 +67,13 @@ $( function () {
 
 	JS.Responsive.setLocation( 48.136609, 17.107228 );
 
-	JS.Responsive.init();
+	JS.Responsive.init({
+		detectAdblock: {
+			adblockDetectedClass: 'blocker-detected',
+			noAdblockClass: 'no-blocker',
+		},
+		all: true
+	});
 
 } );
 
