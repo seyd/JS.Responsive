@@ -1,5 +1,13 @@
 # CHANGELOG
 
+## 3.4.1 Blockers
+- after consultation, I decided to change ad-blocker module classes in minor release, considering the fact as bug fix. Thanks for understanding :)
+So new classes are:
+```
+blocker-detected (instead of ad-block)
+no-blocker (instead of no-ad-block)
+```
+
 ## 3.4.0 Whitescreen
 - configurations can be passed to modules
 - added configurable ad-block module classes, it fixes the problem when whole page goes white. Caused when you use ad-block addon in browser ( because it detects ad-block class as advertisment and will remove whole html ). *It is highly recommended to set classes not including the word "ad"* in next major release they will be renamed following way:

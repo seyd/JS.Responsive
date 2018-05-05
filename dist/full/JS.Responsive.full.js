@@ -59,7 +59,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * (c) 2015 WEZEO http://wezeo.com
 	 * License: MIT
 	 *
-	 * @version 3.4.0
+	 * @version 3.4.1
 	 *
 	 * @author Johnny Seyd <seyd@wezeo.com>, Ctibor Laky <laky@wezeo.com>
 	 *
@@ -721,14 +721,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	  * @pretty-name Adblock detection
 	  * @teaser Detect weather user has Adblock enabled.
 	  *
-	  * @custom-class ad-block - ad-block detected ( will be changed in next major release to blocker-detected )
-	  * @custom-class no-ad-block - ad-block not detected ( will be changed in next major release to no-blocker )
+	  * @custom-class blocker-detected - ad-block detected
+	  * @custom-class no-blocker - ad-block not detected
 	  *
-	  * You can future-proof your code using config on init:
+	  * You can set custom classes via config on init:
 	  * @example JS.Responsive.init({
 	  * 	detectAdblock: {
-	  * 		adblockDetectedClass: 'blocker-detected',
-	  * 		noAdblockClass: 'no-blocker',
+	  * 		adblockDetectedClass: 'my-custom-blocker-detected',
+	  * 		noAdblockClass: 'my-custom-no-blocker',
 	  * 	},
 	  * 	all: true
 	  * });
@@ -739,8 +739,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 		var isAdblockDetected = false,
 		    testDivCreated,
-		    ADBLOCK_STRING = 'ad-block',
-		    NO_ADBLOCK_STRING = 'no-ad-block';
+		    ADBLOCK_STRING = 'blocker-detected',
+		    NO_ADBLOCK_STRING = 'no-blocker';
 	
 		/**
 	  * Returns true if current device has Adblock or similar blocking app installed.
@@ -759,6 +759,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 		// init detection
 		function initDetectAdblock(cfg) {
+			cfg = cfg || {};
 			if (cfg.adblockDetectedClass) ADBLOCK_STRING = cfg.adblockDetectedClass;
 			if (cfg.noAdblockClass) NO_ADBLOCK_STRING = cfg.noAdblockClass;
 			window.addEventListener('load', detectAdblock);

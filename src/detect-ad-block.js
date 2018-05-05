@@ -6,14 +6,14 @@
  * @pretty-name Adblock detection
  * @teaser Detect weather user has Adblock enabled.
  *
- * @custom-class ad-block - ad-block detected ( will be changed in next major release to blocker-detected )
- * @custom-class no-ad-block - ad-block not detected ( will be changed in next major release to no-blocker )
+ * @custom-class blocker-detected - ad-block detected
+ * @custom-class no-blocker - ad-block not detected
  *
- * You can future-proof your code using config on init:
+ * You can set custom classes via config on init:
  * @example JS.Responsive.init({
  * 	detectAdblock: {
- * 		adblockDetectedClass: 'blocker-detected',
- * 		noAdblockClass: 'no-blocker',
+ * 		adblockDetectedClass: 'my-custom-blocker-detected',
+ * 		noAdblockClass: 'my-custom-no-blocker',
  * 	},
  * 	all: true
  * });
@@ -25,8 +25,8 @@
 var isAdblockDetected = false,
 	testDivCreated,
 
-	ADBLOCK_STRING = 'ad-block',
-	NO_ADBLOCK_STRING = 'no-ad-block';
+	ADBLOCK_STRING = 'blocker-detected',
+	NO_ADBLOCK_STRING = 'no-blocker';
 
 /**
  * Returns true if current device has Adblock or similar blocking app installed.
@@ -45,6 +45,7 @@ $C._features.detectAdblock = initDetectAdblock;
 
 // init detection
 function initDetectAdblock( cfg ) {
+	cfg = cfg || {};
 	if ( cfg.adblockDetectedClass )
 		ADBLOCK_STRING = cfg.adblockDetectedClass
 	if ( cfg.noAdblockClass )
